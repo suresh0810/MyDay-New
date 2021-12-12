@@ -1,0 +1,117 @@
+<!-- Breadcrumb-->
+<div class="row pt-2 pb-2">
+	<div class="col-sm-9">
+		<h4 class="page-title">Validation</h4>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="javaScript:;">Dashtreme</a>
+			</li>
+			<li class="breadcrumb-item"><a href="javaScript:;">Form</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Validation</li>
+		</ol>
+	</div>
+	<div class="col-sm-3">
+		<div ngbDropdown class="btn-group float-sm-right">
+			<button type="button" class="btn btn-light"><i class="fa fa-cog mr-1"></i> Setting</button>
+			<button type="button" class="btn btn-light" id="dropdownBasic5" ngbDropdownToggle> <span class="caret"></span>
+			</button>
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic5"> 
+        		<a href="javaScript:;" ngbDropdownItem>Action</a>
+				<a href="javaScript:;" ngbDropdownItem>Another action</a>
+				<a href="javaScript:;" ngbDropdownItem>Something else here</a>
+				<div class="dropdown-divider"></div> 
+				<a href="javaScript:;" ngbDropdownItem>Separated link</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Breadcrumb-->
+<!-- Reactive Form Validaton Starts -->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card">
+			<div class="card-header text-uppercase">Regular Reactive Form</div>
+			<div class="card-body">
+				<form [formGroup]="regularForm" (ngSubmit)="onReactiveFormSubmit()" novalidate>
+					<div class="form-group">
+						<label for="inputEmail">Email</label>
+						<input type="email" class="form-control" id="inputEmail" formControlName="inputEmail" required> <small class="form-text text-muted text-danger" *ngIf="!regularForm.get('inputEmail').valid && (regularForm.get('inputEmail').dirty || regularForm.get('inputEmail').touched)">Please
+                  enter a valid email!</small>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" class="form-control" id="password" formControlName="password" required> <small class="form-text text-muted text-danger" *ngIf="!regularForm.get('password').valid && (regularForm.get('password').dirty || regularForm.get('password').touched)">Password
+                  characters length must be between 4 and 24 !</small>
+					</div>
+					<div class="form-group">
+						<label for="textArea">Textarea</label>
+						<textarea class="form-control" rows="3" id="textArea" formControlName="textArea" required></textarea> <small class="form-text text-muted text-danger" *ngIf="!regularForm.get('textArea').valid && (regularForm.get('textArea').dirty || regularForm.get('textArea').touched)">This
+                  field is required!</small>
+					</div>
+					<div class="form-group">
+						<label class="d-block">Radios</label>
+						<div class="custom-control custom-radio d-block float-left">
+							<input type="radio" id="customRadioInline3" name="customRadioInline2" class="custom-control-input">
+							<label class="custom-control-label" for="customRadioInline3">Toggle custom radio</label>
+						</div>
+						<div class="custom-control custom-radio d-block float-left ml-1">
+							<input type="radio" id="customRadioInline4" checked name="customRadioInline2" class="custom-control-input">
+							<label class="custom-control-label" for="customRadioInline4">Or toggle other custom radio</label>
+						</div>
+					</div>
+					<div class="form-group text-right">
+						<button type="button" class="btn btn-danger mr-1">Cancel</button>
+						<button type="button" class="btn btn-primary" [disabled]="!regularForm.valid">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Reactive Form Validaton Ends -->
+<!-- Template-driven Form Validaton Starts -->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card">
+			<div class="card-header text-uppercase">Template-driven Form</div>
+			<div class="card-body">
+				<form class="form" (ngSubmit)="onTemplateFormSubmit()" #f="ngForm">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="floatEmail">Email</label>
+								<input type="email" class="form-control" id="floatEmail" name="floatEmail" ngModel required email #floatEmail="ngModel" [ngModelOptions]="{updateOn: 'blur'}"> <small class="form-text text-muted text-danger" *ngIf="!floatEmail.valid && (floatEmail.dirty || floatEmail.touched)">Please
+                      enter a valid email!</small>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="floatPassword">Password</label>
+								<input type="password" class="form-control" id="floatPassword" name="floatPassword" ngModel required minlength="4" maxlength="24" [ngModelOptions]="{updateOn: 'blur'}" #floatPassword="ngModel"> <small class="form-text text-muted text-danger" *ngIf="!floatPassword.valid && (floatPassword.dirty || floatPassword.touched)">Password
+                      characters length must be between 4 and 24 !</small>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="floattextArea">Textarea</label>
+								<textarea class="form-control" rows="3" id="floattextArea" name="floattextArea" ngModel required #textArea="ngModel" [ngModelOptions]="{updateOn: 'blur'}"></textarea> <small class="form-text text-muted text-danger" *ngIf="!textArea.valid && (textArea.dirty || textArea.touched)">This
+                      field is required!</small>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12 text-right">
+							<button type="button" class="btn btn-danger mr-2">Cancel</button>
+							<button type="button" class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Template-driven Form Validaton Ends -->

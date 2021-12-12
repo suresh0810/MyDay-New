@@ -1,0 +1,228 @@
+<div class="row mt-3">
+    <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <h5 class="mb-0">7543</h5>
+                        <p class="mb-0">Total Patients</p>
+                    </div>
+                    <div class="w-icon"><i class="zmdi zmdi-face text-white"></i></div>
+                </div>
+                <div class="progress-wrapper mt-3">
+                    <ngb-progressbar type="white" [value]="45" height="5px"></ngb-progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <h5 class="mb-0">$8967</h5>
+                        <p class="mb-0">Admitted Patients</p>
+                    </div>
+                <div class="w-icon"><i class="zmdi zmdi-accounts-alt text-white"></i></div>
+                </div>
+                <div class="progress-wrapper mt-3">
+                    <ngb-progressbar type="white" [value]="55" height="5px"></ngb-progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <h5 class="mb-0">$8,569</h5>
+                        <p class="mb-0">Treatment Costs</p>
+                    </div>
+                    <div class="w-icon"><i class="zmdi zmdi-balance-wallet text-white"></i></div>
+                </div>
+                <div class="progress-wrapper mt-3">
+                    <ngb-progressbar type="white" [value]="65" height="5px"></ngb-progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <h5 class="mb-0">689</h5>
+                        <p class="mb-0">Available Staff</p>
+                    </div>
+                    <div class="w-icon"><i class="zmdi zmdi-male-female text-white"></i></div>
+                </div>
+                <div class="progress-wrapper mt-3">
+                    <ngb-progressbar type="white" [value]="75" height="5px"></ngb-progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--end row-->
+
+ <div class="card">
+  <div class="card-header">Outpatients vs Inpatients Trend</div>
+   <div class="card-body">
+        <!-- <div id="Outpatients-vs-Inpatients-Trend"></div> -->
+        <div class="chart-container">
+            <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+            [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)" ></canvas>
+        </div>
+   </div>
+ </div>
+
+<div class="card-deck">
+   <div class="card">
+     <div class="card-header">Patients By Division</div>
+     <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+             <thead>
+               <tr>
+                 <th>Division</th>
+                 <th>Inpatient</th>
+                 <th>Outpatient</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td>Surgery</td>
+                 <td>6869</td>
+                 <td>13025</td>
+               </tr>
+               <tr>
+                 <td>Dermatology</td>
+                 <td><i class="zmdi zmdi-long-arrow-up mr-1 text-white font-weight-bold"></i>5328</td>
+                 <td>65987</td>
+               </tr>
+               <tr>
+                 <td>Neurology</td>
+                 <td>2369</td>
+                 <td>1245</td>
+               </tr>
+               <tr>
+                 <td>Oncology</td>
+                 <td>6589</td>
+                 <td><i class="zmdi zmdi-long-arrow-down mr-1 text-white font-weight-bold"></i>4621</td>
+               </tr>
+               <tr>
+                 <td>Orthopaedics</td>
+                 <td>3659</td>
+                 <td>4789</td>
+               </tr>
+               <tr>
+                 <td>Cardiology</td>
+                 <td><i class="zmdi zmdi-long-arrow-up mr-1 text-white font-weight-bold"></i>8956</td>
+                 <td><i class="zmdi zmdi-long-arrow-up mr-1 text-white font-weight-bold"></i>7456</td>
+               </tr>
+             </tbody>
+          </table>
+        </div>
+     </div>
+   </div>
+    <div class="card">
+     <div class="card-header text-uppercase">Avg Waiting Time By Division</div>
+        <div class="card-body p-0">
+            <div id="chart-2">
+                <apx-chart
+                  [chart]="chart2Options.chart"
+                  [plotOptions]="chart2Options.plotOptions"
+                  [dataLabels]="chart2Options.dataLabels"
+                  [series]="chart2Options.series"
+                  [xaxis]="chart2Options.xaxis"
+                  [fill]="chart2Options.fill"
+                  [colors]="chart2Options.colors"
+                  [grid]="chart2Options.grid"
+                  [tooltip]="chart2Options.tooltip"
+                  [legend]="chart2Options.legend"
+                ></apx-chart>
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+  <div class="card">
+    <div class="card-header">Overall Patient Satisfaction</div>
+    <div class="card-body p-0">
+        <div class="row row-group">
+            <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div id="excellent-satisfaction"></div>
+                        <div id="chart-3">
+                            <apx-chart
+                              [chart]="chart3Options.chart"
+                              [plotOptions]="chart3Options.plotOptions"
+                              [fill]="chart3Options.fill"
+                              [colors]="chart3Options.colors"
+                              [series]="chart3Options.series"
+                              [stroke]="chart3Options.stroke"
+                              [labels]="chart3Options.labels"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div id="good-satisfaction"></div>
+                        <div id="chart-4">
+                            <apx-chart
+                              [chart]="chart4Options.chart"
+                              [plotOptions]="chart4Options.plotOptions"
+                              [fill]="chart4Options.fill"
+                              [colors]="chart4Options.colors"
+                              [series]="chart4Options.series"
+                              [stroke]="chart4Options.stroke"
+                              [labels]="chart4Options.labels"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div id="positive-satisfaction"></div>
+                        <div id="chart-5">
+                            <apx-chart
+                                [chart]="chart5Options.chart"
+                                [plotOptions]="chart5Options.plotOptions"
+                                [fill]="chart5Options.fill"
+                                [colors]="chart5Options.colors"
+                                [series]="chart5Options.series"
+                                [stroke]="chart5Options.stroke"
+                                [labels]="chart5Options.labels"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div id="negative-satisfaction"></div>
+                        <div id="chart-6">
+                             <apx-chart
+                                [chart]="chart6Options.chart"
+                                [plotOptions]="chart6Options.plotOptions"
+                                [fill]="chart6Options.fill"
+                                [colors]="chart6Options.colors"
+                                [series]="chart6Options.series"
+                                [stroke]="chart6Options.stroke"
+                                [labels]="chart6Options.labels"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+    </div>
+  </div>
