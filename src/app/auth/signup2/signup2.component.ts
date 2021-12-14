@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore , } from '@angular/fire/compat/firestore';
 import { ToastrService } from 'ngx-toastr';
+import { NgxLoadingService } from 'ngx-loading';
 
 @Component({
   selector: 'app-signup2',
@@ -20,7 +21,8 @@ export class Signup2Component implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute, private afs: AngularFirestore,
               private afauth: AngularFireAuth,
-              private toast:ToastrService) { }
+              private toast:ToastrService,
+              private LoadingCtrl:NgxLoadingService) { }
 
 
   //  On submit click, reset field value
@@ -36,7 +38,7 @@ export class Signup2Component implements OnInit {
   }
   register(){
     if(this.userName && this.Email && this.password)      
-    {            
+    {                 
     this.afauth.createUserWithEmailAndPassword(this.Email, this.password)
       .then((data) => {  
         data.user.sendEmailVerification();      
