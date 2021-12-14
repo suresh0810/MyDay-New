@@ -30,7 +30,6 @@
       <th style="width: 13%;">Status</th>
       <th>Action</th>
       <div *ngFor="let _task of   List_of_Tasks;let i = index" [attr.data-index]="i" class="card">
-
         <tr >
           <td style="width: 65%;  overflow: auto; ">		
 				<div class="position-relative has-icon-right">
@@ -42,7 +41,7 @@
 		
 				<div class="position-relative has-icon-right">
            
-              <ng-select class="form-control form-control-sm" style="width: 20%;" [items]="UserList" [multiple]="true" [closeOnSelect]="true"
+              <ng-select class="form-control form-control-sm" style="width: 20%;" [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true"
                   [searchable]="true" bindLabel="userName" [(ngModel)]="_task.Selected_People"
                   (ngModelChange)="updateTodo(_task)" name="_task.Selected_People" style="font-size: 16px;">
                   <ng-template class="form-control form-control-sm" ng-label-tmp let-item="item" let-clear="clear">
@@ -127,7 +126,7 @@
               </td>
               <td style="border: 2px solid white; background: white;">
                 <div class="position-relative has-icon-right">
-                <ng-select [items]="UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
                   [(ngModel)]="Temp_Task.Selected_People" name="Temp_Task.Selected_People" style="font-size: 16px;" class="form-control">
                   <ng-template ng-label-tmp let-item="item" let-clear="clear">
                     <span class="ng-value-label">{{item.userName}}</span>

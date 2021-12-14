@@ -9,6 +9,7 @@ import { LockScreenComponent } from './lock-screen/lock-screen.component';
 import { ResetPassword1Component } from './reset-password1/reset-password1.component';
 import { ResetPassword2Component } from './reset-password2/reset-password2.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -62,7 +63,7 @@ const routes: Routes = [
         data: {
           title: 'Reset Password 2'
         }
-      },
+      },     
       
     ]
   }

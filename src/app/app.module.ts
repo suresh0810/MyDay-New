@@ -23,7 +23,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from '../environments/environment.prod';
-
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -37,13 +37,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import * as $ from 'jquery';
 import { AuthService } from './auth/auth.service';
 import { DBService } from './dashboard/api/DB.service';
+import { FirebaseService } from './auth/firebase.service';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FullLayoutComponent,
-    ContentLayoutComponent,
+    ContentLayoutComponent,   
   ],
   imports: [
     BrowserModule,
@@ -60,11 +62,12 @@ import { DBService } from './dashboard/api/DB.service';
     ToastrModule.forRoot(),
     UiSwitchModule,
     NgSelectModule,
+    NgxLoadingModule.forRoot({}),
     AgmCoreModule.forRoot({apiKey: 'AIzaSyDKXKdHQdtqgPVl2HI2RnUa_1bjCxRCQo4'}),
     PerfectScrollbarModule,
     DemoMaterialModule
   ],
-  providers: [AuthService,DBService,
+  providers: [AuthService,DBService,FirebaseService,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
   ],
   bootstrap: [AppComponent]

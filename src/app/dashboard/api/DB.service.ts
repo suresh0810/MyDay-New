@@ -66,6 +66,11 @@ sendClickEvent_CreateNewToDo(data:any){
     return this.http.post(this.apiurl + "/deleteToDolist_item", Data_);
   }
 
+  LoadToDolistUserData(Data_){  
+    console.log("calling url : "+this.apiurl + "/loadTodolistUserData");
+    return this.http.get(this.apiurl + "/loadTodolistUserData",Data_);
+  }
+
 
 
 

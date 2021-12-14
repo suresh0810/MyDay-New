@@ -6,8 +6,8 @@ export interface FirebaseUser {
 
     id:string;
     isEdit: boolean;
-    FirstName: string;
-    filepath: string;
+    //FirstName: string;
+   // filepath: string;
     userName:string;
 }
 
@@ -20,23 +20,26 @@ export class User{
     }
     
     _id:ObjectId;
-    List_Of_Workspace_Access_index:ObjectId[]=[];
+    
     FirebaseUser:FirebaseUser;
     List_of_Task:Task;
 }
 
 export class Task{
-    constructor(task_name_:string)
+    constructor(task_name_:string, Owner_FB_User_:FirebaseUser)
     {
 this.Task_Name =task_name_;
 this.Selected_People =[];
 this.Task_Status=new KStatus("Task Status");
+this.Owner_Of_The_Task=Owner_FB_User_;
 
     }
     Task_Name:string;
     Selected_People:FirebaseUser[];
     _id:ObjectId;
     Task_Status:KStatus;
+    Owner_Of_The_Task:FirebaseUser;
+
  
 }
 

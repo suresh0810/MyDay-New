@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { BlankComponent } from './blank/blank.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   imports: [
     CommonModule,
     FullPagesRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ]
 })
 export class FullPagesModule { }

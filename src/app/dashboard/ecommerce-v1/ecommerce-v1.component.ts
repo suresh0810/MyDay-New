@@ -4,6 +4,7 @@ import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
 import { User, Task, FirebaseUser, KStatus, KstatusOption } from '../Classes';
 import { ObjectId } from 'bson';
+import { FirebaseService } from 'src/app/auth/firebase.service';
 import {
   ChartComponent,
   ApexChart,
@@ -69,9 +70,9 @@ export class EcommerceV1Component implements OnInit {
   FB_User: any;
   taskdetails: string;
   User_: User;
-  Task: Task[];
+  Tasks: Task[];
   List_of_Tasks = [];
-  Global_UserList: [];
+ //Global_UserList: [];
   closeResult: string = '';
   FirebaseUser_: FirebaseUser;
   public UserList: any[];
@@ -79,7 +80,7 @@ export class EcommerceV1Component implements OnInit {
   List_of_option: KstatusOption;
 
   Temp_Task: Task;
-
+  Global_UserList: FirebaseUser[];
 
   @ViewChild("chart-1") chart: ChartComponent;
 
@@ -140,12 +141,12 @@ export class EcommerceV1Component implements OnInit {
     //your code here
   }
 
-  constructor( private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService) {
+  constructor( private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
 
-    this.afs.collection('users').valueChanges().subscribe(List => {
-      this.UserList = List;
-      console.log(this.UserList);
-    })
+    //this.afs.collection('users').valueChanges().subscribe(List => {
+    //  this.UserList = List;
+     // console.log(this.UserList);
+    //})
     
     // Chart 5 Options
     this.chartOptions = {
@@ -236,17 +237,47 @@ export class EcommerceV1Component implements OnInit {
   
   ngOnInit(): void {
 
-    $.getScript('./assets/js/ecommerce1.js');
+    $.getScript('./assets/js/ecommerce1.js');    
 
-    this.Temp_Task = new Task("Temp Task");
+    this.Temp_Task = new Task("Temp Task", this.FirebaseUser_);
+    
     this.LoadToDolist();
+    this.getFirebaseUsers();
 
+    this.auth.user_.subscribe(user =>
+      {
+            this.FB_User = user; 
+            console.log("this.FB_User : "+this.FB_User.userId);   
+  
+           this.Global_UserList.forEach(element => 
+            {       
+             if(this.FB_User.userId==element.id)
+              {
+              this.FirebaseUser_=element;
+             }
+         });
+  
+            this.User_ = new User(this.FirebaseUser_); 
+     //this.UpdateUserFristime(this.User_);  
+      })
   }
+
+
+  LoadUserDataFromServer(User_:User)
+  {
+    this.DBService_.LoadToDolistUserData(User_).subscribe((Data_:any)=>
+    {    
+      console.log("Loaded User Data");
+console.log(User_);
+    })
+  }
+
   create_Task(_newTask: Task): void {
-    this.DBService_.createToDolist(_newTask).subscribe((Data_: any) => {
+    this.DBService_.createToDolist(_newTask).subscribe((Data_) => {    
       console.log(Data_);
       this.toast.success('Create Task Success!');
-      this.LoadToDolist();      
+     this.LoadToDolist();      
+    // this.LoadUserDataFromServer(this.User_);
     });   
   }
 
@@ -273,6 +304,24 @@ export class EcommerceV1Component implements OnInit {
       this.toast.success('Task Delete Success!');
     })
   }
+
+  getFirebaseUsers() {
+    this.firebaseService.read_users().subscribe(data => {
+      this.Global_UserList = data.map(e => {
+        return {
+          id: e.payload.doc.id,
+          isEdit: false,
+          userName: e.payload.doc.data()['userName'],
+        //  filepath: e.payload.doc.data()['filepath'],
+        };
+      })
+      console.log(this.Global_UserList);     
+    });
+    return this.Global_UserList;
+  }
+
+
+  
 
   reset() {
     this.Temp_Task.Task_Name = "";

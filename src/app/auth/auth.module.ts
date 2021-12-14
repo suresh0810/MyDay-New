@@ -11,6 +11,7 @@ import { Signup2Component } from './signup2/signup2.component';
 import { LockScreenComponent } from './lock-screen/lock-screen.component';
 import { ResetPassword1Component } from './reset-password1/reset-password1.component';
 import { ResetPassword2Component } from './reset-password2/reset-password2.component';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -20,12 +21,15 @@ import { ResetPassword2Component } from './reset-password2/reset-password2.compo
     Signup2Component,
     LockScreenComponent, 
     ResetPassword1Component, 
-    ResetPassword2Component, 
+    ResetPassword2Component,
+    
+
    ],
   imports: [
     CommonModule,
     AuthRoutingModule,
-    FormsModule
+    FormsModule,
+    NgxLoadingModule.forRoot({})
   ]
 })
 export class AuthModule { }

@@ -1,6 +1,6 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { finalize, tap } from 'rxjs/operators';
-import { User } from '../../../auth/user';
+import { User } from '../../auth/user';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -68,6 +68,7 @@ export class UserProfileComponent implements OnInit {
   State:string;
   City:string;
   phoneNumber:number;
+  aboutme:string;
 
   user: any;
 
@@ -111,6 +112,7 @@ export class UserProfileComponent implements OnInit {
       this.designation = user.designation;
       this.City = user.City;
       this.State = user.State;
+      this.aboutme =user.aboutme;
 
     })
     
@@ -132,6 +134,7 @@ export class UserProfileComponent implements OnInit {
           'Address': this.Address,
           'City':this.City,
           'State':this.State,
+          'aboutme':this.aboutme,
           
 
                                 
@@ -221,8 +224,10 @@ export class UserProfileComponent implements OnInit {
       console.log(resp);
  
       this.router.navigate(['/user-profile']);
+      this.toast.success('Profile Image Uploaded!');
     }).catch(error => {
       console.log("error " + error);
+      this.toast.success(error);
     });
   }
 

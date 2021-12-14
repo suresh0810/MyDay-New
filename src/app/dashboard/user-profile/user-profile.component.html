@@ -3,11 +3,7 @@
 	<div class="col-sm-9">
 		<h4 class="page-title">User Profile</h4>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="javaScript:;">Dashtreme</a>
-			</li>
-			<li class="breadcrumb-item"><a href="javaScript:;">Pages</a>
-			</li>
-			<li class="breadcrumb-item active" aria-current="page">User Profile</li>
+			
 		</ol>
 	</div>
 	<div class="col-sm-3">
@@ -30,12 +26,13 @@
 	<div class="col-lg-4">
 		<div class="card profile-card-2">
 			<div class="card-img-block">
-				<img class="img-fluid" src="assets/images/gallery/31.jpg" alt="Card image cap">
+				<img class="img-fluid dropdown_hand" src="assets/images/gallery/31.jpg" alt="Card image cap">
 			</div>
-			<div class="card-body pt-5">
-				<img src="assets/images/avatars/avatar-15.png" alt="profile-image" class="profile">
-				<h5 class="card-title">Mark Stern</h5>
-				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			<div class="card-body pt-5">				
+				<img [src]="user?.filepath"  alt="profile-image" class="profile dropdown_hand" (click)="open(profileuplode)">				
+			
+				<h5 class="card-title">{{FirstName}} {{LastName}}</h5>
+				<p class="card-text">{{aboutme}}.</p>
 				<div class="icon-block"> <a href="javascript:;"><i class="fa fa-facebook bg-facebook text-white"></i></a>
 					<a href="javascript:;"> <i class="fa fa-twitter bg-twitter text-white"></i>
 					</a>
@@ -43,6 +40,58 @@
 					</a>
 				</div>
 			</div>
+
+			<ng-template #profileuplode let-modal >
+				<div class="modal-header" style="background-color: #17a2b8; color: white; font-weight: 400; font-family: helvetica; height: 60px;"> 
+					<td size="10" ><strong style="text-align: center;"> {{user.FirstName}} {{user.LastName}}</strong> </td>                 
+				<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')" name="close" slot="end" >
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div><br>
+			  <div class="card-body border-top border-light"  *ngIf="!isUploading && !isUploaded" style="margin-left: 20px;">
+				<h4>Choose Images to Upload</h4>
+				<button color="primary" shape="round" size="large">
+					<span>Select Image Size = 152 x 152</span>
+					<input id="uploadBtn" type="file" class="upload dropdown_hand" (change)="uploadFile($event.target.files)" />
+				  </button>
+			  </div>
+			  <div class="card-body border-top border-light" *ngIf="isUploading && !isUploaded">
+				  <h4>Selected File:<b>{{ fileName }}</b></h4>
+				  <div *ngIf="percentage | async as pct">
+					Progress: {{ pct | number }}%
+					<mat-progress-bar mode="indeterminate" value="{{pct/100}}"></mat-progress-bar>					
+				  </div>
+				  <div *ngIf="snapshot | async as snap">
+					File Size: {{ snap.totalBytes }} Transfered:
+					{{ snap.bytesTransferred }}
+					<div *ngIf="snapshot && snap.bytesTransferred != snap.totalBytes">
+					  <button color="warning" size="small" (click)="task.pause()" class="button is-warning">Pause</button>
+					  <button size="small" (click)="task.resume()" class="button is-info">Resume</button>
+					  <button color="danger" size="small" (click)="task.cancel()" class="button is-danger">Cancel</button>
+					</div>
+				  </div>
+				  <div class="card-body border-top border-light" *ngIf="!isUploading && isUploaded">
+					  <p><b>{{ fileName }}</b> Uploaded!</p>
+
+					  <div *ngIf="UploadedFileURL | async as url">
+						<img [src]="url" />
+						<a [href]="url" target="_blank" rel="noopener">Download</a>
+					  </div>
+					  File Size: {{ fileSize  }}
+					  <button expand="full" color="success" (click)="isUploading = isUploaded = false">Upload More</button>
+
+
+				  </div>
+
+			
+			
+			</div>
+
+
+				
+
+			</ng-template>
+
 			<div class="card-body border-top border-light">
 				<div class="media align-items-center">
 					<div>
@@ -198,13 +247,7 @@
 									<div class="col-lg-9">
 										<input class="form-control" type="email" [(ngModel)]="Email" name="Email">
 									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-lg-3 col-form-label form-control-label">Change profile</label>
-									<div class="col-lg-9">
-										<input class="form-control" type="file">
-									</div>
-								</div>
+								</div>								
 								<div class="form-group row">
 									<label class="col-lg-3 col-form-label form-control-label">Designation</label>
 									<div class="col-lg-9">
@@ -236,6 +279,12 @@
 									<label class="col-lg-3 col-form-label form-control-label">Username</label>
 									<div class="col-lg-9">
 										<input class="form-control" type="text" [(ngModel)]="userName" name="userName">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-3 col-form-label form-control-label">About Me</label>
+									<div class="col-lg-9">
+										<input class="form-control" type="text" [(ngModel)]="aboutme" name="aboutme">
 									</div>
 								</div>							
 								<div class="form-group row">
