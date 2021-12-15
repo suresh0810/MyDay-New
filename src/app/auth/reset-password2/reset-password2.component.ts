@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-password2',
@@ -9,10 +11,13 @@ import { Router, ActivatedRoute } from "@angular/router";
 })
 export class ResetPassword2Component implements OnInit {
 
+  Email:string;
   @ViewChild('f') resetpassword2: NgForm;
 
   constructor(private router: Router,
-      private route: ActivatedRoute) { }
+      private route: ActivatedRoute,
+      private afauth: AngularFireAuth,
+      private toast: ToastrService) { }
 
   // On submit click, reset form fields
   onSubmit() {
@@ -27,5 +32,24 @@ export class ResetPassword2Component implements OnInit {
 
   ngOnInit() {
   }
+
+  reset(){
+    if(this.Email)    
+        {       
+        this.afauth.sendPasswordResetEmail(this.Email)
+        .then(()=>{
+              console.log("success");
+              this.router.navigate(['./auth/signin2']);
+              this.toast.success('Please Check Your Email');
+        })
+        .catch((error)=>{
+         // console.log(error.message);
+          this.toast.error(error.message);
+        })
+      }else{
+        this.toast.warning('Please Enter Your Email Address')
+        console.log('please enter your email address');
+      }
+    }
 
 }

@@ -3,6 +3,7 @@ import { SidebarService } from '../sidebar/sidebar.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from "@angular/router";
 
+
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit{
     user:any;
     userName:string;
     FB_User:any;
-    constructor(public sidebarservice: SidebarService, private auth:AuthService, private router:Router,) { }
+    constructor(public sidebarservice: SidebarService, private auth:AuthService, private router:Router,private route: ActivatedRoute,) { }
         
     toggleSidebar() {
         this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
@@ -64,6 +65,10 @@ export class NavbarComponent implements OnInit{
         });
 
     }
+pro(){
+    this.router.navigate(['user-profile']);
+}
+
 
     logout(){
         this.auth.logout()

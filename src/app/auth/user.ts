@@ -10,6 +10,13 @@ export interface User {
     pincode?:number;
     country?:string;
     city?:string;
-    designation?:string;
+    
+    Reporting: string;
+ 
+    Mobile:string;
+ 
+    State:string;
+    City:string;
+ 
 }
 

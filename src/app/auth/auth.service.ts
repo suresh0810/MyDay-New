@@ -44,6 +44,9 @@ export class AuthService
 
 
     login(Email: string, password: string) {
+      if(Email && password){
+
+      
       this.afauth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(() =>
           this.afauth.signInWithEmailAndPassword(Email, password)
@@ -61,6 +64,9 @@ export class AuthService
               this.toast.error(error.message);
             })
         )
+      }else{
+        this.toast.warning('Please Fill The Form!')
+      }
     }
 
     logout() {
