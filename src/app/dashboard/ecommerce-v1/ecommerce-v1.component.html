@@ -1,8 +1,7 @@
 <!-- Breadcrumb-->
 <div class="row pt-2 pb-2">
 	<div class="col-sm-9">
-		<h4 class="page-title">Responsive</h4>
-		
+		<h4 class="page-title">Responsive</h4>		
 	</div>
 	<div class="col-sm-3">
 		<div ngbDropdown class="btn-group float-sm-right">
@@ -25,22 +24,22 @@
 		<div class="card">
 			<div class="card-body">
 				<h5 class="card-title">Responsive Table</h5>
-				<th style="width: 65%; ">Task</th>
+				<th style="width: 45%; ">Task</th>        
       <th style="width: 20%; ">Assign</th>
-      <th style="width: 13%;">Status</th>
-      <th>Action</th>
+      <th style="width: 9%; ">Created Date</th>
+        <th style="width: 16%; ">Deadline Date</th>
+      <th style="width: 12%;">Status</th>
+      <th style="width: 1%;">Action</th>
       <div *ngFor="let _task of   List_of_Tasks;let i = index" [attr.data-index]="i" class="card">
         <tr >
-          <td style="width: 65%;  overflow: auto; ">		
+          <td style="width: 45%;  overflow: auto; ">		
 				<div class="position-relative has-icon-right">
             <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name" name="_task.Task_Name"
               on-focusout="updateTodo(_task)">
 			</div>		
-          </td>
-          <td style="width: 20%; ">
-		
-				<div class="position-relative has-icon-right">
-           
+          </td>         
+          <td style="width: 20%; ">		
+				<div class="position-relative has-icon-right">           
               <ng-select class="form-control form-control-sm" style="width: 20%;" [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true"
                   [searchable]="true" bindLabel="userName" [(ngModel)]="_task.Selected_People"
                   (ngModelChange)="updateTodo(_task)" name="_task.Selected_People" style="font-size: 16px;">
@@ -54,8 +53,26 @@
                 </ng-select> 
              </div>
           </td>
+          <td style="width: 9%;">
+            
+             <!--<div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   -->         
+           <input class="form-control form-control-sm"  [value]="_task.Task_Createddate | date:'MMM dd yyyy'" disabled> 
+                
+        </td>
+        <td style="width: 13%; ">  
+          <div class="position-relative has-icon-right">   
+          <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+            <mat-date-range-input [rangePicker]="picker" >
+              <input  matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"  on-focus="updateTodo(_task)">
+              <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)" on-focusout="updateTodo(_task)">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker ></mat-date-range-picker>           
+          </mat-form-field>
+          </div>
+        </td>
 
-          <td style="width: 14%;">
+          <td style="width: 12%;">
 			<div class="position-relative has-icon-right">
             <select class="form-control form-control-sm" style="width: 100%;  " [(ngModel)]="_task.Task_Status.Status_Selected_Option.Option_Title"(ngModelChange)="updateTodo(_task)">
               <option *ngFor="let KstatusOption_ of _task.Task_Status.List_Of_Status_Options" 
@@ -81,25 +98,7 @@
         </tr>
 	
 
-        <!-- <ng-template #content let-modal>   
-              <div class="modal-header">
-                  <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Task Update or Delete</h1>
-                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form #myForm="ngForm">
-                    <label>Workspace name</label>
-                    <input class="form-control" [(ngModel)]="tasklist.Task_Name" name="tasklist.Task_Name"> 
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
-                  <button type="button" class="btn btn-primary" 
-                    [disabled]="myForm.invalid" (click)="updateTodo(tasklist)" (click)="modal.dismiss('Cross click')">Update Task</button>
-                </div>
-            </ng-template>-->
+        
       </div>
 			<!--	<form>
 					<tr>
@@ -121,13 +120,13 @@
             <tr >
               <td style="width: 500px; border: 1px solid white;">  
                 <div class="position-relative has-icon-right">             
-                <input style="width: 100%; "  [(ngModel)]="Temp_Task.Task_Name"  name="Temp_Task.Task_Name" class="form-control">
+                <input autofocus style="width: 100%; "  [(ngModel)]="Temp_Task.Task_Name"  name="Temp_Task.Task_Name" class="form-control">
               </div> 
               </td>
-              <td style="border: 2px solid white; background: white;">
+              <td style="border: 1px solid white; background: transparent;">
                 <div class="position-relative has-icon-right">
                 <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
-                  [(ngModel)]="Temp_Task.Selected_People" name="Temp_Task.Selected_People" style="font-size: 16px;" class="form-control">
+                  [(ngModel)]="Temp_Task.Selected_People" name="Temp_Task.Selected_People" style="font-size: 16px; min-height: 35px;" class="form-control">
                   <ng-template ng-label-tmp let-item="item" let-clear="clear">
                     <span class="ng-value-label">{{item.userName}}</span>
                     <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
@@ -139,7 +138,7 @@
               </div>
               </td>
               <td >
-              <input type="submit"
+              <input type="submit" (window:keypress.enter)="onSomeAction($event)"
               class="btn  btn-block btn-light" style=" border-radius: 2px; color: white; margin-left: 5px; height: 40px;"
                 (click)="create_Task(Temp_Task)" (click)="reset()" value="Create Task">
                 </td>

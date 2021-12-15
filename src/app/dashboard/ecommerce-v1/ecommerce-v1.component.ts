@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import * as chartsData from '../../shared/data/ecommerce1';
 import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
-import { User, Task, FirebaseUser, KStatus, KstatusOption } from '../Classes';
+import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../Classes';
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
+import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import {
   ChartComponent,
   ApexChart,
@@ -30,6 +31,9 @@ import { Router } from '@angular/router';
 import{ AuthService} from '../../auth/auth.service';
 import{AngularFirestore} from '@angular/fire/compat/firestore';
 import { ToastrService } from 'ngx-toastr';
+import { time, timeStamp } from 'console';
+import { timestamp } from 'rxjs/operators';
+import { start } from 'repl';
 
 
 export type ChartOptions = {
@@ -75,18 +79,23 @@ export class EcommerceV1Component implements OnInit {
  //Global_UserList: [];
   closeResult: string = '';
   FirebaseUser_: FirebaseUser;
+  CreateDate_:createddate;
+  Deadline_:Deadline;
   public UserList: any[];
   Status_: KStatus;
   List_of_option: KstatusOption;
-
+date:string;
   Temp_Task: Task;
+  created_at:Date;
   Global_UserList: FirebaseUser[];
 
   @ViewChild("chart-1") chart: ChartComponent;
 
   public chartOptions: Partial<ChartOptions>;
 
-
+  positionmodel: NgbDateStruct;
+  placement = 'bottom';
+  placement1 = 'bottom';
 
   
   // line -Chart 1
@@ -238,8 +247,8 @@ export class EcommerceV1Component implements OnInit {
   ngOnInit(): void {
 
     $.getScript('./assets/js/ecommerce1.js');    
-
-    this.Temp_Task = new Task("Temp Task", this.FirebaseUser_);
+    
+    this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     
     this.LoadToDolist();
     this.getFirebaseUsers();
@@ -261,7 +270,7 @@ export class EcommerceV1Component implements OnInit {
      //this.UpdateUserFristime(this.User_);  
       })
   }
-
+ 
 
   LoadUserDataFromServer(User_:User)
   {
@@ -273,12 +282,18 @@ console.log(User_);
   }
 
   create_Task(_newTask: Task): void {
-    this.DBService_.createToDolist(_newTask).subscribe((Data_) => {    
+    _newTask.Task_Createddate=new Date(Date.now());
+    _newTask.start_date=new Date(Date.now());
+    _newTask.end_date=new Date(Date.now());
+
+    this.DBService_.createToDolist(_newTask).subscribe((Data_) => {               
       console.log(Data_);
+     
       this.toast.success('Create Task Success!');
      this.LoadToDolist();      
     // this.LoadUserDataFromServer(this.User_);
     });   
+    
   }
 
   LoadToDolist() {
@@ -318,14 +333,16 @@ console.log(User_);
       console.log(this.Global_UserList);     
     });
     return this.Global_UserList;
-  }
-
-
-  
+  }  
 
   reset() {
     this.Temp_Task.Task_Name = "";
     this.Temp_Task.Selected_People = [];
   }
+  onSomeAction(event){
+    if(event.keyCode===13){
+      //submit form
+    }
+   }
 
 }
