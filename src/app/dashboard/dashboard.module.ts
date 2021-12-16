@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import{DemoMaterialModule} from '../material-module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
     imports: [
@@ -22,6 +22,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
         FormsModule,
         NgSelectModule,
         DemoMaterialModule,
+        Ng2SearchPipeModule
       
     ],
     exports: [],

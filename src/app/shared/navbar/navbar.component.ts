@@ -2,7 +2,10 @@ import { Component , OnInit } from '@angular/core';
 import { SidebarService } from '../sidebar/sidebar.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from "@angular/router";
-
+import { DBService } from '../../dashboard/api/DB.service';
+import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../../dashboard/Classes';
+import { ObjectId } from 'bson';
+import { FirebaseService } from 'src/app/auth/firebase.service';
 
 @Component({
     selector: 'app-navbar',
@@ -14,7 +17,8 @@ export class NavbarComponent implements OnInit{
     user:any;
     userName:string;
     FB_User:any;
-    constructor(public sidebarservice: SidebarService, private auth:AuthService, private router:Router,private route: ActivatedRoute,) { }
+    searchText;
+    constructor(public sidebarservice: SidebarService, private auth:AuthService, private router:Router,private route: ActivatedRoute,  private DBService_: DBService,  private firebaseService:FirebaseService,  ) { }
         
     toggleSidebar() {
         this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
@@ -65,9 +69,23 @@ export class NavbarComponent implements OnInit{
         });
 
     }
+
+    Search(event){
+        this.DBService_.findToDolist(event).subscribe((list_) => {
+            console.log("Find : " + JSON.stringify(event));            
+          })
+    }
+
+
+
 pro(){
     this.router.navigate(['user-profile']);
 }
+
+
+
+
+
 
 
     logout(){

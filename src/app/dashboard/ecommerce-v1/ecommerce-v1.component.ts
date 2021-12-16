@@ -71,6 +71,7 @@ export class EcommerceV1Component implements OnInit {
 
   userName: string;
   Selected_People: string;
+
   FB_User: any;
   taskdetails: string;
   User_: User;
@@ -96,7 +97,8 @@ date:string;
   positionmodel: NgbDateStruct;
   placement = 'bottom';
   placement1 = 'bottom';
-
+  searchText;
+  complete;
   
   // line -Chart 1
   public lineChartData = chartsData.lineChartData;
@@ -246,6 +248,7 @@ date:string;
   
   ngOnInit(): void {
 
+    
     $.getScript('./assets/js/ecommerce1.js');    
     
     this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
@@ -344,5 +347,7 @@ console.log(User_);
       //submit form
     }
    }
+
+   
 
 }

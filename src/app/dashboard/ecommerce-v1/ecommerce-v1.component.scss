@@ -1,7 +1,7 @@
 .footer {
     position:fixed;
     bottom:0px; 
-    background: transparent;
+    background:  linear-gradient(#015b7f , #048293);
     height: 50px;
   }
   .card {
@@ -19,6 +19,10 @@
   border: 0px solid ;
   background-color: rgba(255, 255, 255, 0.2);
   color: #fff !important;
+}
+
+.inputContainer i {
+  position: absolute;
 }
 
 
