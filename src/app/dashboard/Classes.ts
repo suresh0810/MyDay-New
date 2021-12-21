@@ -5,6 +5,8 @@ import { timestamp } from "rxjs/operators";
 
 export interface FirebaseUser {
 
+ 
+
     id:string;
     isEdit: boolean;
     //FirstName: string;
@@ -36,6 +38,7 @@ this.Task_Createddate =task_createddate_;
 //this.Task_Deadline=null;
 this.start_date=start_date_;
 this.end_date=end_date_;
+
 
 
 

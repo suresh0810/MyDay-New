@@ -32,7 +32,7 @@ import{ AuthService} from '../../auth/auth.service';
 import{AngularFirestore} from '@angular/fire/compat/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { time, timeStamp } from 'console';
-import { timestamp } from 'rxjs/operators';
+import { timeout, timestamp } from 'rxjs/operators';
 import { start } from 'repl';
 
 
@@ -255,10 +255,10 @@ date:string;
     
     this.LoadToDolist();
     this.getFirebaseUsers();
-
     this.auth.user_.subscribe(user =>
       {
             this.FB_User = user; 
+
             console.log("this.FB_User : "+this.FB_User.userId);   
   
            this.Global_UserList.forEach(element => 
@@ -278,21 +278,33 @@ date:string;
   LoadUserDataFromServer(User_:User)
   {
     this.DBService_.LoadToDolistUserData(User_).subscribe((Data_:any)=>
-    {    
+    {      
+
+      
       console.log("Loaded User Data");
-console.log(User_);
     })
   }
 
-  create_Task(_newTask: Task): void {
+  create_Task(_newTask: Task): void 
+  {
+
     _newTask.Task_Createddate=new Date(Date.now());
     _newTask.start_date=new Date(Date.now());
     _newTask.end_date=new Date(Date.now());
 
+    console.log(this.FB_User);
+
+    _newTask.Owner_Of_The_Task={} as FirebaseUser;
+    _newTask.Owner_Of_The_Task.id = this.FB_User.userId;
+    _newTask.Owner_Of_The_Task.userName = this.FB_User.userName;
+
     this.DBService_.createToDolist(_newTask).subscribe((Data_) => {               
-      console.log(Data_);
-     
-      this.toast.success('Create Task Success!');
+      console.log(Data_);     
+      this.toast.success('Create Task Success!','Success!', {
+        timeOut:1500
+      });
+    
+    
      this.LoadToDolist();      
     // this.LoadUserDataFromServer(this.User_);
     });   
@@ -315,11 +327,14 @@ console.log(User_);
   }
 
 
-  DeleteToDo(_Task: Task) {
+  DeleteToDo(_Task: Task) 
+  {
     this.DBService_.DeleteToDolist(_Task).subscribe((list_) => {
       console.log("Delete ToDolist_item : " + JSON.stringify(list_));
       this.LoadToDolist();
-      this.toast.success('Task Delete Success!');
+      this.toast.success('Task Delete Success!', 'Success!', {
+        timeOut:1500
+      });
     })
   }
 

@@ -53,11 +53,15 @@ export class AuthService
             .then((data) => {
               if (!data.user.emailVerified) {
                 // sessionStorage.setItem("uid",userCredential.user.uid);
-                this.toast.error('Please verify your email address!');
+                this.toast.error('Please verify your email address!', 'Error!', {
+                  timeOut:1500
+                });
                 this.afauth.signOut();  
               } else {  
                 this.router.navigate(['./dashboard/ecommerce-v1']);
-                this.toast.success('Your Account Login Successfully');
+                this.toast.success('Your Account Login Successfully', 'Success!', {
+                  timeOut:1500
+                });
               }  
             })
             .catch(error => {
@@ -73,7 +77,9 @@ export class AuthService
       //this.afAuth.signOut();
       this.afauth.signOut().then(() => {
         this.router.navigate(['./auth/signin2']);
-        this.toast.success('Your Account Logout Successfully')
+        this.toast.success('Your Account Logout Successfully' ,'Success!', {
+          timeOut:1500
+        })
       });
     }
 
