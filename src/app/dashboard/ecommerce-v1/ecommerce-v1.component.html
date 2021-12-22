@@ -79,8 +79,8 @@
             <td style="width: 13%; ">
               <div class="position-relative has-icon-right">
                 <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
-                  <mat-date-range-input [rangePicker]="picker">
-                    <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
+                  <mat-date-range-input [rangePicker]="picker" datePickerFormat="MMMM/DD" >
+                    <input matStartDate placeholder="Start Date"  datePickerFormat="MMMM/DD"  [(ngModel)]="_task.start_date"
                       on-focus="updateTodo(_task)">
                     <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
                       on-focusout="updateTodo(_task)">
