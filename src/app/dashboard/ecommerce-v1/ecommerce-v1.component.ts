@@ -72,7 +72,7 @@ export class EcommerceV1Component implements OnInit {
   userName: string;
   Selected_People: string;
 
-  FB_User: any;
+  //FB_User: any;
   taskdetails: string;
   User_: User;
   Tasks: Task[];
@@ -253,19 +253,23 @@ date:string;
     
     this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     
-    this.LoadToDolist();
+   
     this.getFirebaseUsers();
     this.auth.user_.subscribe(user =>
       {
-            this.FB_User = user; 
+           // this.FB_User = user; 
 
-            console.log("this.FB_User : "+this.FB_User.userId);   
+            console.log("this.FB_User : ");   
+            console.log(user);   
   
            this.Global_UserList.forEach(element => 
             {       
-             if(this.FB_User.userId==element.id)
+             if(user.userId==element.id)
               {
               this.FirebaseUser_=element;
+              console.log("this.FirebaseUser_"); 
+              console.log(this.FirebaseUser_); 
+              this.LoadToDolistOnlyOwned();
              }
          });
   
@@ -292,11 +296,11 @@ date:string;
     _newTask.start_date=new Date(Date.now());
     _newTask.end_date=new Date(Date.now());
 
-    console.log(this.FB_User);
+    console.log(this.FirebaseUser_);
 
     _newTask.Owner_Of_The_Task={} as FirebaseUser;
-    _newTask.Owner_Of_The_Task.id = this.FB_User.userId;
-    _newTask.Owner_Of_The_Task.userName = this.FB_User.userName;
+    _newTask.Owner_Of_The_Task.id = this.FirebaseUser_.id;
+    _newTask.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
 
     this.DBService_.createToDolist(_newTask).subscribe((Data_) => {               
       console.log(Data_);     
@@ -305,24 +309,28 @@ date:string;
       });
     
     
-     this.LoadToDolist();      
+     this.LoadToDolistOnlyOwned();      
     // this.LoadUserDataFromServer(this.User_);
     });   
     
   }
 
-  LoadToDolist() {
-    this.DBService_.LoadToDolist().subscribe((list_: any) => {
+  LoadToDolistOnlyOwned() {
+
+    this.DBService_.LoadToDolistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
       this.List_of_Tasks = list_;
+      console.log("usertask");
       console.log(this.List_of_Tasks);
     })
   }
+
+
 
   updateTodo(_Task: Task) {
     //var temp = new Task(Index)
     this.DBService_.UpdateToDolist(_Task).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));
-      this.LoadToDolist();
+      this.LoadToDolistOnlyOwned();
     })
   }
 
@@ -331,7 +339,7 @@ date:string;
   {
     this.DBService_.DeleteToDolist(_Task).subscribe((list_) => {
       console.log("Delete ToDolist_item : " + JSON.stringify(list_));
-      this.LoadToDolist();
+      this.LoadToDolistOnlyOwned();
       this.toast.success('Task Delete Success!', 'Success!', {
         timeOut:1500
       });
@@ -348,6 +356,7 @@ date:string;
         //  filepath: e.payload.doc.data()['filepath'],
         };
       })
+      console.log("this.Global_UserList");  
       console.log(this.Global_UserList);     
     });
     return this.Global_UserList;

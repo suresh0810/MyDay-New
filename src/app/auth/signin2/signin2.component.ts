@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from '../auth.service';
+import { User } from 'src/app/auth/user';
 
 @Component({
   selector: 'app-signin2',
@@ -14,6 +15,9 @@ export class Signin2Component implements OnInit {
   Email : string="";
   password:string="";
   hide = true;
+
+  users: User[] = [];
+  CurrentUser: User = <User>{};
 
   @ViewChild('f') signin2: NgForm;
 
@@ -37,12 +41,12 @@ export class Signin2Component implements OnInit {
     this.router.navigate(['signup2'], { relativeTo: this.route.parent });
   }
 
-
   ngOnInit() {
   }
 
   login(){
-    this.auth.login(this.Email, this.password);    
+    this.auth.login(this.Email, this.password);   
+    
   }
 
 }
