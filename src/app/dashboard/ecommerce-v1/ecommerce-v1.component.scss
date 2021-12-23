@@ -1,7 +1,7 @@
 .footer {
     position:fixed;
     bottom:0px; 
-    background: transparent;
+    background:  linear-gradient(#015b7f , #048293);
     height: 50px;
   }
   .card {
@@ -21,6 +21,29 @@
   color: #fff !important;
 }
 
+.inputContainer i {
+  position: absolute;
+}
 
+@media screen and (max-width: 768px) {
+  .desk {
+    display: none;
+  }
+  
+}
+@media screen and (min-width: 768px) {
+  .mobile {
+    display: none;
+  }
+  
+  
+}
+.card .table td, .card .table th {
+  padding-right: 1px;
+  padding-left: 0rem;
+  padding-top: 0px;
+  padding-bottom: 1px;
+  border: none;
+}
 
 

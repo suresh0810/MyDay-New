@@ -52,11 +52,10 @@ export class Signup2Component implements OnInit {
           this.toast.success(' Registration Success! Please Check Your Email!');
           this.router.navigate(['./auth/signin2']);
         })
-        .catch(error => {
         
-          this.toast.error(error.message);
-        })
        
+      }).catch(error => {        
+        this.toast.error(error.message);
       })
     }else{
       this.toast.warning(' Please fill the form!');

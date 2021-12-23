@@ -10,7 +10,7 @@ export interface User {
     pincode?:number;
     country?:string;
     city?:string;
-    
+    password?:string;
     Reporting: string;
  
     Mobile:string;

@@ -9,7 +9,8 @@ import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { ColorSwitcherComponent } from './color-switcher/color-switcher.component';
-
+import { FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
@@ -25,7 +26,9 @@ import { ColorSwitcherComponent } from './color-switcher/color-switcher.componen
         RouterModule,
         CommonModule,
         NgbModule,
-        PerfectScrollbarModule
+        PerfectScrollbarModule,
+        FormsModule,
+        Ng2SearchPipeModule
     ],
     declarations: [
         FooterComponent,

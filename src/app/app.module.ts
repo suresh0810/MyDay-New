@@ -24,7 +24,7 @@ import { AngularFirestoreModule, AngularFirestoreCollection } from '@angular/fir
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from '../environments/environment.prod';
 import { NgxLoadingModule } from 'ngx-loading';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -38,6 +38,8 @@ import * as $ from 'jquery';
 import { AuthService } from './auth/auth.service';
 import { DBService } from './dashboard/api/DB.service';
 import { FirebaseService } from './auth/firebase.service';
+
+
 
 
 
@@ -65,7 +67,8 @@ import { FirebaseService } from './auth/firebase.service';
     NgxLoadingModule.forRoot({}),
     AgmCoreModule.forRoot({apiKey: 'AIzaSyDKXKdHQdtqgPVl2HI2RnUa_1bjCxRCQo4'}),
     PerfectScrollbarModule,
-    DemoMaterialModule
+    DemoMaterialModule,
+    Ng2SearchPipeModule
   ],
   providers: [AuthService,DBService,FirebaseService,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }

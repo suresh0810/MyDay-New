@@ -40,7 +40,9 @@ export class ResetPassword2Component implements OnInit {
         .then(()=>{
               console.log("success");
               this.router.navigate(['./auth/signin2']);
-              this.toast.success('Please Check Your Email');
+              this.toast.success('Please Check Your Email','', {
+                timeOut:1500
+              });
         })
         .catch((error)=>{
          // console.log(error.message);

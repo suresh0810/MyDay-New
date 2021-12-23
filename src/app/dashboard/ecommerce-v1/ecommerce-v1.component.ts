@@ -32,7 +32,7 @@ import{ AuthService} from '../../auth/auth.service';
 import{AngularFirestore} from '@angular/fire/compat/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { time, timeStamp } from 'console';
-import { timestamp } from 'rxjs/operators';
+import { timeout, timestamp } from 'rxjs/operators';
 import { start } from 'repl';
 
 
@@ -71,7 +71,8 @@ export class EcommerceV1Component implements OnInit {
 
   userName: string;
   Selected_People: string;
-  FB_User: any;
+
+  //FB_User: any;
   taskdetails: string;
   User_: User;
   Tasks: Task[];
@@ -96,7 +97,8 @@ date:string;
   positionmodel: NgbDateStruct;
   placement = 'bottom';
   placement1 = 'bottom';
-
+  searchText;
+  complete;
   
   // line -Chart 1
   public lineChartData = chartsData.lineChartData;
@@ -246,23 +248,28 @@ date:string;
   
   ngOnInit(): void {
 
+    
     $.getScript('./assets/js/ecommerce1.js');    
     
     this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     
-    this.LoadToDolist();
+   
     this.getFirebaseUsers();
-
     this.auth.user_.subscribe(user =>
       {
-            this.FB_User = user; 
-            console.log("this.FB_User : "+this.FB_User.userId);   
+           // this.FB_User = user; 
+
+            console.log("this.FB_User : ");   
+            console.log(user);   
   
            this.Global_UserList.forEach(element => 
             {       
-             if(this.FB_User.userId==element.id)
+             if(user.userId==element.id)
               {
               this.FirebaseUser_=element;
+              console.log("this.FirebaseUser_"); 
+              console.log(this.FirebaseUser_); 
+              this.LoadToDolistOnlyOwned();
              }
          });
   
@@ -275,48 +282,67 @@ date:string;
   LoadUserDataFromServer(User_:User)
   {
     this.DBService_.LoadToDolistUserData(User_).subscribe((Data_:any)=>
-    {    
+    {      
+
+      
       console.log("Loaded User Data");
-console.log(User_);
     })
   }
 
-  create_Task(_newTask: Task): void {
+  create_Task(_newTask: Task): void 
+  {
+
     _newTask.Task_Createddate=new Date(Date.now());
     _newTask.start_date=new Date(Date.now());
     _newTask.end_date=new Date(Date.now());
 
+    console.log(this.FirebaseUser_);
+
+    _newTask.Owner_Of_The_Task={} as FirebaseUser;
+    _newTask.Owner_Of_The_Task.id = this.FirebaseUser_.id;
+    _newTask.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
+
     this.DBService_.createToDolist(_newTask).subscribe((Data_) => {               
-      console.log(Data_);
-     
-      this.toast.success('Create Task Success!');
-     this.LoadToDolist();      
+      console.log(Data_);     
+      this.toast.success('Create Task Success!','Success!', {
+        timeOut:1500
+      });
+    
+    
+     this.LoadToDolistOnlyOwned();      
     // this.LoadUserDataFromServer(this.User_);
     });   
     
   }
 
-  LoadToDolist() {
-    this.DBService_.LoadToDolist().subscribe((list_: any) => {
+  LoadToDolistOnlyOwned() {
+
+    this.DBService_.LoadToDolistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
       this.List_of_Tasks = list_;
+      console.log("usertask");
       console.log(this.List_of_Tasks);
     })
   }
+
+
 
   updateTodo(_Task: Task) {
     //var temp = new Task(Index)
     this.DBService_.UpdateToDolist(_Task).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));
-      this.LoadToDolist();
+      this.LoadToDolistOnlyOwned();
     })
   }
 
 
-  DeleteToDo(_Task: Task) {
+  DeleteToDo(_Task: Task) 
+  {
     this.DBService_.DeleteToDolist(_Task).subscribe((list_) => {
       console.log("Delete ToDolist_item : " + JSON.stringify(list_));
-      this.LoadToDolist();
-      this.toast.success('Task Delete Success!');
+      this.LoadToDolistOnlyOwned();
+      this.toast.success('Task Delete Success!', 'Success!', {
+        timeOut:1500
+      });
     })
   }
 
@@ -330,6 +356,7 @@ console.log(User_);
         //  filepath: e.payload.doc.data()['filepath'],
         };
       })
+      console.log("this.Global_UserList");  
       console.log(this.Global_UserList);     
     });
     return this.Global_UserList;
@@ -344,5 +371,7 @@ console.log(User_);
       //submit form
     }
    }
+
+   
 
 }

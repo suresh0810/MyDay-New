@@ -58,9 +58,14 @@ sendClickEvent_CreateNewToDo(data:any){
     return this.http.post(this.apiurl + "/updateToDolist_item", Data_);
   }
 
-  LoadToDolist(){  
+  LoadToDolistAll(){  
     console.log("calling url : "+this.apiurl + "/loadToDolist");
     return this.http.get(this.apiurl + "/loadToDolist");
+  }
+
+  LoadToDolistOnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/LoadToDolistOnlyOwned");
+    return this.http.post (this.apiurl + "/LoadToDolistOnlyOwned",FilterData_);
   }
 
   DeleteToDolist(Data_){
@@ -71,6 +76,11 @@ sendClickEvent_CreateNewToDo(data:any){
   LoadToDolistUserData(Data_){  
     console.log("calling url : "+this.apiurl + "/loadTodolistUserData");
     return this.http.get(this.apiurl + "/loadTodolistUserData",Data_);
+  }
+
+  findToDolist(Data_){
+    console.log("calling url : "+this.apiurl + "/Todolistfind");
+    return this.http.get(this.apiurl + "/Todolistfind",Data_);
   }
 
 

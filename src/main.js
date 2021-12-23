@@ -1,24 +1,45 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron')
 const path = require('path')
+let tray = null
 
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    icon: 'dist/dashtreme-admin/assets/images/logo-icon.png',
     width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
-  })
+  }) 
 
   // and load the index.html of the app.
   mainWindow.loadFile('dist/dashtreme-admin/index.html')
+tray = new Tray('dist/dashtreme-admin/assets/images/logo-icon.png')
+tray.setToolTip('Kuvira')
+//tray.on("click", ()=>{
+ // mainWindow.isVisible()?mainWindow.hide():mainWindow.show()  
+//})
+let template =[{label: 'Settings'}, {label: 'Quit', click:  function(){
+  mainWindow.destroy();
+  app.quit();
+}
+}]
+let contextMenu=Menu.buildFromTemplate(template)
+tray.setContextMenu(contextMenu)
+  
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+   //Open the DevTools.
+   //mainWindow.webContents.openDevTools()
+globalShortcut.register("Alt+CommandOrControl+k", ()=>{
+  if(mainWindow.isVisible()) mainWindow.hide();
+  else mainWindow.show();
+});
+
+
 }
 
 // This method will be called when Electron has finished
