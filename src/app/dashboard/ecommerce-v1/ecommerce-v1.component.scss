@@ -30,13 +30,13 @@
     display: none;
   }
   
+  
 }
 @media screen and (min-width: 768px) {
   .mobile {
-    display: none;
-  }
-  
-  
+    display: none;       
+  }    
+ 
 }
 .card .table td, .card .table th {
   padding-right: 1px;
@@ -44,6 +44,39 @@
   padding-top: 0px;
   padding-bottom: 1px;
   border: none;
+}
+
+
+
+.sticky-container {
+width: 310px;
+  overflow: auto;
+  margin-left: -10px;
+}
+
+td.sticky, th.sticky {
+  position: sticky;
+  left:0;
+  z-index:1;  
+  background-color: transparent;
+}
+
+
+td.sticky-right, th.sticky-right {
+  position: sticky;
+  right:0;
+  z-index:1;  
+  background-color: #6da5c2;  
+  
+}
+.peopl{
+  width: 300px;
+}
+.timeline{
+  width: 160px;
+}
+.table tbody + tbody {
+  border-top: 0px solid #dee2e6;
 }
 
 

@@ -6,6 +6,7 @@ import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline }
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+
 import {
   ChartComponent,
   ApexChart,
@@ -59,13 +60,44 @@ export type ChartOptions = {
     markers: ApexMarkers
 };
 
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS
+} from "@angular/material/core";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { DatePipe } from "@angular/common";
 
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: "YYYY-MM-DD HH:mm:ss"
+  },
+  display: {
+   // dateInput: "YYYY-MM-DD HH:mm:ss",
+    //monthYearLabel: "MMM YYYY",
+    //dateA11yLabel: "YYYY-MM-DD HH:mm:ss",
+    //monthYearA11yLabel: "MMMM YYYY"
+    dateInput: "MMM DD",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "YYYY-MM-DD HH:mm:ss",
+    monthYearA11yLabel: "MMMM YYYY"
+  }
+};
 
 @Component({
   selector: 'app-ecommerce-v1',
   templateUrl: './ecommerce-v1.component.html',
-  styleUrls: ['./ecommerce-v1.component.scss']
+  styleUrls: ['./ecommerce-v1.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    DatePipe
+  ]
 })
 export class EcommerceV1Component implements OnInit {
 

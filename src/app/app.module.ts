@@ -22,7 +22,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 import { NgxLoadingModule } from 'ngx-loading';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
