@@ -15,14 +15,14 @@
 					<div class="card-body">
 						<div class="card-content p-3">
 							<div class="text-center">
-								<img src="assets/images/logo-icon.png" alt="logo icon">
+								<img src="assets/images/logo.png" alt="logo icon" style="width: 55px; height: 50px;">
 							</div>
 							<div class="card-title text-uppercase text-center py-3">Sign In</div>
 							<form (ngSubmit)="onSubmit()" #f="ngForm">
 								<div class="form-group">
 									<div class="position-relative has-icon-left">
-										<label for="exampleInputUsername" class="sr-only">Username</label>
-										<input type="text" [(ngModel)]="Email" name="Email" class="form-control" placeholder="Username" ngModel required>
+										<label for="exampleInputUsername" class="sr-only">Email</label>
+										<input type="text" [(ngModel)]="Email" name="Email" class="form-control" placeholder="Email" ngModel required>
 										<div class="form-control-position"> <i class="icon-user"></i>
 										</div>
 									</div>
