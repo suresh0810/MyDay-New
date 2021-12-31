@@ -8,7 +8,7 @@ let tray = null
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    icon: 'dist/dashtreme-admin/assets/images/logo-icon.png',
+    icon: 'dist/Kuvira/assets/images/logo-icon.png',
     width: 800,
     height: 600,
     webPreferences: {
@@ -17,8 +17,8 @@ const createWindow = () => {
   }) 
 
   // and load the index.html of the app.
-  mainWindow.loadFile('dist/dashtreme-admin/index.html')
-tray = new Tray('dist/dashtreme-admin/assets/images/logo-icon.png')
+  mainWindow.loadFile('dist/Kuvira/index.html')
+tray = new Tray('dist/Kuvira/assets/images/logo-icon.png')
 tray.setToolTip('Kuvira')
 //tray.on("click", ()=>{
  // mainWindow.isVisible()?mainWindow.hide():mainWindow.show()  

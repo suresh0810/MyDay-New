@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /dashtreme-admin-win32-x64
+/Kuvira-win32-x64
 # Only exists if Bazel was run
 /bazel-out
 

@@ -29,7 +29,7 @@
               "dom-plane",
               "dom-set"
            ],
-            "outputPath": "dist/dashtreme-admin",
+            "outputPath": "dist/Kuvira",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

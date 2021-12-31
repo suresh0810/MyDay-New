@@ -1,7 +1,8 @@
 .footer {
     position:fixed;
     bottom:0px; 
-    background:  linear-gradient(#015b7f , #048293);
+    //background:  linear-gradient(#015b7f , #048293);
+    background: #323c46;
     height: 50px;
   }
   .card {
@@ -66,7 +67,7 @@ td.sticky-right, th.sticky-right {
   position: sticky;
   right:0;
   z-index:1;  
-  background-color: #6da5c2;  
+  background-color: #323c46;  
   
 }
 .peopl{

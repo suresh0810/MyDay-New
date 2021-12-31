@@ -33,22 +33,22 @@
           </td>
           <td></td><td></td>          
         </tr>      
-        <th class="desk" style="width: 45%; ">Task</th>
-        <th class="desk" style="width: 20%; ">Assign</th>
-        <th class="desk" style="width: 9%; ">Created Date</th>
+        <th class="desk" style="width: 49%; ">Task</th>
+        <th class="desk" style="width: 25%; ">Assign</th>
+       <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
         <th class="desk" style="width: 13%; ">Deadline Date</th>
         <th class="desk" style="width: 12%; text-align: center;" >Status</th>
         <th class="desk" style="width: 1%;">Action</th> 
         <div *ngFor="let _task of   List_of_Tasks |filter:searchText"  class="card">
           <table style="cellspacing:2px " class="desk">
           <tr *ngIf="_task.Task_Status.Status_Selected_Option.Option_Title !='Done'">
-            <td style="width: 45%;  overflow: auto;">
+            <td style="width: 49%;  overflow: auto;">
               <div class="position-relative has-icon-right">
                 <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
                   name="_task.Task_Name" on-focusout="updateTodo(_task)">
               </div>
             </td>
-            <td style="width: 20%; ">
+            <td style="width: 25%; ">
               <div class="position-relative has-icon-right">
                 <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
                   [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
@@ -64,11 +64,11 @@
                 </ng-select>
               </div>
             </td>
-            <td style="width: 9%;">
-              <!--<div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   -->
+           <!-- <td style="width: 9%;">
+              <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
               <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
                 disabled>
-            </td>
+            </td>-->
             <td style="width: 13%; ">
               <div class="position-relative has-icon-right">
                 <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
@@ -113,7 +113,7 @@
                 <tr style="height: 25px;" >          						
                   <th scope="col" >Task</th>
                   <th scope="col">Assign</th>
-                  <th scope="col">Created Date</th>
+                <!--  <th scope="col">Created Date</th>-->
                   <th scope="col">Deadline Date</th>
                   <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
                   <th scope="col">Action</th>							
@@ -143,10 +143,10 @@
                     </ng-select>
                   </div>
                 </td>
-                  <td>
+                 <!-- <td>
                     <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
                     disabled>
-                  </td>
+                  </td>-->
                   <td>
                     <div class="position-relative has-icon-right">
                       <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
@@ -212,9 +212,9 @@
          
         </tr>
 
-        <th class="desk" style="width: 45%; ">Task</th>
-        <th class="desk" style="width: 20%; ">Assign</th>
-        <th class="desk" style="width: 9%; ">Created Date</th>
+        <th class="desk" style="width: 49%; ">Task</th>
+        <th class="desk" style="width: 25%; ">Assign</th>
+       <!-- <th class="desk" style="width: 9%; ">Created Date</th> -->
         <th class="desk" style="width: 13%; ">Deadline Date</th>
         <th class="desk" style="width: 12%; text-align: center;" >Status</th>
         <th class="desk" style="width: 1%;">Action</th>
@@ -223,13 +223,13 @@
           <div  *ngIf="_task.Task_Status.Status_Selected_Option.Option_Title =='Done'">
             <table style="cellspacing:1px" class="desk">
             <tr>
-              <td style="width: 45%;  overflow: auto; ">
+              <td style="width: 49%;  overflow: auto; ">
                 <div class="position-relative has-icon-right">
                   <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
                     name="_task.Task_Name" on-focusout="updateTodo(_task)">
                 </div>
               </td>
-              <td style="width: 20%; ">
+              <td style="width: 25%; ">
                 <div class="position-relative has-icon-right">
                   <ng-select class="form-control form-control-sm" style="width: 20%;" [items]="Global_UserList"
                     [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
@@ -245,13 +245,13 @@
                   </ng-select>
                 </div>
               </td>
-              <td style="width: 9%;">
+              <!-- <td style="width: 9%;">
 
-                <!--<div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   -->
+               <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>  
                 <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
                   disabled>
 
-              </td>
+              </td> -->
               <td style="width: 13%;">
                 <div class="position-relative has-icon-right">
                   <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
@@ -301,7 +301,7 @@
 							<tr style="height: 25px;" >          						
 								<th scope="col" >Task</th>
 								<th scope="col">Assign</th>
-								<th scope="col">Created Date</th>
+							<!--	<th scope="col">Created Date</th>-->
 								<th scope="col">Deadline Date</th>
 								<th scope="col" class="sticky-right" style="text-align: center;">Status</th>
 								<th scope="col">Action</th>							
@@ -331,10 +331,10 @@
                   </ng-select>
                 </div>
               </td>
-								<td>
+						<!--		<td>
                   <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
                   disabled>
-                </td>
+                </td>-->
 								<td>
                   <div class="position-relative has-icon-right">
                     <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
