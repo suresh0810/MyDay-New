@@ -11,6 +11,7 @@ const createWindow = () => {
     icon: 'dist/Kuvira/assets/images/logo-icon.png',
     width: 800,
     height: 600,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }

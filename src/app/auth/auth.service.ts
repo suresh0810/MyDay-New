@@ -81,7 +81,7 @@ export class AuthService
                 });
                 this.afauth.signOut();  
               } else {  
-                this.router.navigate(['./dashboard/ecommerce-v1']);
+                this.router.navigate(['./dashboard/production']);
                 this.toast.success('Your Account Login Successfully', 'Success!', {
                   timeOut:1500
                 });
@@ -121,7 +121,7 @@ export class AuthService
     JSON.parse(localStorage.getItem('user'));
     console.log(JSON.stringify(this.CurrentUser));    
     if(this.CurrentUser.Email){
-      this.router.navigate(['./dashboard/ecommerce-v1']);
+      this.router.navigate(['./dashboard/production']);
     }   
   }
 

@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import{DemoMaterialModule} from '../material-module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ProductionComponent } from './production/production.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     exports: [],
     declarations: [
     EcommerceV1Component,
-    UserProfileComponent,               
+    UserProfileComponent,
+    ProductionComponent,               
    ],
     providers: [],
 })

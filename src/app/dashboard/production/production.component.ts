@@ -6,7 +6,6 @@ import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline }
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-
 import {
   ChartComponent,
   ApexChart,
@@ -35,40 +34,36 @@ import { ToastrService } from 'ngx-toastr';
 import { time, timeStamp } from 'console';
 import { timeout, timestamp } from 'rxjs/operators';
 import { start } from 'repl';
-
-
 export type ChartOptions = {
-    chart: ApexChart;
-    annotations: ApexAnnotations;
-    colors: string[];
-    dataLabels: ApexDataLabels;
-    series: ApexAxisChartSeries | ApexNonAxisChartSeries;
-    stroke: ApexStroke;
-    labels: string[];
-    legend: ApexLegend;
-    fill: ApexFill;
-    tooltip: ApexTooltip;
-    plotOptions: ApexPlotOptions;
-    responsive: ApexResponsive[];
-    xaxis: ApexXAxis;
-    yaxis: ApexYAxis | ApexYAxis[];
-    grid: ApexGrid;
-    states: ApexStates;
-    title: ApexTitleSubtitle;
-    subtitle: ApexTitleSubtitle;
-    theme: ApexTheme;
-    markers: ApexMarkers
+  chart: ApexChart;
+  annotations: ApexAnnotations;
+  colors: string[];
+  dataLabels: ApexDataLabels;
+  series: ApexAxisChartSeries | ApexNonAxisChartSeries;
+  stroke: ApexStroke;
+  labels: string[];
+  legend: ApexLegend;
+  fill: ApexFill;
+  tooltip: ApexTooltip;
+  plotOptions: ApexPlotOptions;
+  responsive: ApexResponsive[];
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis | ApexYAxis[];
+  grid: ApexGrid;
+  states: ApexStates;
+  title: ApexTitleSubtitle;
+  subtitle: ApexTitleSubtitle;
+  theme: ApexTheme;
+  markers: ApexMarkers
 };
 
 import {
-  DateAdapter,
-  MAT_DATE_LOCALE,
-  MAT_DATE_FORMATS
+DateAdapter,
+MAT_DATE_LOCALE,
+MAT_DATE_FORMATS
 } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DatePipe } from "@angular/common";
-
-
 export const MY_FORMATS = {
   parse: {
     dateInput: "YYYY-MM-DD HH:mm:ss"
@@ -86,9 +81,9 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-ecommerce-v1',
-  templateUrl: './ecommerce-v1.component.html',
-  styleUrls: ['./ecommerce-v1.component.scss'],
+  selector: 'app-production',
+  templateUrl: './production.component.html',
+  styleUrls: ['./production.component.scss'],
   providers: [
     {
       provide: DateAdapter,
@@ -99,8 +94,7 @@ export const MY_FORMATS = {
     DatePipe
   ]
 })
-export class EcommerceV1Component implements OnInit {
-
+export class ProductionComponent implements OnInit {
   userName: string;
   Selected_People: string;
 
@@ -184,9 +178,7 @@ date:string;
   public chartHovered(e: any): void {
     //your code here
   }
-
-  constructor( private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
-   
+  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
     this.LoadToDolistOnlyOwned();
 
 
@@ -279,11 +271,11 @@ date:string;
 
    };
 
-  }
-  
+   }
+
   ngOnInit(): void {
 
-    
+      
     $.getScript('./assets/js/ecommerce1.js');    
     
     this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
@@ -309,7 +301,6 @@ date:string;
      //this.UpdateUserFristime(this.User_);  
       })
   }
- 
 
   LoadUserDataFromServer(User_:User)
   {
@@ -407,7 +398,5 @@ date:string;
       //submit form
     }
    }
-
-   
 
 }

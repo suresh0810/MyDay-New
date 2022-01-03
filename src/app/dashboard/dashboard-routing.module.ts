@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EcommerceV1Component } from './ecommerce-v1/ecommerce-v1.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-
+import { ProductionComponent } from './production/production.component';
 const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'ecommerce-v1',
-        component: EcommerceV1Component,
+        path: 'production',
+        component: ProductionComponent,
         data: {
-          title: 'E-Commerce V1'
+          title: 'production'
         }
       },       
      
