@@ -83,6 +83,39 @@ sendClickEvent_CreateNewToDo(data:any){
     return this.http.get(this.apiurl + "/Todolistfind",Data_);
   }
 
+  //Finance
+
+  createFinanceitem(Data_){  
+    console.log("calling url : "+this.apiurl + "/createFinance_item");
+    return this.http.post(this.apiurl + "/createFinance_item", Data_);
+  }
+
+  UpdateFinance(Data_){  
+    console.log("calling url : "+this.apiurl + "/updateFinance_item");
+    return this.http.post(this.apiurl + "/updateFinance_item", Data_);
+  }
+
+  LoadFinancelistAll(){  
+    console.log("calling url : "+this.apiurl + "/loadFinancelist");
+    return this.http.get(this.apiurl + "/loadFinancelist");
+  }
+
+  LoadFinancelistOnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/LoadFinancelistOnlyOwned");
+    return this.http.post (this.apiurl + "/LoadFinancelistOnlyOwned",FilterData_);
+  }
+
+  DeleteFinancelist(Data_){
+    console.log("url : "+this.apiurl + "/deleteFinance_item");
+    return this.http.post(this.apiurl + "/deleteFinance_item", Data_);
+  }
+
+  LoadFinancelistUserData(Data_){  
+    console.log("calling url : "+this.apiurl + "/loadFinancelistUserData");
+    return this.http.get(this.apiurl + "/loadTodolistUserData",Data_);
+  }
+
+ 
 
 
 

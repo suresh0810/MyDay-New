@@ -269,7 +269,7 @@
                     </select>
                   </div>
                 </td>
-  
+                  
                 <!-- <td style="width: 1%; ">
             <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
             </td>-->
@@ -282,8 +282,7 @@
               </tr>
              </table>
             </div>
-          </div>
-          
+          </div>          
           <div class="sticky-container">
           <div class="table-responsive mobile">
                       <table class="table table-lg">
@@ -305,7 +304,7 @@
                       name="_task.Task_Name" on-focusout="updateTodo(_task)">
                   </div>
                 </td>
-                                  <td>
+                      <td>
                     <div class="position-relative has-icon-right">
                     <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
                       [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
@@ -321,11 +320,11 @@
                     </ng-select>
                   </div>
                 </td>
-                          <!--		<td>
+                      <!--		<td>
                     <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
                     disabled>
                   </td>-->
-                                  <td>
+                      <td>
                     <div class="position-relative has-icon-right">
                       <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
                         <mat-date-range-input [rangePicker]="picker">
@@ -339,7 +338,7 @@
                       </mat-form-field>
                     </div>
                   </td>
-                                  <td class="sticky-right">
+                      <td class="sticky-right">
                     <div class="position-relative has-icon-right">
                       <select class="form-control form-control-sm" style="width: 70px;   "
                         [(ngModel)]="_task.Task_Status.Status_Selected_Option.Option_Title"
@@ -351,7 +350,7 @@
                       </select>
                     </div>
                   </td>
-                                  <td>
+                   <td>
                     <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
                   </button>
                 </td>								

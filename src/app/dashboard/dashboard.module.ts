@@ -12,6 +12,7 @@ import{DemoMaterialModule} from '../material-module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ProductionComponent } from './production/production.component';
+import { FinanceComponent } from './finance/finance.component';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { ProductionComponent } from './production/production.component';
     declarations: [
     EcommerceV1Component,
     UserProfileComponent,
-    ProductionComponent,               
+    ProductionComponent,
+    FinanceComponent,               
    ],
     providers: [],
 })

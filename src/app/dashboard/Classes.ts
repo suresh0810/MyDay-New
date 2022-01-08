@@ -41,9 +41,6 @@ this.Task_Createddate =task_createddate_;
 this.start_date=start_date_;
 this.end_date=end_date_;
 
-
-
-
     }
     Task_Name:string;
     Selected_People:FirebaseUser[];
@@ -55,6 +52,33 @@ this.end_date=end_date_;
     start_date:Date;
     end_date:Date;
 }
+
+export class Finance_Item{
+
+    constructor(description_:string, amount_: string, Owner_FB_User_:FirebaseUser, add_:string){ 
+        
+        this.Selected_People = [];
+        this.description = description_;
+        this.amount = amount_;
+        this.add = add_;
+        this.Paid_by = [];
+        this.split_equaly = [];
+       // this.Finance_item_Createddate =Finance_item_createddate_;
+       this.Owner_Of_The_Task=Owner_FB_User_;
+
+    }
+    Selected_People:FirebaseUser[];   
+    description:string;
+    amount:string;   
+    Paid_by:FirebaseUser[];
+    split_equaly:FirebaseUser[];
+    Finance_item_Createddate:Date;
+    Owner_Of_The_Task:FirebaseUser;
+    add:string;
+    
+}
+
+
 
 
 export class KStatus

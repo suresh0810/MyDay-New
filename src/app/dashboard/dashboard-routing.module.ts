@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EcommerceV1Component } from './ecommerce-v1/ecommerce-v1.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProductionComponent } from './production/production.component';
+import { FinanceComponent } from './finance/finance.component';
 const routes: Routes = [
   {
     path: '',
@@ -15,11 +16,18 @@ const routes: Routes = [
         }
       },       
      
-      {
+     {
         path: 'user-profile',
         component: UserProfileComponent,
+      data: {
+         title: 'Service Support'
+        }
+     }, 
+      {
+        path: 'finance',
+        component: FinanceComponent,
         data: {
-          title: 'Service Support'
+          title: 'Finance'
         }
       },          
     

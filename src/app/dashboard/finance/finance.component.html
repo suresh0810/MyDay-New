@@ -1,0 +1,351 @@
+<!-- Breadcrumb-->
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+      <h4 class="page-title">Finance</h4>
+    </div>
+    <div class="col-sm-3 desk" >
+      <div ngbDropdown class="btn-group float-sm-right">
+        <button type="button" class="btn btn-light"><i class="fa fa-cog mr-1"></i> Setting</button>
+        <button type="button" class="btn btn-light" id="dropdownBasic5" ngbDropdownToggle> <span class="caret"></span>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic5">
+          <a href="javaScript:;" ngbDropdownItem>Action</a>
+          <a href="javaScript:;" ngbDropdownItem>Another action</a>
+          <a href="javaScript:;" ngbDropdownItem>Something else here</a>
+          <div class="dropdown-divider"></div>
+          <a href="javaScript:;" ngbDropdownItem>Separated link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Breadcrumb-->               
+      <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;">     
+      <br>    
+  <div class="row">
+    <div class="col-lg-12">    
+      <div class="card">
+        <div class="card-body">               
+              <h5 class="card-title tabletitle" >Kuvira HQ</h5>
+              <h5 class="card-title tabletitle1" >Kuvira HQ</h5>             
+               
+          <th class="desk" style="width: 10%; ">People Name</th>
+          <th class="desk" style="width: 10%; ">Description</th>
+         <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+          
+          <th class="desk" style="width: 10%; ">Paid by</th>
+          <th class="desk" style="width: 10%; ">Split Equally</th>          
+          <th class="desk" style="width: 1%;">Action</th> 
+          <div *ngFor="let _task of   List_of_Finance_Items |filter:searchText"  class="card">
+            <table style="cellspacing:2px " class="desk">
+            <tr >
+              <td style="width: 10%;">                       
+                <div class="position-relative has-icon-right">                
+             <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
+                    [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                    [(ngModel)]="_task.Selected_People" (ngModelChange)="updateFinanceitem(_task)" name="_task.Selected_People"
+                    style="font-size: 16px;">
+                    <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                      <span class="ng-value-label">{{item.userName}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+                    <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                      {{item.userName}}
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </td>
+              <td style="width: 10%;  overflow: auto;">
+                <div class="position-relative has-icon-right">
+                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.description"
+                    name="_task.Task_Name" on-focusout="updateFinanceitem(_task)">
+                </div>
+              </td>
+           
+              <td style="width: 3%;  overflow: auto;">
+                <div class="position-relative has-icon-right">
+                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.amount"
+                    name="_task.amount" on-focusout="updateFinanceitem(_task)">
+                </div>
+              </td>
+              
+             <!-- <td style="width: 9%;">
+                <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+                <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                  disabled>
+              </td>-->
+              <td style="width: 10%;">               
+                <div class="position-relative has-icon-right">                
+             <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
+                    [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                    [(ngModel)]="_task.Selected_People" (ngModelChange)="updateFinanceitem(_task)" name="_task.Selected_People"
+                    style="font-size: 16px;">
+                    <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                      <span class="ng-value-label">{{item.userName}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+                    <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                      {{item.userName}}
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </td>
+              <td style="width: 3%;  overflow: auto;">
+                <div class="position-relative has-icon-right">
+                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.amount"
+                    name="_task.amount" on-focusout="updateFinanceitem(_task)">
+                </div>
+              </td>
+              <td style="width: 10%;">               
+                <div class="position-relative has-icon-right">                
+             <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
+                    [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                    [(ngModel)]="_task.Selected_People" (ngModelChange)="updateFinanceitem(_task)" name="_task.Selected_People"
+                    style="font-size: 16px;">
+                    <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                      <span class="ng-value-label">{{item.userName}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+                    <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                      {{item.userName}}
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </td>
+              
+              <!-- <td style="width: 1%; ">
+            <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+            </td>-->
+              <td style="width: 1%; ">
+                <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteFinance(_task)">
+                </button>
+              </td>
+            </tr>
+  </table>
+          </div>
+  
+          <div class="sticky-container">
+            <div class="table-responsive mobile">
+              <table class="table table-lg">
+                <thead>
+                  <tr style="height: 25px;" >          						
+                    <th scope="col" >Task</th>
+                    <th scope="col">Assign</th>
+                  <!--  <th scope="col">Created Date</th>-->
+                    <th scope="col">Deadline Date</th>
+                    <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
+                    <th scope="col">Action</th>							
+                  </tr>
+                </thead>
+                <tbody *ngFor="let _task of   List_of_Tasks|filter:searchText">
+                  <tr  >								
+                    <td >
+                      <div class="position-relative has-icon-right">
+                      <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                        name="_task.Task_Name" on-focusout="updateFinanceitem(_task)">
+                    </div>
+                  </td>
+                    <td>
+                      <div class="position-relative has-icon-right">
+                      <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
+                        [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                        [(ngModel)]="_task.Selected_People" (ngModelChange)="updateFinanceitem(_task)" name="_task.Selected_People"
+                        style="font-size: 16px;">
+                        <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.userName}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                          {{item.userName}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>
+                   <!-- <td>
+                      <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                      disabled>
+                    </td>-->
+                    <td>
+                      <div class="position-relative has-icon-right">
+                        <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
+                          <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
+                              on-focus="updateFinanceitem(_task)">
+                            <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateFinanceitem(_task)"
+                              on-focusout="updateFinanceitem(_task)">
+                          </mat-date-range-input>
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    
+                    <td>
+                      <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteFinance(_task)">
+                    </button>
+                  </td>
+                    
+                  </tr>											
+                </tbody>
+              </table>
+            </div></div>
+          <!--	<form>
+                      <tr>
+                          <td style="width: 100%;"><br>
+                              <div class="position-relative has-icon-right">
+                              <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
+        name="Temp_Task.Task_Name">
+      </div>
+        <input type="submit"
+      class="btn  btn-block"
+      (click)="create_Task(Temp_Task)" value="Create Task">
+                          </td>
+                          
+                      </tr>
+                  </form>	-->        
+        </div>
+      </div>
+      <input type="number" [(ngModel)]="add1" name="add1" >
+      <input type="number" [(ngModel)]="add2" name="add2" (ngModelChange)="add()">
+     
+          count :{{add3}} 
+
+
+      <input type="number" [(ngModel)]="num1" name="num1" >
+      <input type="number" [(ngModel)]="num1/add3" name="num1/add3" >
+         
+         
+          Paid: {{num1}}
+          split: Rs.{{num1/add3}}  
+          select {{Temp_Finance_Items.Paid_by.length + Temp_Finance_Items.split_equaly.length}}
+         
+      <!----------------------------------------->
+      
+     sdfdgfd: {{Temp_Finance_Items.add}}
+          <!----------------------------------------->
+          <mat-toolbar color="accent" class="footer">
+            <form>
+             <!-- <input   [(ngModel)]="Temp_Finance_Items.add" name="Temp_Finance_Items.add" [value]="Temp_Finance_Items.Paid_by.length + Temp_Finance_Items.split_equaly.length" > -->
+              <table style="cellspacing:5px">
+              <tr>
+                  <td>With you and :</td> 
+                <td style=" background: transparent;">
+                    <div class="position-relative has-icon-right">
+                      <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                        bindLabel="userName"  [(ngModel)]="Temp_Finance_Items.Selected_People" name="Temp_Task.Selected_People"
+                        style="font-size: 16px; min-height: 38px;" class="form-control" placeholder="Enter names" >
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.userName}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.userName}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>
+                <td style="width: 300px; ">
+                  <div class="position-relative has-icon-right">
+                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Finance_Items.description" name="Temp_Finance_Items.description" placeholder="Enter a description"
+                      class="form-control">
+                  </div>
+                </td>
+                <td>
+                    <div class="position-relative has-icon-right"> 
+                    <span matPrefix class="form-control">₹&nbsp;</span>
+                </div>
+                </td>
+                <td style="width: 100px;">
+                    <div class="position-relative has-icon-right">                        
+                        <input style="width: 100%;"   [(ngModel)]="Temp_Finance_Items.amount" name="Temp_Finance_Items.amount" placeholder="0.00"
+                          class="form-control">
+                      </div>
+                </td>
+                <td>Paid by </td>
+                <td style=" background: transparent;">
+                 
+             
+                    <div class="position-relative has-icon-right">
+                      <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                        bindLabel="userName"  [(ngModel)]="Temp_Finance_Items.Paid_by" name="Temp_Finance_Items.Paid_by.length"
+                        style="font-size: 16px; min-height: 38px;" class="form-control" placeholder="you">
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.userName}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.userName}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>
+                  <td>
+                      and split
+                  </td>
+                  <td style=" background: transparent;">
+                    <div class="position-relative has-icon-right">
+                      <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                        bindLabel="userName"  [(ngModel)]="Temp_Finance_Items.split_equaly" name="Temp_Finance_Items.split_equaly"
+                        style="font-size: 16px; min-height: 38px; " class="form-control" placeholder="equally">
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear" >
+                          <span class="ng-value-label">{{item.userName}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.userName}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>                     
+                <td> <!-- Temp_Finance_Items.split_equaly-->
+                  <input type="submit" (window:keypress.enter)="onSomeAction($event)" class="btn  btn-block btn-light form-control"
+                    style=" border-radius: 2px; color: white;  height: 38px;"
+                    (click)="createFinance(Temp_Finance_Items)" value="Save">
+                </td>
+              </tr>
+            </table>
+            </form>          
+          </mat-toolbar>
+
+
+
+
+
+        <!--  <mat-toolbar color="accent" class="foot">
+            <form>
+              <table style="cellspacing:5px">
+              <tr >
+                <td style="width: 65%;">
+                  <div class="position-relative has-icon-right">
+                    <input autofocus style="width: 100%; margin-left: -7px; " [(ngModel)]="Temp_Task.Task_Name" name="Temp_Task.Task_Name"
+                      class="form-control">
+                  </div>
+                </td>
+                <td style=" background: transparent; ">
+                  <div class="position-relative has-icon-right">
+                    <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" 
+                      bindLabel="userName" [(ngModel)]="Temp_Task.Selected_People" name="Temp_Task.Selected_People"
+                      style="font-size: 16px; min-height: 38px; margin-left: -7px; " class="form-control">
+                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.userName}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item">
+                        {{item.userName}}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </td>
+                <td>                
+                    <mat-icon (window:keypress.enter)="onSomeAction($event)" (click)="createFinance(Temp_Finance_Items)"  style="margin-top: 10px; ">send</mat-icon>
+                </td>
+              </tr>
+            </table>
+            </form>          
+          </mat-toolbar>-->
+          
+        </div>     
+      </div>
+  
+      
+      <!--End Row-->
