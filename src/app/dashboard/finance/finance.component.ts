@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as chartsData from '../../shared/data/ecommerce1';
 import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
-import { User, Task,Finance_Item, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../Classes';
+import { User, Task, Expenses, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../Classes';
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
@@ -73,7 +73,7 @@ export const MY_FORMATS = {
     //monthYearLabel: "MMM YYYY",
     //dateA11yLabel: "YYYY-MM-DD HH:mm:ss",
     //monthYearA11yLabel: "MMMM YYYY"
-    dateInput: "MMM DD",
+    dateInput: "MMM DD YYYY",
     monthYearLabel: "MMM YYYY",
     dateA11yLabel: "YYYY-MM-DD HH:mm:ss",
     monthYearA11yLabel: "MMMM YYYY"
@@ -102,11 +102,10 @@ export class FinanceComponent implements OnInit {
   taskdetails: string;
   User_: User;
   Tasks: Task[];
-  List_of_Tasks = [];
-
-  List_of_Finance_Items = [];
-  Temp_Finance_Items : Finance_Item;
-  Finance_Item:Finance_Item[];
+  List_of_Tasks = [];  
+  Expenses_List = [];
+  Temp_Expenses : Expenses;
+  Finance_Item:Expenses[];
  //Global_UserList: [];
   closeResult: string = '';
   FirebaseUser_: FirebaseUser;
@@ -136,9 +135,7 @@ export class FinanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
-
-    this.Temp_Finance_Items = new Finance_Item("", "",  this.FirebaseUser_, "");
-
+    this.Temp_Expenses = new Expenses("", "",  this.FirebaseUser_, "", "");
     this.getFirebaseUsers();
     this.auth.user_.subscribe(user =>
       {
@@ -166,6 +163,7 @@ export class FinanceComponent implements OnInit {
     console.log(event.target.value);
 
   }
+
   add(){
   this.add3 =  this.add1 + this.add2;
   }
@@ -173,16 +171,19 @@ export class FinanceComponent implements OnInit {
     this.num3 = this.add3 / this.num1  ;
   }
 
-  createFinance(_newFinance_Item: Finance_Item,): void 
+  createFinance(_newExpenses: Expenses): void 
   {
-    _newFinance_Item.Finance_item_Createddate=new Date(Date.now());
+   /// _newExpenses.Spent_date=new Date(Date.now());
     console.log(this.FirebaseUser_);   
-    _newFinance_Item.Owner_Of_The_Task={} as FirebaseUser;
-    _newFinance_Item.Owner_Of_The_Task.id = this.FirebaseUser_.id;
-    _newFinance_Item.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
+    _newExpenses.Owner_Of_The_Task={} as FirebaseUser;
+    _newExpenses.Owner_Of_The_Task.id = this.FirebaseUser_.id;
+    _newExpenses.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
   
+// calculate per person amount.
+// Push the amount in all user's Credit database.
+// Credit-> Credit_Provider,Credit_Reciver,Credit_Amount,Credit_Expense_ID.
     
-    this.DBService_.createFinanceitem(_newFinance_Item).subscribe((Data_) => {               
+    this.DBService_.createFinanceitem(_newExpenses).subscribe((Data_) => {               
       console.log(Data_);
       
       this.toast.success('Create Task Success!','Success!', {
@@ -218,7 +219,7 @@ export class FinanceComponent implements OnInit {
   }
   LoadFinancelistOnlyOwned() {
     this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
-      this.List_of_Finance_Items = list_;      
+      this.Expenses_List = list_;      
         console.log("usertask");
         console.log(this.List_of_Tasks);
      })
@@ -240,6 +241,13 @@ export class FinanceComponent implements OnInit {
       });
       return this.Global_UserList;
     } 
+    reset(){
+      this.Temp_Expenses.Spent_by = [];
+      this.Temp_Expenses.Spent_For="";
+      this.Temp_Expenses.Spent_Amount="";
+      this.Temp_Expenses.Spent_date="";
+     
+    }
 
 //input enter key
   onSomeAction(event){

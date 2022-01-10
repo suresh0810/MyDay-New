@@ -2,7 +2,7 @@
 
 <div class="row pt-2 pb-2">
     <div class="col-sm-9">
-      <h4 class="page-title">Finance</h4>
+      <h4 class="page-title">Expenses</h4>
     </div>
     <div class="col-sm-3 desk" >
       <div ngbDropdown class="btn-group float-sm-right">
@@ -29,21 +29,20 @@
               <h5 class="card-title tabletitle" >Kuvira HQ</h5>
               <h5 class="card-title tabletitle1" >Kuvira HQ</h5>             
                
-          <th class="desk" style="width: 10%; ">People Name</th>
-          <th class="desk" style="width: 10%; ">Description</th>
-         <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
-          
-          <th class="desk" style="width: 10%; ">Paid by</th>
-          <th class="desk" style="width: 10%; ">Split Equally</th>          
-          <th class="desk" style="width: 1%;">Action</th> 
-          <div *ngFor="let _task of   List_of_Finance_Items |filter:searchText"  class="card">
-            <table style="cellspacing:2px " class="desk">
+          <th class="desk" style="width: 31%; ">Spent by</th>
+          <th class="desk" style="width: 41%; ">Spent For</th>
+         <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->          
+          <th class="desk" style="width: 17%; ">Spent Date</th>
+          <th class="desk" style="width: 13%; ">Amount</th>          
+          <th class="desk" style="width: 2%;">Action</th> 
+          <div *ngFor="let _task of   Expenses_List |filter:searchText"  class="card">
+            <table style="cellspacing:2px " class="desk">             
             <tr >
-              <td style="width: 10%;">                       
+              <td style="width: 30%;">                       
                 <div class="position-relative has-icon-right">                
              <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
                     [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
-                    [(ngModel)]="_task.Selected_People" (ngModelChange)="updateFinanceitem(_task)" name="_task.Selected_People"
+                    [(ngModel)]="_task.Spent_by" (ngModelChange)="updateFinanceitem(_task)" name="_task.Spent_by"
                     style="font-size: 16px;">
                     <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
                       <span class="ng-value-label">{{item.userName}}</span>
@@ -55,26 +54,33 @@
                   </ng-select>
                 </div>
               </td>
-              <td style="width: 10%;  overflow: auto;">
+              <td style="width: 40%;  overflow: auto;">
                 <div class="position-relative has-icon-right">
-                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.description"
-                    name="_task.Task_Name" on-focusout="updateFinanceitem(_task)">
+                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Spent_For"
+                    name="_task.Spent_For" on-focusout="updateFinanceitem(_task)">
                 </div>
               </td>
-           
-              <td style="width: 3%;  overflow: auto;">
+              <td style="width: 14%;  overflow: auto;">
                 <div class="position-relative has-icon-right">
-                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.amount"
-                    name="_task.amount" on-focusout="updateFinanceitem(_task)">
+                <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">                
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="_task.Spent_date" name="_task.Spent_date" (ngModelChange)="updateFinanceitem(_task)">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field></div>
+              </td>  
+              <td style="width: 14%;  overflow: auto;">
+                <div class="position-relative has-icon-right">
+                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Spent_Amount"
+                    name="_task.Spent_Amount" on-focusout="updateFinanceitem(_task)">
                 </div>
-              </td>
-              
+              </td> 
+                       
              <!-- <td style="width: 9%;">
                 <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
                 <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
                   disabled>
               </td>-->
-              <td style="width: 10%;">               
+            <!--  <td style="width: 10%;">               
                 <div class="position-relative has-icon-right">                
              <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
                     [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
@@ -111,19 +117,17 @@
                     </ng-template>
                   </ng-select>
                 </div>
-              </td>
-              
+              </td>    -->          
               <!-- <td style="width: 1%; ">
             <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
             </td>-->
-              <td style="width: 1%; ">
+              <td style="width: 2%; ">
                 <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteFinance(_task)">
                 </button>
               </td>
             </tr>
   </table>
-          </div>
-  
+          </div>  
           <div class="sticky-container">
             <div class="table-responsive mobile">
               <table class="table table-lg">
@@ -178,13 +182,11 @@
                           <mat-date-range-picker #picker></mat-date-range-picker>
                         </mat-form-field>
                       </div>
-                    </td>
-                    
+                    </td>                    
                     <td>
                       <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteFinance(_task)">
                     </button>
-                  </td>
-                    
+                  </td>                    
                   </tr>											
                 </tbody>
               </table>
@@ -205,7 +207,7 @@
                   </form>	-->        
         </div>
       </div>
-      <input type="number" [(ngModel)]="add1" name="add1" >
+     <!-- <input type="number" [(ngModel)]="add1" name="add1" >
       <input type="number" [(ngModel)]="add2" name="add2" (ngModelChange)="add()">
      
           count :{{add3}} 
@@ -216,23 +218,23 @@
          
          
           Paid: {{num1}}
-          split: Rs.{{num1/add3}}  
-          select {{Temp_Finance_Items.Paid_by.length + Temp_Finance_Items.split_equaly.length}}
+          split: Rs.{{num1/add3}}  -->
+       <!--   select {{Temp_Expenses.Paid_by.length + Temp_Expenses.amount}}-->
          
       <!----------------------------------------->
       
-     sdfdgfd: {{Temp_Finance_Items.add}}
+    
           <!----------------------------------------->
           <mat-toolbar color="accent" class="footer">
             <form>
-             <!-- <input   [(ngModel)]="Temp_Finance_Items.add" name="Temp_Finance_Items.add" [value]="Temp_Finance_Items.Paid_by.length + Temp_Finance_Items.split_equaly.length" > -->
+          <!--  <input   [(ngModel)]="Temp_Expenses.add" name="Temp_Expenses.add" [value]="Temp_Expenses.Paid_by.length + Temp_Expenses.split_equaly.length" > -->
               <table style="cellspacing:5px">
               <tr>
-                  <td>With you and :</td> 
+                  <td>Spent by :</td> 
                 <td style=" background: transparent;">
                     <div class="position-relative has-icon-right">
                       <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
-                        bindLabel="userName"  [(ngModel)]="Temp_Finance_Items.Selected_People" name="Temp_Task.Selected_People"
+                        bindLabel="userName"  [(ngModel)]="Temp_Expenses.Spent_by" name="Temp_Expenses.Spent_by"
                         style="font-size: 16px; min-height: 38px;" class="form-control" placeholder="Enter names" >
                         <ng-template ng-label-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.userName}}</span>
@@ -244,9 +246,10 @@
                       </ng-select>
                     </div>
                   </td>
-                <td style="width: 300px; ">
+                  <td>Spent For :</td>
+                <td style="width: 300px;">
                   <div class="position-relative has-icon-right">
-                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Finance_Items.description" name="Temp_Finance_Items.description" placeholder="Enter a description"
+                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Expenses.Spent_For" name="Temp_Expenses.Spent_For" placeholder="Enter a description"
                       class="form-control">
                   </div>
                 </td>
@@ -257,17 +260,22 @@
                 </td>
                 <td style="width: 100px;">
                     <div class="position-relative has-icon-right">                        
-                        <input style="width: 100%;"   [(ngModel)]="Temp_Finance_Items.amount" name="Temp_Finance_Items.amount" placeholder="0.00"
+                        <input style="width: 100%;" [(ngModel)]="Temp_Expenses.Spent_Amount" name="Temp_Expenses.Spent_Amount" placeholder="0.00"
                           class="form-control">
                       </div>
-                </td>
-                <td>Paid by </td>
-                <td style=" background: transparent;">
-                 
-             
+                </td> 
+                <td style="width: 14%;  overflow: auto;">
+                  <div class="position-relative has-icon-right">
+                  <mat-form-field appearance="outline radius-15" class="form-control">                
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Expenses.Spent_date" name="Temp_Expenses.Spent_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field></div>
+                </td>                
+               <!-- <td style=" background: transparent;">                            
                     <div class="position-relative has-icon-right">
                       <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
-                        bindLabel="userName"  [(ngModel)]="Temp_Finance_Items.Paid_by" name="Temp_Finance_Items.Paid_by.length"
+                        bindLabel="userName"  [(ngModel)]="Temp_Expenses.Paid_by" name="Temp_Expenses.Paid_by.length"
                         style="font-size: 16px; min-height: 38px;" class="form-control" placeholder="you">
                         <ng-template ng-label-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.userName}}</span>
@@ -285,7 +293,7 @@
                   <td style=" background: transparent;">
                     <div class="position-relative has-icon-right">
                       <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
-                        bindLabel="userName"  [(ngModel)]="Temp_Finance_Items.split_equaly" name="Temp_Finance_Items.split_equaly"
+                        bindLabel="userName"  [(ngModel)]="Temp_Expenses.split_equaly" name="Temp_Expenses.split_equaly"
                         style="font-size: 16px; min-height: 38px; " class="form-control" placeholder="equally">
                         <ng-template ng-label-tmp let-item="item" let-clear="clear" >
                           <span class="ng-value-label">{{item.userName}}</span>
@@ -296,21 +304,16 @@
                         </ng-template>
                       </ng-select>
                     </div>
-                  </td>                     
+                  </td>  -->                   
                 <td> <!-- Temp_Finance_Items.split_equaly-->
                   <input type="submit" (window:keypress.enter)="onSomeAction($event)" class="btn  btn-block btn-light form-control"
                     style=" border-radius: 2px; color: white;  height: 38px;"
-                    (click)="createFinance(Temp_Finance_Items)" value="Save">
+                    (click)="createFinance(Temp_Expenses)" (click)="reset()" value="Save">
                 </td>
               </tr>
             </table>
             </form>          
           </mat-toolbar>
-
-
-
-
-
         <!--  <mat-toolbar color="accent" class="foot">
             <form>
               <table style="cellspacing:5px">

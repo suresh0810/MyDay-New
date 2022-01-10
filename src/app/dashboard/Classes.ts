@@ -53,28 +53,26 @@ this.end_date=end_date_;
     end_date:Date;
 }
 
-export class Finance_Item{
+export class Expenses{
 
-    constructor(description_:string, amount_: string, Owner_FB_User_:FirebaseUser, add_:string){ 
+    constructor(Spent_For_:string, amount_: string, Owner_FB_User_:FirebaseUser, add_:string, date:string){ 
         
-        this.Selected_People = [];
-        this.description = description_;
-        this.amount = amount_;
-        this.add = add_;
-        this.Paid_by = [];
+        this.Spent_by = [];
+        this.Spent_For =  Spent_For_;     
+        this.Spent_Amount = amount_;             
         this.split_equaly = [];
+        this.Spent_date = date;
        // this.Finance_item_Createddate =Finance_item_createddate_;
        this.Owner_Of_The_Task=Owner_FB_User_;
 
     }
-    Selected_People:FirebaseUser[];   
-    description:string;
-    amount:string;   
-    Paid_by:FirebaseUser[];
+    Spent_by:FirebaseUser[];   
+    Spent_For:string;    
+    Spent_Amount:string;     
     split_equaly:FirebaseUser[];
-    Finance_item_Createddate:Date;
+    Spent_date: string;
     Owner_Of_The_Task:FirebaseUser;
-    add:string;
+   
     
 }
 
