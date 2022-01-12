@@ -4,6 +4,8 @@ import { EcommerceV1Component } from './ecommerce-v1/ecommerce-v1.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProductionComponent } from './production/production.component';
 import { FinanceComponent } from './finance/finance.component';
+import { TaskComponent } from './task/task.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -23,6 +25,13 @@ const routes: Routes = [
          title: 'Service Support'
         }
      }, 
+     {
+      path: 'task',
+      component: TaskComponent,
+      data: {
+        title: 'Task'
+      }
+    }, 
       {
         path: 'finance',
         component: FinanceComponent,

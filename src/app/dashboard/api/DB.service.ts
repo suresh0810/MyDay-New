@@ -31,23 +31,58 @@ sendClickEvent_CreateNewToDo(data:any){
 
   
 //Task Service
-  createTask(Data_){  
-    console.log("calling url : "+this.apiurl + "/createTask");
-    return this.http.post(this.apiurl + "/createTask", Data_);
-    
-  }
+createTask(Data_){  
+  console.log("calling url : "+this.apiurl + "/createTask");
+  return this.http.post(this.apiurl + "/createTask", Data_);
+}
 
-  UpdateTask(Data_){  
-    console.log("calling url : "+this.apiurl + "/updateTask");
-    return this.http.post(this.apiurl + "/updateTask", Data_);
-  }
+UpdateTask(Data_){  
+  console.log("calling url : "+this.apiurl + "/updateTask");
+  return this.http.post(this.apiurl + "/updateTask", Data_);
+}
 
-  LoadTasks(){  
-    console.log("calling url : "+this.apiurl + "/loadTask");
-    return this.http.get(this.apiurl + "/loadTask");
-  }
+LoadTasks(){  
+  console.log("calling url : "+this.apiurl + "/loadTask");
+  return this.http.get(this.apiurl + "/loadTask");
+}
 
-  //ToDolist
+//Wrokspace service
+createWorkspace(Data_){
+  console.log("calling url : "+this.apiurl + "/createWorkspace");
+  return this.http.post(this.apiurl + "/createWorkspace", Data_);
+}
+
+LoadWorkspace(){  
+  console.log("calling url : "+this.apiurl + "/loadTask");
+  return this.http.get(this.apiurl + "/loadWorkspace");
+}
+
+UpdateWorkspace(Data_){
+  return this.http.post(this.apiurl + "/UpdateWorkspace", Data_);
+}
+
+//User Service
+createUser(Data_){
+  console.log("calling url : "+this.apiurl + "/createUser");
+  return this.http.post(this.apiurl + "/createUser", Data_);
+}
+updateUser(Data_){
+  console.log("url : "+this.apiurl + "/updateUser");
+  return this.http.post(this.apiurl + "/updateUser", Data_);
+}
+
+updateUserFirsttime(Data_){
+  console.log("url : "+this.apiurl + "/updateUserFirsttime");
+  return this.http.post(this.apiurl + "/updateUserFirsttime", Data_);
+}
+  
+LoadUserData(Data_){  
+  console.log("calling url : "+this.apiurl + "/loadUserData");
+  return this.http.get(this.apiurl + "/loadUserData",Data_);
+}
+
+
+  //ToDolist Service
   createToDolist(Data_){  
     console.log("calling url : "+this.apiurl + "/createToDolist_item");
     return this.http.post(this.apiurl + "/createToDolist_item", Data_);
@@ -83,7 +118,7 @@ sendClickEvent_CreateNewToDo(data:any){
     return this.http.get(this.apiurl + "/Todolistfind",Data_);
   }
 
-  //Finance
+  //Expenses Service
 
   createFinanceitem(Data_){  
     console.log("calling url : "+this.apiurl + "/createFinance_item");
@@ -119,33 +154,8 @@ sendClickEvent_CreateNewToDo(data:any){
 
 
 
-//Wrokspace service
-createWorkspace(Data_){
-  console.log("calling url : "+this.apiurl + "/createWorkspace");
-  return this.http.post(this.apiurl + "/createWorkspace", Data_);
-}
-
-LoadWorkspace(){  
-  console.log("calling url : "+this.apiurl + "/loadTask");
-  return this.http.get(this.apiurl + "/loadWorkspace");
-}
-
 
   
-//User Service
-createUser(Data_){
-  console.log("calling url : "+this.apiurl + "/createUser");
-  return this.http.post(this.apiurl + "/createUser", Data_);
-}
-updateUser(Data_){
-  console.log("url : "+this.apiurl + "/updateUser");
-  return this.http.post(this.apiurl + "/updateUser", Data_);
-}
 
-updateUserFirsttime(Data_){
-  console.log("url : "+this.apiurl + "/updateUserFirsttime");
-  return this.http.post(this.apiurl + "/updateUserFirsttime", Data_);
-}
-  
 
 }

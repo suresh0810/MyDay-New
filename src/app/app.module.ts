@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule  } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 
@@ -17,6 +17,7 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import{DemoMaterialModule} from '../app/material-module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 //firebase
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -57,6 +58,7 @@ import { FirebaseService } from './auth/firebase.service';
     HttpClientModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     AngularFirestoreModule,
@@ -73,6 +75,7 @@ import { FirebaseService } from './auth/firebase.service';
   providers: [AuthService,DBService,FirebaseService,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
   ],
+ 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

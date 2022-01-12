@@ -1,375 +1,232 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import * as chartsData from '../../shared/data/ecommerce1';
-import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
-import { DBService } from '../api/DB.service';
-import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../Classes';
-import { ObjectId } from 'bson';
-import { FirebaseService } from 'src/app/auth/firebase.service';
-import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import {
-  ChartComponent,
-  ApexChart,
-  ApexAnnotations,
-  ApexDataLabels,
-  ApexAxisChartSeries,
-  ApexNonAxisChartSeries,
-  ApexStroke,
-  ApexLegend,
-  ApexFill,
-  ApexTooltip,
-  ApexPlotOptions,
-  ApexResponsive,
-  ApexXAxis,
-  ApexYAxis,
-  ApexGrid,
-  ApexStates,
-  ApexTitleSubtitle,
-  ApexTheme,
-  ApexMarkers
-} from "ng-apexcharts";
-import { Router } from '@angular/router';
-import{ AuthService} from '../../auth/auth.service';
-import{AngularFirestore} from '@angular/fire/compat/firestore';
-import { ToastrService } from 'ngx-toastr';
-import { time, timeStamp } from 'console';
-import { timeout, timestamp } from 'rxjs/operators';
-import { start } from 'repl';
-export type ChartOptions = {
-  chart: ApexChart;
-  annotations: ApexAnnotations;
-  colors: string[];
-  dataLabels: ApexDataLabels;
-  series: ApexAxisChartSeries | ApexNonAxisChartSeries;
-  stroke: ApexStroke;
-  labels: string[];
-  legend: ApexLegend;
-  fill: ApexFill;
-  tooltip: ApexTooltip;
-  plotOptions: ApexPlotOptions;
-  responsive: ApexResponsive[];
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis | ApexYAxis[];
-  grid: ApexGrid;
-  states: ApexStates;
-  title: ApexTitleSubtitle;
-  subtitle: ApexTitleSubtitle;
-  theme: ApexTheme;
-  markers: ApexMarkers
-};
 
-import {
-DateAdapter,
-MAT_DATE_LOCALE,
-MAT_DATE_FORMATS
-} from "@angular/material/core";
-import { MomentDateAdapter } from "@angular/material-moment-adapter";
-import { DatePipe } from "@angular/common";
-export const MY_FORMATS = {
-  parse: {
-    dateInput: "YYYY-MM-DD HH:mm:ss"
-  },
-  display: {
-   // dateInput: "YYYY-MM-DD HH:mm:ss",
-    //monthYearLabel: "MMM YYYY",
-    //dateA11yLabel: "YYYY-MM-DD HH:mm:ss",
-    //monthYearA11yLabel: "MMMM YYYY"
-    dateInput: "MMM DD",
-    monthYearLabel: "MMM YYYY",
-    dateA11yLabel: "YYYY-MM-DD HH:mm:ss",
-    monthYearA11yLabel: "MMMM YYYY"
-  }
-};
+import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
+import { isThisMonth, startOfDay } from 'date-fns';
+import { User, Profile, Item , Workspace, Group, Board, Column, KDate, FirebaseUser, KStatus, KDropdown, Column_Types, KTimeline, KPeople, KText, KNumber, KCheck_Box, KFormula, Item_Update, dummy, KDropdownOption, Item_Data} from '../Classes1';
+import { FirebaseService } from '../../auth/firebase.service';
+import { DBService } from '../api/DB.service';
+
+import { Z_DATA_ERROR } from 'zlib';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { event } from 'jquery';
+import { group, timeStamp } from 'console';
+import { AuthService } from 'src/app/auth/auth.service';
+import { ObjectID, ObjectId } from 'bson';
+import { DropdownPosition } from '@ng-select/ng-select';
+import { HttpClient } from '@angular/common/http';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { ItemsList } from '@ng-select/ng-select/lib/items-list';
+import { Db } from 'mongodb';
+
 
 @Component({
   selector: 'app-production',
   templateUrl: './production.component.html',
-  styleUrls: ['./production.component.scss'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE]
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    DatePipe
-  ]
+  styleUrls: ['./production.component.scss']
 })
 export class ProductionComponent implements OnInit {
-  userName: string;
-  Selected_People: string;
-
-  //FB_User: any;
-  taskdetails: string;
-  User_: User;
-  Tasks: Task[];
-  List_of_Tasks = [];
- //Global_UserList: [];
-  closeResult: string = '';
-  FirebaseUser_: FirebaseUser;
-  CreateDate_:createddate;
-  Deadline_:Deadline;
-  public UserList: any[];
-  Status_: KStatus;
-  List_of_option: KstatusOption;
-date:string;
-  Temp_Task: Task;
-  created_at:Date;
+  @ViewChild('imgRenderer') imgRenderer : ElementRef;
+  @ViewChild('f') myNgForm;
+  image: string;
+  name: string;
+  Dropdown_Name:string;
+  ktimeline_end_date;
+  //stackbliz
   Global_UserList: FirebaseUser[];
-  load:string;
+  KTimeline_: KTimeline;
 
-  @ViewChild("chart-1") chart: ChartComponent;
+  KPeople_: KPeople;
 
-  public chartOptions: Partial<ChartOptions>;
+  FB_User:any;
+  FirebaseUser_:FirebaseUser;
 
-  positionmodel: NgbDateStruct;
-  placement = 'bottom';
-  placement1 = 'bottom';
-  searchText;
-  complete;
+  selectedFile: File
+  Name: string;
+  FirstName: string;
+
+  Column_Types_Date_: Column_Types;
+  Column_Types_Status: Column_Types;
+  Column_Types_Dropdown: Column_Types;
+  Column_Types_Timeline: Column_Types;
+  Column_Types_People: Column_Types;
+  Column_Types_Text: Column_Types;
+  Column_Types_Number: Column_Types;
+  Column_Types_Check: Column_Types;
+  Column_Types_Formula: Column_Types;
+  Column_Types_dummy:Column_Types;
+
+
+
+  newStrategyname:string;
+
+  User_: User;
+  Temp: Item;
   
-  // line -Chart 1
-  public lineChartData = chartsData.lineChartData;
-  public lineChartLabels = chartsData.lineChartLabels;
-  public lineChartOptions = chartsData.lineChartOptions;
-  public lineChartColors = chartsData.lineChartColors;
-  public lineChartLegend = chartsData.lineChartLegend;
-  public lineChartType = chartsData.lineChartType;
+  Loaded_Wrokspaces:Workspace[]=[];
 
+
+  //tempgroup: Group=new Group("tempgroup");
+  //tempboard: Board=new Board("tempboard"); 
+  //tempWorkspace:Workspace=new Workspace("tempworkspace");
+
+  Selected_Item:Item;
+  Temp_Item_Update:Item_Update;
+  Temp_Item_Content:string;
+  Temp_Item_Files:File[];
+
+  Temp_Drop:KDropdownOption;
+
+  Temp_Group:Group;
+  Group_Title:string;
+
+Board_Title:string
+
+Selected_Workspace_Index:number;
+Selected_Board_Index:number;
+Selected_Group_Index:number;
+
+
+images = [];
   
-  // Doughnut -Chart 2
-  public doughnutChartLabels = chartsData.doughnutChartLabels;
-  public doughnutChartData = chartsData.doughnutChartData;
-  public doughnutChartType = chartsData.doughnutChartType;
-  public doughnutChartColors = chartsData.doughnutChartColors;
-  public doughnutChartOptions = chartsData.doughnutChartOptions;
 
-  
-  // line -Chart 3
-  public lineChart3Data = chartsData.lineChart3Data;
-  public lineChart3Labels = chartsData.lineChart3Labels;
-  public lineChart3Options = chartsData.lineChart3Options;
-  public lineChart3Colors = chartsData.lineChart3Colors;
-  public lineChart3Legend = chartsData.lineChart3Legend;
-  public lineChart3Type = chartsData.lineChart3Type;
+ 
 
-  // bar -Chart 4
-  public barChartOptions = chartsData.barChartOptions;
-  public barChartLabels = chartsData.barChartLabels;
-  public barChartType = chartsData.barChartType;
-  public barChartLegend = chartsData.barChartLegend;
-  public barChartData = chartsData.barChartData;
-  public barChartColors = chartsData.barChartColors;
+  sidenave:HTMLElement;
 
-  // bar -Chart 6
-  public barChart6Options = chartsData.barChart6Options;
-  public barChart6Labels = chartsData.barChart6Labels;
-  public barChart6Type = chartsData.barChart6Type;
-  public barChart6Legend = chartsData.barChart6Legend;
-  public barChart6Data = chartsData.barChart6Data;
-  public barChart6Colors = chartsData.barChart6Colors;
-
-
-  
-  // events
-  public chartClicked(e: any): void {
-    //your code here
+  constructor(private firebaseService: FirebaseService, private DBService_: DBService, private modalService: NgbModal, private auth: AuthService) {
   }
 
-  public chartHovered(e: any): void {
-    //your code here
-  }
-  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
-    this.LoadToDolistOnlyOwned();
 
 
-    //this.afs.collection('users').valueChanges().subscribe(List => {
-    //  this.UserList = List;
-     // console.log(this.UserList);
-    //})    
-    // Chart 5 Options
-    this.chartOptions = {
-
-      chart: {
-        height: 250,
-        type: 'radialBar',
-        toolbar: {
-          show: false
-        }
-      },
-      plotOptions: {
-        radialBar: {
-          //startAngle: -135,
-          //endAngle: 225,
-           hollow: {
-            margin: 0,
-            size: '70%',
-            background: 'transparent',
-            image: undefined,
-            imageOffsetX: 0,
-            imageOffsetY: 0,
-            position: 'front',
-            dropShadow: {
-              enabled: true,
-              top: 3,
-              left: 0,
-              blur: 4,
-              opacity: 0.24
-            }
-          },
-          track: {
-            background: 'rgba(255, 255, 255, 0.12)',
-            strokeWidth: '67%',
-            margin: 0, // margin is in pixels
-            dropShadow: {
-              enabled: false,
-              top: -3,
-              left: 0,
-              blur: 4,
-        color: 'rgba(254, 197, 7, 0.55)',
-              opacity: 0.55
-            }
-          },
-  
-          dataLabels: { 
-            name: {
-              offsetY: -5,
-              show: true,
-              color: '#fff',
-              fontSize: '14px'
-            },
-            value: {
-              formatter: function (val) {
-            return val + "%";
-          },
-              color: '#fff',
-              fontSize: '20px',
-              show: true,
-        offsetY: 10,
-            }
-          }
-        }
-      },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shade: 'light',
-          type: 'horizontal',
-          shadeIntensity: 0.5,
-          gradientToColors: ['#fff'],
-          inverseColors: false,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 100]
-        }
-      },
-      colors: ["#fff"],
-      series: [65],
-      stroke: {
-        lineCap: 'round'
-      },
-      labels: ['Total'],
-
-   };
-
-   }
 
   ngOnInit(): void {
 
-      
-    $.getScript('./assets/js/ecommerce1.js');    
+    this.Loaded_Wrokspaces.push(new Workspace("temp",this.FirebaseUser_));
     
-    this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+
+    //Loading User data from DB
+
+
+    //Loading Workspaces
+
+    //Loading Boards
+
+    //Loading Groups
+
+  
     
-   
+    this.Selected_Workspace_Index=0;
+    this.Selected_Board_Index=0;
+    this.Selected_Group_Index=0
+
+    this.Selected_Item=new Item("Default",0);  
+  
+
+    
+  
+
+    this.Board_Title="";
+    this.Group_Title="";
+    this.Group_Title="";
+    
+    this.Temp_Item_Content="";
+    
+    
+    this.Temp_Item_Files=[];
+    this.Temp_Item_Update=new Item_Update( "Temp",this.Temp_Item_Files); 
+    
+    
+    this.sidenave = document.getElementById('mySidenav');
+    
+
     this.getFirebaseUsers();
+
+    //dummy people
+    this.KPeople_ = new KPeople("Users");
+
     this.auth.user_.subscribe(user =>
-      {
-           // this.FB_User = user;
-            console.log("this.FB_User : ");   
-            console.log(user);     
-           this.Global_UserList.forEach(element => 
+    {
+          this.FB_User = user; 
+          console.log("this.FB_User : "+this.FB_User.userId);   
+
+          this.Global_UserList.forEach(element => 
             {       
-             if(user.userId==element.id)
+              if(this.FB_User.userId==element.id)
               {
-              this.FirebaseUser_=element;
-              console.log("this.FirebaseUser_"); 
-              console.log(this.FirebaseUser_); 
-              this.LoadToDolistOnlyOwned();
-             }
-         });  
-            this.User_ = new User(this.FirebaseUser_); 
-     //this.UpdateUserFristime(this.User_);  
-      })
+                this.FirebaseUser_=element;
+              }
+            });
+
+          this.User_ = new User(this.FirebaseUser_); 
+          this.UpdateUserFristime(this.User_);
+
+    })
+
+  
+ 
+    this.Column_Types_Date_ = Column_Types.date;
+    this.Column_Types_Status = Column_Types.status;
+    this.Column_Types_Timeline = Column_Types.timeline;
+    this.Column_Types_Dropdown = Column_Types.dropdown;
+    this.Column_Types_People = Column_Types.kpeople;
+    this.Column_Types_Text = Column_Types.ktext;
+    this.Column_Types_Number = Column_Types.number;
+    this.Column_Types_Check = Column_Types.check;
+    this.Column_Types_Formula = Column_Types.formula;
+    this.Column_Types_dummy = Column_Types.dummy;
+
+
+  
+
+
+    this.DBService_.LoadWorkspace().subscribe((Data_:Workspace[])=>
+    {
+      this.Loaded_Wrokspaces=Data_;
+      console.log("Loaded Workspaces");
+      console.log(Data_);
+     // this.tempgroup.List_Of_Items=Data_;
+    })    
+     this.DBService_.LoadTasks().subscribe((Data_:Item[])=>
+      {
+       // this.tempgroup.List_Of_Items=Data_;
+      })      
   }
 
+
+  UpdateUserFristime(User_:User){
+    this.DBService_.updateUserFirsttime(User_).subscribe((Data_:any)=>
+    {
+      console.log("updated User : ");      
+      console.log(Data_); 
+      //Load Data from server
+      this.LoadUserDataFromServer(User_);
+    })      
+  }
+
+  
   LoadUserDataFromServer(User_:User)
   {
-    this.DBService_.LoadToDolistUserData(User_).subscribe((Data_:any)=>
-    {        
+    this.DBService_.LoadUserData(User_).subscribe((Data_:any)=>
+    {
       console.log("Loaded User Data");
+console.log(Data_);
     })
   }
 
-  create_Task(_newTask: Task): void 
+
+
+  openNav(item_)
   {
-    _newTask.Task_Createddate=new Date(Date.now());
-    _newTask.start_date=new Date(Date.now());
-    _newTask.end_date=new Date(Date.now());
-    console.log(this.FirebaseUser_);
-    
-    _newTask.Owner_Of_The_Task={} as FirebaseUser;
-    _newTask.Owner_Of_The_Task.id = this.FirebaseUser_.id;
-    _newTask.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
-
-   // localStorage.setItem('createToDolist_item', JSON.stringify(_newTask));
-
-   this.List_of_Tasks.push(_newTask);
-
-    this.DBService_.createToDolist(_newTask).subscribe((Data_) => {               
-      console.log(Data_);
-          
-      this.toast.success('Create Task Success!','Success!', {
-        timeOut:1500
-      });      
-     this.LoadToDolistOnlyOwned();      
-    // this.LoadUserDataFromServer(this.User_);
-    });   
-    
+    console.log(item_);
+   this.Selected_Item=item_;     
+   this.sidenave.classList.add('sidenav_Open');
+   this.sidenave.classList.remove('sidenav_Close');
+  }  
+  closeNav(){
+    this.sidenave.classList.add('sidenav_Close');
+    this.sidenave.classList.remove('sidenav_Open');
   }
 
-  LoadToDolistOnlyOwned() {
-  this.DBService_.LoadToDolistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
-    this.List_of_Tasks = list_;      
-      console.log("usertask");
-      console.log(this.List_of_Tasks);
-   })
-  }
-
-
-
-  updateTodo(_Task: Task) {
-    //var temp = new Task(Index)
-    this.DBService_.UpdateToDolist(_Task).subscribe((list_) => {
-      console.log("Update ToDolist_item : " + JSON.stringify(list_));
-      this.LoadToDolistOnlyOwned();
-    })
-  }
-
-
-  DeleteToDo(_Task: Task) 
-  {
-    const index: number = this.List_of_Tasks.indexOf(_Task);
-    if (index !== -1) {
-        this.List_of_Tasks.splice(index, 1);
-    }         
-    this.DBService_.DeleteToDolist(_Task).subscribe((list_) => {
-      console.log("Delete ToDolist_item : " + JSON.stringify(list_));
-      this.LoadToDolistOnlyOwned();
-      this.toast.success('Task Delete Success!', 'Success!', {
-        timeOut:1500
-      });
-    })
-  }
 
   getFirebaseUsers() {
     this.firebaseService.read_users().subscribe(data => {
@@ -377,26 +234,510 @@ date:string;
         return {
           id: e.payload.doc.id,
           isEdit: false,
-          userName: e.payload.doc.data()['userName'],
-        //  filepath: e.payload.doc.data()['filepath'],
+          FirstName: e.payload.doc.data()['FirstName'],
+          filepath: e.payload.doc.data()['filepath'],
         };
       })
-      console.log("this.Global_UserList");  
       console.log(this.Global_UserList);     
     });
     return this.Global_UserList;
-  }  
-
-  reset() {
-    this.Temp_Task.Task_Name = "";
-    this.Temp_Task.Selected_People = [];
   }
 
 
-  onSomeAction(event){
-    if(event.keyCode===13){
-      //submit form
-    }
-   }
+  create_Task(group_Index:number): void {    
 
+    var tempItem: Item;  
+
+    tempItem = new Item("New Item",group_Index);   
+
+    tempItem.Item_Updates.push(new Item_Update( this.Temp_Item_Update.Item_Update_Content,this.Temp_Item_Update.Item_Update_files));   
+
+    //add all date from templeate
+    for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.length; i++) {
+
+      switch (this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns[i].Column_Type) {
+        case Column_Types.date:
+          tempItem.List_Of_Date_columns.push(new KDate(this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns[i].Column_Title));
+          break;
+
+        case Column_Types.status:
+          tempItem.List_Of_Status_columns.push(new KStatus("Sample samplestatus"));
+          break;
+
+        case Column_Types.timeline:
+          tempItem.List_Of_Timeline_columns.push(new KTimeline("Sample Timeline"));
+          break;
+
+        case Column_Types.dropdown:
+          tempItem.List_Of_Dropdown_columns.push(new KDropdown("Sample Dropdown"));
+          break;
+
+        case Column_Types.kpeople:
+          tempItem.List_Of_People_columns.push(new KPeople("People"));
+          break;
+
+        case Column_Types.ktext:
+          tempItem.List_Of_Text_columns.push(new KText("Text"));
+          break;
+
+        case Column_Types.number:
+          tempItem.List_Of_Number_columns.push(new KNumber("Number"));
+          break;
+
+        case Column_Types.check:
+          tempItem.List_Of_Check_Box_columns.push(new KCheck_Box("Check Box"));
+          break;
+
+        case Column_Types.formula:
+          tempItem.List_Of_Formula.push(new KFormula("Formula"));
+          break;
+
+          case Column_Types.dummy:
+          tempItem.List_Of_dummy_name_columns.push(new dummy("dummy"));
+          break;
+      }
+    }
+
+
+
+    //create task in DB
+    this.DBService_.createTask(tempItem).subscribe((Data_:ObjectId)=>
+    {
+      tempItem._id=Data_;
+      this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items_id_Index.push(new Item_Data(Data_));
+      this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items.push(tempItem);
+
+    })
+
+  }
+
+  createTask(Item_:Item)
+  {
+    this.DBService_.createTask(Item_).subscribe((Data_:ObjectId)=>
+      {
+        Item_._id=Data_;
+      })
+  }
+  
+  UpdateTask(Item_)
+  {    
+    this.DBService_.UpdateTask(Item_).subscribe(Data_=>
+      {
+        console.log(Data_);
+      })
+  }  
+
+  UpdateUser_Database(){
+    this.DBService_.updateUser(this.User_).subscribe((Data_:any)=>
+    {  
+      console.log("User Updated..");  
+    })
+  }
+
+  create_workspace(wsname:string){
+
+    var tempworkspace = new Workspace(wsname,this.FirebaseUser_);
+
+    this.Loaded_Wrokspaces.push(tempworkspace);
+    this.Selected_Workspace_Index=this.Loaded_Wrokspaces.length-1; 
+    
+    this.DBService_.createWorkspace(tempworkspace).subscribe((Data_:ObjectId)=>
+      {
+        console.log("Created Workspace ID:");
+        console.log(Data_);
+        this.User_.List_Of_Workspace_Access_index.push(new ObjectId(Data_));
+        this.UpdateUser_Database();
+      })
+  }
+
+  onChange(event) {
+  this.Selected_Workspace_Index=event;
+  this.Selected_Board_Index=0;
+  }  
+
+  create_boards(bname:string){
+
+    this.printindexstatus();
+
+    this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.push(new Board(bname));
+    this.Selected_Board_Index=this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.length-1;    
+   // this.Selected_board.Board_Title = bname;       
+  }
+
+  Create_Dropdown_Option(dopname:string,kdropdown_index:number){
+    this.printindexstatus();
+
+console.log("kdropdown_index : "+kdropdown_index);
+    this.Loaded_Wrokspaces[this.Selected_Workspace_Index].
+    List_Of_Boards[this.Selected_Board_Index].
+    List_Of_Groups[this.Selected_Group_Index].
+    List_Of_Items[this.Selected_Group_Index].List_Of_Dropdown_columns[kdropdown_index].List_Of_Dropdown_Options.push(new KDropdownOption(dopname));
+   
+  }
+
+  kstatus_option(){
+    this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[this.Selected_Group_Index].List_Of_Items.push()
+  }
+
+ 
+
+printindexstatus(){
+  console.log("************************************************************");
+  console.log("this.Selected_Workspace_Index : "+this.Selected_Workspace_Index);
+  console.log("this.Selected_Board_Index : "+this.Selected_Board_Index);
+  console.log("this.Selected_Group_Index : "+this.Selected_Group_Index);
+  console.log("************************************************************");
 }
+
+
+    create_Group(gname:string)
+    {  
+
+    this.printindexstatus();
+
+    var nwgroup = new Group(gname);
+    
+
+    this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.push(nwgroup);  
+
+    this.DBService_.UpdateWorkspace(this.Loaded_Wrokspaces[this.Selected_Workspace_Index]).subscribe(Data_=>
+      {
+        console.log(Data_);
+      })
+     
+    }
+
+ 
+
+ 
+ 
+
+  tabClick(event) {  
+
+    console.log(event);
+    this.Selected_Board_Index =event.index;  
+      
+   
+
+ // this.Selected_board.Board_Title = event.tab.textLabel;
+ // this.Selected_Group.Group_Title =this.Selected_board.Board_Title
+  
+
+  }
+ 
+
+  create_Update()
+   {         
+    this.Selected_Item.Item_Updates.push(new Item_Update(this.Temp_Item_Update.Item_Update_Content,this.Temp_Item_Update.Item_Update_files));
+  }
+
+  create_Column(Column_Types_: Column_Types): void {
+
+    switch (Column_Types_) {
+
+      case Column_Types.date:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push
+        (
+          new Column("Test Date", Column_Types.date,
+          this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Date_columns.length)
+        );
+
+        for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+        {
+          for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+          {
+            this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Date_columns.push(new KDate("Test Date"));
+          }
+        }
+        
+        break;
+
+      case Column_Types.status:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("Test Status", Column_Types.status,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Status_columns.length)
+      );
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+      {
+        for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+        {
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Status_columns.push(new KStatus("Test Status"));
+      }
+    }
+        break;
+
+      case Column_Types.timeline:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("Test Timeline", Column_Types.timeline,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Timeline_columns.length)
+      );
+
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+      {
+        for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+        {
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Timeline_columns.push(new KTimeline("Test Timeline"));
+      }
+    }
+  
+        break;
+
+      case Column_Types.dropdown:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("Test Dropdown", Column_Types.dropdown,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Dropdown_columns.length)
+      );
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+        {
+          for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+          {
+          this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Dropdown_columns.push(new KDropdown("Test Dropdown"));
+        }}
+
+        break;
+
+
+      case Column_Types.kpeople:
+
+        this.printindexstatus();
+
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("People", Column_Types.kpeople,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_People_columns.length)
+      );
+
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+      {
+        for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+        {
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_People_columns.push(new KPeople("Select People"));
+      }}
+        
+        break;
+
+      case Column_Types.ktext:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("Text", Column_Types.ktext,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Text_columns.length)
+      );
+
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+        {
+          for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+          {
+          this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Text_columns.push(new KText("Text"));
+        }
+      }
+        break;
+
+      case Column_Types.number:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("Number", Column_Types.number,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Number_columns.length)
+      );
+
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+        {
+          for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+          {
+          this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Number_columns.push(new KNumber("Number"));
+        }
+      }
+        
+        break;
+
+      case Column_Types.check:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("Check", Column_Types.check,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Check_Box_columns.length)
+      );
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+      {
+        for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+        {
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Check_Box_columns.push(new KCheck_Box("Check"));
+      }
+    }
+       
+        break;
+
+      case Column_Types.formula:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("Formula", Column_Types.formula,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_Formula.length)
+      );
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+      {
+        for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+        {
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_Formula.push(new KFormula("Formula"));
+      }
+    }
+        break;
+
+
+        case Column_Types.dummy:
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].Board_Template.List_Of_Columns.push(new Column("dummy", Column_Types.dummy,
+        this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[0].List_Of_Items[0].List_Of_dummy_name_columns.length)
+      );
+      for(var j=0;j<this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.length;j++)
+        {
+          for (var i = 0; i < this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items.length; i++) 
+          {
+          this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[j].List_Of_Items[i].List_Of_dummy_name_columns.push(new dummy("dummy"));
+        }
+      }
+       
+        break;    
+    }
+
+  }
+
+
+
+  //update already items
+  
+
+
+
+ 
+
+  //Timeline Duration
+  calculateDiff(start_dateOn){  
+    
+  let end_dateOnDate = new Date(this.ktimeline_end_date);
+
+  let start_dateOnDate = new Date(start_dateOn);
+
+  start_dateOnDate.setDate(start_dateOnDate.getDate());  
+  
+  let differenceInTime = end_dateOnDate.getTime() - start_dateOnDate.getTime();
+  // To calculate the no. of days between two dates
+  let differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)); 
+  
+  return differenceInDays;
+  }
+
+/*calculateDiff(start_dateOn, end_dateOn){
+   
+  let todayDate = new Date();
+
+
+  let start_dateOnDate = new Date(start_dateOn);
+
+
+  start_dateOnDate.setDate(start_dateOnDate.getDate());
+  
+  
+  let differenceInTime = todayDate.getTime() - start_dateOnDate.getTime();
+  // To calculate the no. of days between two dates
+  let differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)); 
+  return differenceInDays;
+}*/
+
+
+
+
+/*onPaste(e: any ) {
+  console.log(e);
+  const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+  let blob = null;
+  for (const item of items) {
+    if (item.type.indexOf('image') === 0) {
+      blob = item.getAsFile();
+      console.log(blob);
+    }
+  }
+}*/
+
+
+
+  /**
+   * Paste from clipboard
+   */
+  onPaste(event: any) {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    let blob:File = null;
+
+    for (const item of items) {      
+      if (item.type.indexOf('image') === 0) {
+        blob = item.getAsFile();        
+      }
+    }  
+
+    // load image if there is a pasted image
+    if (blob !== null) {
+      const reader = new FileReader();
+      reader.onload = (evt: any) => {
+     //   console.log(evt.target.result); // data url!
+        //this.imgRenderer.nativeElement.src = evt.target.result;
+        this.images.push(evt.target.result);
+        console.log("File Name: "+evt.target.result);
+//save local storage
+//get location src
+//store src string
+
+        this.Temp_Item_Files.push(blob);
+      };
+      reader.readAsDataURL(blob);
+    }
+  }
+
+  onInput(content: string) {
+    console.log("New content: ", content);
+  }
+
+
+ /* reset(){    
+    this.del(event);
+    this.Temp_Item_Update.Item_Update_Content ="";     
+    this.imgRenderer.nativeElement.src =  "";
+     this.Temp_Item_Files;
+
+  }
+ */
+ 
+ 
+
+
+  openVerticallyCentered(content) {
+    this.modalService.open(content, { centered: true });
+  }
+ 
+
+
+
+  onFileChange(event) {
+    if (event.target.files && event.target.files[0]) {
+        var filesAmount = event.target.files.length;
+        for (let i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();   
+                reader.onload = (event:any) => {
+                  console.log(event.target.result);
+                   this.images.push(event.target.result);                     
+                   this.Temp_Item_Files.push(event.target.result)             
+        
+                }  
+                
+                reader.readAsDataURL(event.target.files[i]);
+        }        
+    } 
+    event.srcElement.value = null; 
+  }
+  deleteImage(url: any){
+    const index = this.images.indexOf(url);
+    this.images.splice(index, 1);
+    this.Temp_Item_Files.splice(index, 1);
+  }
+
+  del(url: any){
+    const index = this.images.indexOf(url);
+    this.images.splice(index[0]);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
