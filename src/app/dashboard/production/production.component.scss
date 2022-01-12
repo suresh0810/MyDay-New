@@ -400,7 +400,7 @@ td:nth-child(2){width: 200px;}
 thead th{
   position: sticky;
   top: 0;
-  background: whitesmoke;
+  background: rgba(246, 245, 245, 0.199);
   z-index: auto;
   height: 35px;
   width: 200px;
@@ -408,20 +408,20 @@ thead th{
 }
 
 thead th:hover {
-  background-color: rgb(231, 231, 231);  
+  background-color: rgba(246, 245, 245, 0.301);
 }
 
 
 thead th:nth-child(1){
   position: sticky;
   left: 0;
-  background: whitesmoke;
+  background: rgba(246, 245, 245, 0.199);
   z-index: 1;
   text-align: left;
   text-indent: 5px; 
 }
 thead th:nth-child(1):hover {
-  background-color: rgb(231, 231, 231);  
+  background-color: rgba(246, 245, 245, 0.301);  
 }
 
 tbody{
@@ -431,18 +431,18 @@ tbody{
 
 tbody td{
   height: 35px;
-  background: whitesmoke;
+  background: rgba(246, 245, 245, 0.199);
   border: 1px solid white;
 }
 
 tbody td:hover {
-  background-color: rgb(154, 226, 255);  
+  background-color: rgba(246, 245, 245, 0.301);  
 }
 
 tbody td:nth-child(1){
   position: sticky;
   left: 0;
-  background: whitesmoke;
+  background: rgba(246, 245, 245, 0.199);;
   z-index: 1; 
   height: 35px;
   width: 500px;  
@@ -451,8 +451,8 @@ tbody td:nth-child(1){
   text-indent: 1px;
 }
 tbody td:nth-child(1):hover {
-  background-color: rgb(154, 226, 255); 
-  border-left: 5px solid green; 
+  background-color: rgba(246, 245, 245, 0.301); 
+  border-left: 5px solid white; 
 }
 
 

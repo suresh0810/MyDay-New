@@ -42,17 +42,16 @@
 
 <!--end breadcrumb-->
 <div class="row">
-  <div class="col-12 col-lg-2">
+  <div class="pt-2 pb-2">
     <div class="card">
-      <div class="card-body" style="background: rgb(245, 244, 244);">
+      <div class="card-body" >
         <!--Workspace Dropdown-->
-        <div class="ms-auto">
-          <div class="btn-group">
+        <div  class="ms-auto">
+          <div ngbDropdown class="btn-group">
             <button class="btn btn-light wsb">+ Workspace</button>
-            <button class="btn btn-light  lni lni-more-alt crtworkspace" data-bs-toggle="dropdown"> <span
-                class="visually-hidden">Toggle Dropdown</span>
+            <button class="btn btn-light  lni lni-more-alt crtworkspace" id="dropdownBasic5" ngbDropdownToggle>
             </button>
-            <div class="dropdown-menu dropdown_hand">
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">
               <a class="dropdown-item " (click)="openVerticallyCentered(content)">+ Add New Workspace</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item"> Delete workspace</a>
@@ -72,8 +71,8 @@
             <form #myForm="ngForm">
               <label>Workspace name</label>
               <div class="form-group">
-                <mat-form-field appearance="outline" class="" style="width: 100%; height: 100%;">
-                  <input matInput [(ngModel)]="Workspace_Name" name='newworkspacename' required>
+                <mat-form-field appearance="outline radius-15" class="" style="width: 100%; height: 100%;">
+                  <input matInput  [(ngModel)]="Workspace_Name" name='newworkspacename' required class="form-control" style="border: 1px solid chartreuse;">
                 </mat-form-field>
                 <br><br>
                 <p>Privacy</p>
@@ -111,12 +110,11 @@
         </select><br>
         <!--Create Board-->
         <div class="ms-auto">
-          <div class="btn-group">
+          <div ngbDropdown  class="btn-group">
             <button class="btn btn-light wsb">+ Add Board</button>
-            <button class="btn btn-light  lni lni-chevron-down crtworkspace" data-bs-toggle="dropdown"> <span
-                class="visually-hidden">Toggle Dropdown</span>
+            <button class="btn btn-light  lni lni-chevron-down crtworkspace" id="dropdownBasic5" ngbDropdownToggle> 
             </button>
-            <div class="dropdown-menu dropdown_hand">
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">
               <a class="dropdown-item " (click)="openVerticallyCentered(newboard)">+ New Board</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item"> Delete Board</a>
@@ -135,9 +133,9 @@
             <form #myForm="ngForm">
               <label>Board name</label>
               <div class="form-group">
-                <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-form-field appearance="outline radius-15" style="width: 100%;">
                   <input matInput [(ngModel)]="Board_Title" name='newboardname' placeholder="Board Name" maxlength="35"
-                    required>
+                    required class="form-control" style="border: 1px solid chartreuse;">
                 </mat-form-field>
                 <br><br>
                 <p>Privacy</p>
@@ -154,14 +152,13 @@
         </ng-template>
 
         <!--Select Boards-->
-
         <!-- <div *ngFor="let Item_ of Loaded_Wrokspaces[Workspace_Index].List_Of_Boards; let i = index" [ngValue]="i" class="borde_list">
           <button (click)="selected_boards()" > {{Item_.Board_Title}}</button>
         </div>-->
 
         <mat-tab-group matMultilineTab (selectedTabChange)="tabClick($event)">
           <mat-tab *ngFor="let Item_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards; let i = index"
-          [ngValue]="i" label="{{Item_.Board_Title}}"></mat-tab>
+          value="i" label="{{Item_.Board_Title}}"></mat-tab>
 
         </mat-tab-group>
       </div>
@@ -181,12 +178,12 @@
         <hr/>
         <!--Create Group-->
         <div class="ms-auto">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary" style="font-size: 14px;" data-bs-toggle="dropdown">New Group</button>
-            <button type="button" class="btn btn-primary  lni lni-chevron-down" data-bs-toggle="dropdown"
-              style="font-size: 12px;"> <span class="visually-hidden">Toggle Dropdown</span>
+          <div ngbDropdown class="btn-group">
+            <button type="button" class="btn btn-light" style="font-size: 14px;" data-bs-toggle="dropdown">New Group</button>
+            <button type="button" class="btn btn-light  lni lni-chevron-down" id="dropdownBasic5" ngbDropdownToggle
+              style="font-size: 12px;">
             </button>
-            <div class="dropdown-menu dropdown_hand">
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class="dropdown_hand">
               <a class="dropdown-item" (click)="openVerticallyCentered(newgroup)">New group of Items</a>
             </div>
           </div>
@@ -203,8 +200,8 @@
             <form #myForm="ngForm">
               <label>Group Name</label>
               <div class="form-group">
-                <mat-form-field appearance="outline" style="width: 100%;">
-                  <input matInput [(ngModel)]="Group_Title" name='newgroupname' placeholder="Group Name" required>
+                <mat-form-field appearance="outline radius-15" style="width: 100%;">
+                  <input matInput [(ngModel)]="Group_Title" name='newgroupname' placeholder="Group Name" required class="form-control" style="border: 1px solid chartreuse;">
                 </mat-form-field>
                 <br />
                 <!-- Place to render the image -->
@@ -225,13 +222,13 @@
               class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
           </div>
 
-          <div class="ms-auto">
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary" style="font-size: 14px;" data-bs-toggle="dropdown">Add Column</button>
-              <button type="button" class="btn btn-primary  bx bxs-plus-square" data-bs-toggle="dropdown" style="font-size: 12px;">
-                 <span class="visually-hidden">Toggle Dropdown</span>
+          <div class="col-sm-3">
+            <div ngbDropdown class="btn-group">
+              <button type="button" class="btn btn-light" style="font-size: 14px;" data-bs-toggle="dropdown"><i class="fa fa-cog mr-1"></i>Add Column</button>
+              <button type="button" class="btn btn-light  bx bxs-plus-square" id="dropdownBasic5" ngbDropdownToggle style="font-size: 12px;">
+                
               </button>
-              <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end dropdown_hand">
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">
                 <a class="dropdown-item" (click)="create_Column(Column_Types_Timeline)">Timeline</a>
                 <a class="dropdown-item" (click)="create_Column(Column_Types_Status)">Status</a>
                 <a class="dropdown-item" (click)="create_Column(Column_Types_Dropdown)">Dropdown</a>
@@ -248,19 +245,19 @@
 
 
 
-        <div
+        <div 
           *ngFor="let Group_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards[Selected_Board_Index].List_Of_Groups;  let j = index"
           [attr.data-index]="j">  
-            <div class="btn-group">
+            <div ngbDropdown class="btn-group">
               <button class="btn btn-light" data-bs-toggle="dropdown"> {{Group_.Group_Title}}</button>
-              <button type="button" class="btn btn-light  lni lni-chevron-down" data-bs-toggle="dropdown"
+              <button type="button" class="btn btn-light  lni lni-chevron-down" id="dropdownBasic5" ngbDropdownToggle
                 style="font-size: 12px;">
               </button>
-              <div class="dropdown-menu dropdown_hand">
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class="dropdown_hand">
                 <a class="dropdown-item" (click)=create_Task(j)>Add Item</a>
                 <a class="dropdown-item" (click)="openVerticallyCentered(newgroup)">Delete Group</a>
               </div>
-            </div>    
+            </div><br>
             
           <div class="table-responsive">
             <table>
@@ -278,14 +275,15 @@
 
                   <!-- item text -->
                   <td>
-                    <div class="btn-group">
+                  
+                    <div class="btn-group">                      
                     <mat-form-field appearance="outline radius-15"
                       style=" text-align: left; width: 100%; min-width: 500px;">                      
-                      <input matInput  [(ngModel)]="Item_.Item_Title" (ngModelChange)="UpdateTask(Item_)">                       
-                      <mat-icon matSuffix (click)="openNav(Item_)" class="dropdown_hand" style="margin-top: 5px;">maps_ugc</mat-icon>    
+                      <input matInput class="form-control form-control-sm"  [(ngModel)]="Item_.Item_Title" (ngModelChange)="UpdateTask(Item_)" style="margin-top: -10px;">                       
+                      <mat-icon matSuffix (click)="openNav(Item_)" class="dropdown_hand" style="margin-top: 10px;">maps_ugc</mat-icon>    
                                                                     
                     </mat-form-field>
-                    <button class="btn btn-light lni lni lni-trash" ></button>
+                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" style="height: 32px;"></button>
                   </div>
                     <!--<button class="btn    item_icon" (click)="openNav(Item_)">
                       <span class="material-icons" style="margin-left: -7px ;">maps_ugc</span>
@@ -297,8 +295,8 @@
                   <!-- Date -->
                   <td *ngFor="let kdate of Item_.List_Of_Date_columns;">
                     <mat-form-field appearance="outline radius-15" class="kdate_tab">
-                      <input matInput [matDatepicker]="myDatePicker" [(ngModel)]="kdate.Date"
-                        (ngModelChange)="UpdateTask(Item_)" class="kdate">
+                      <input matInput class="form-control form-control-sm" [matDatepicker]="myDatePicker" [(ngModel)]="kdate.Date"
+                        (ngModelChange)="UpdateTask(Item_)" class="kdate" >
                       <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
                       <mat-datepicker #myDatePicker></mat-datepicker>
                     </mat-form-field>
@@ -326,7 +324,7 @@
                     <div class="btn-group">            
                     <select [(ngModel)]="kstatus.Status_Selected_Option" class="form-control kstatus"
                       [style.background]="kstatus.Status_Selected_Option.Option_Color.get(rgba)"
-                      (ngModelChange)="UpdateTask(Item_)">                      
+                      (ngModelChange)="UpdateTask(Item_)" class="form-control form-control-sm">                      
                       <option *ngFor="let KstatusOption_ of kstatus.List_Of_Status_Opionts" [ngValue]="KstatusOption_"
                         [selected]="KstatusOption_" [style.background]="KstatusOption_.Option_Color.get(rgba)"
                         style="text-align: center;">
@@ -369,7 +367,7 @@
                     <ng-select [items]="kdropdown.List_Of_Dropdown_Options" appearance="outline radius-15"
                       [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="Dropdown_Name"
                       style="margin-top: -3px; font-size: 12px;" [(ngModel)]="kdropdown.Dropdown_Selected_Option"
-                      (ngModelChange)="UpdateTask(Item_)" class="kdropdown_tab">
+                      (ngModelChange)="UpdateTask(Item_)" class="kdropdown_tab" class="form-control form-control-sm">
                       <ng-template ng-label-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.Dropdown_Name}}</span>
                         <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
@@ -386,7 +384,7 @@
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
                         <li>
                           <mat-form-field appearance="outline">
-                          <input matInput [(ngModel)]="Dropdown_Name" name="Dropdown_Name">
+                          <input matInput class="form-control form-control-sm" [(ngModel)]="Dropdown_Name" name="Dropdown_Name">
                         </mat-form-field>
                         </li>
                           <li>
@@ -406,7 +404,7 @@
                   <td *ngFor="let ktimeline of Item_.List_Of_Timeline_columns;" class="Item_Row">
                     <div class="wrapper">
                       <mat-form-field appearance="outline radius-15" class="ktimeline_tab">
-                        <mat-date-range-input [rangePicker]="picker">
+                        <mat-date-range-input [rangePicker]="picker" class="form-control form-control-sm">
                           <input matStartDate placeholder="Start Date" [(ngModel)]="ktimeline.start_date"
                             (ngModelChange)="UpdateTask(Item_)">
                           <input matEndDate placeholder="End Date" [(ngModel)]="ktimeline.end_date"
@@ -428,7 +426,7 @@
                       [closeOnSelect]="true" [searchable]="true" bindLabel="FirstName"
                       [(ngModel)]="kpeople.Selected_People"
                       style="margin-top: -3px; font-size: 12px; text-align: center;" (ngModelChange)="UpdateTask(Item_)"
-                      class="kpeople">
+                      class="kpeople form-control form-control-sm" >
                       <ng-template ng-label-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label"><img [src]="item.filepath" width="20px" height="20px">
                           {{item.FirstName}}</span>
@@ -462,7 +460,7 @@
                   <td *ngFor="let kcheck of Item_.List_Of_Check_Box_columns;" class="Item_Row">
                     <input type="checkbox" [(ngModel)]="kcheck.Check_Box"
                       (ngModelChange)="UpdateTask(Item_)"
-                      style="margin-top: -4px; margin-bottom: -4px; align-items: center;">
+                      style="margin-top: -4px; margin-bottom: -4px; align-items: center; margin-left: 20px;">
                     <!--  {{kcheck.Check_Box}}-->
                   </td>
                   <!-- Formulas  -->
