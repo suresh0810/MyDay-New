@@ -13,6 +13,12 @@ export const Full_ROUTES: Routes = [
         loadChildren: () => import('../../pages/full-pages/full-pages.module').then(m => m.FullPagesModule)
 
     },
+    {
+        path: 'ui-icons',
+        loadChildren: () => import('../../ui-icons/ui-icons.module').then(m => m.UiIconsModule)
+
+    },
+  
    
     
     

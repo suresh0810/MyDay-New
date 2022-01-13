@@ -45,6 +45,19 @@ LoadTasks(){
   console.log("calling url : "+this.apiurl + "/loadTask");
   return this.http.get(this.apiurl + "/loadTask");
 }
+DeleteTask(Data_){
+  console.log("url : "+this.apiurl + "/deleteTaskItem");
+  return this.http.post(this.apiurl + "/deleteTaskItem", Data_);
+}
+DeleteTaskGroup(Data_){
+  console.log("url : "+this.apiurl + "/deleteTaskGroup");
+  return this.http.post(this.apiurl + "/deleteTaskGroup", Data_);
+}
+DeleteTaskWrokspace(Data_){
+  console.log("url : "+this.apiurl + "/deleteTaskworkspace");
+  return this.http.post(this.apiurl + "/deleteTaskworkspace", Data_);
+}
+
 
 //Wrokspace service
 createWorkspace(Data_){

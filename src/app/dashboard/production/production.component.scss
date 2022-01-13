@@ -80,7 +80,7 @@ select{
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: rgb(238, 237, 237);
+  background-color: #343a40;
   //background-color: rgb(156, 156, 156);
   overflow-x: hidden;
   transition: 0.5s;
@@ -99,7 +99,7 @@ select{
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: rgb(218, 216, 216);
+  background-color: #343a40;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -131,8 +131,8 @@ select{
   width: 25px; 
 
   margin-top: 0;
-  color: #726e6e;
-  background: rgb(255, 255, 255);
+  color: white;
+  background: #343a40;;
   text-align: center;
   border: white;
   border-radius: 5px;  
@@ -200,22 +200,26 @@ select{
 .text_item_update{
   padding: 0;
   margin: 0;  
-  width: 100%;  
+  width: 100%; 
+  min-height: 100px; 
+  margin-top: 5px;
+  
   height: auto;
   overflow: auto;
   position: relative;  
   line-height: 1.5;
   white-space: normal;
   box-sizing: inherit;  
+  border-radius: 5px;
 }
 
 .item-update_bt{
-  width: 75px;
+  width: 100px;
   height: 35px;
   margin-top: 15px;
   margin-bottom: 15px; 
   border-radius: 5px;  
-  margin-left: 615px;    
+  margin-left: 550px;    
 }
 
 
@@ -400,11 +404,12 @@ td:nth-child(2){width: 200px;}
 thead th{
   position: sticky;
   top: 0;
-  background: rgba(246, 245, 245, 0.199);
-  z-index: auto;
+  background: #5d646b;
+  z-index: 1;
   height: 35px;
   width: 200px;
   text-align: center;
+  
 }
 
 thead th:hover {
@@ -415,13 +420,14 @@ thead th:hover {
 thead th:nth-child(1){
   position: sticky;
   left: 0;
-  background: rgba(246, 245, 245, 0.199);
-  z-index: 1;
+  background: #5d646b;
+  z-index: 100;
   text-align: left;
   text-indent: 5px; 
+ 
 }
 thead th:nth-child(1):hover {
-  background-color: rgba(246, 245, 245, 0.301);  
+  background-color: #343a40; 
 }
 
 tbody{
@@ -442,7 +448,7 @@ tbody td:hover {
 tbody td:nth-child(1){
   position: sticky;
   left: 0;
-  background: rgba(246, 245, 245, 0.199);;
+  background: #6b859e;
   z-index: 1; 
   height: 35px;
   width: 500px;  
@@ -451,10 +457,15 @@ tbody td:nth-child(1){
   text-indent: 1px;
 }
 tbody td:nth-child(1):hover {
-  background-color: rgba(246, 245, 245, 0.301); 
+  background-color: #343a40; 
   border-left: 5px solid white; 
 }
-
+.ads{
+  height:32px;
+  width: 31px;
+  text-align: center;
+  
+}
 
 
 

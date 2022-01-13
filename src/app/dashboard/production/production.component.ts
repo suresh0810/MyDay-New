@@ -4,7 +4,6 @@ import { isThisMonth, startOfDay } from 'date-fns';
 import { User, Profile, Item, Workspace, Group, Board, Column, KDate, FirebaseUser, KStatus, KDropdown, Column_Types, KTimeline, KPeople, KText, KNumber, KCheck_Box, KFormula, Item_Update, dummy, KDropdownOption, Item_Data } from '../Classes1';
 import { FirebaseService } from '../../auth/firebase.service';
 import { DBService } from '../api/DB.service';
-
 import { Z_DATA_ERROR } from 'zlib';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -18,7 +17,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 import { Db } from 'mongodb';
 import { Color } from 'highcharts';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-production',
@@ -35,7 +34,7 @@ export class ProductionComponent implements OnInit {
   Workspace_Name: string;
   color: Color;
   rgba: Color;
-
+  searchText:string;
 
   ktimeline_end_date;
   //stackbliz
@@ -62,7 +61,9 @@ export class ProductionComponent implements OnInit {
   Column_Types_Formula: Column_Types;
   Column_Types_dummy: Column_Types;
 
-
+  List_Of_Items = [];
+  List_Of_Groups =[];
+  List_Of_Workspace_Access_index =[];
 
   newStrategyname: string;
 
@@ -100,7 +101,7 @@ export class ProductionComponent implements OnInit {
 
   sidenave: HTMLElement;
 
-  constructor(private firebaseService: FirebaseService, private DBService_: DBService, private modalService: NgbModal, private auth: AuthService) {
+  constructor(private firebaseService: FirebaseService,private toast:ToastrService, private DBService_: DBService, private modalService: NgbModal, private auth: AuthService) {
   }
 
 
@@ -199,6 +200,12 @@ export class ProductionComponent implements OnInit {
       // this.tempgroup.List_Of_Items=Data_;
     })
   }
+
+
+
+ 
+
+
 
 
   UpdateUserFristime(User_: User) {
@@ -311,8 +318,27 @@ export class ProductionComponent implements OnInit {
       this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items.push(tempItem);
 
     })
+    
 
   }
+
+  DeleteTask(Item_: Item) 
+  {
+    const index: number = this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[this.Selected_Group_Index].List_Of_Items.indexOf(Item_);
+    if (index !== -1) {
+      this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[this.Selected_Group_Index].List_Of_Items.splice(index, 1);
+    }         
+    this.DBService_.DeleteTask(Item_).subscribe((list_) => {
+      console.log("Delete Task_item : " + JSON.stringify(list_));
+     
+     this.toast.success('Task Delete Item Success!', 'Success!', {
+       timeOut:1500
+     });
+    })
+  }
+
+  
+
 
   createTask(Item_: Item) {
     this.DBService_.createTask(Item_).subscribe((Data_: ObjectId) => {
@@ -402,7 +428,21 @@ export class ProductionComponent implements OnInit {
 
   }
 
-
+  DeleteTaskGroup(group_: Group) 
+  {
+    const index: number = this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.indexOf(group_);
+    if (index !== -1) {
+      this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups.splice(index, 1);
+    }         
+    this.DBService_.DeleteTaskGroup(group_).subscribe((list_) => {
+      console.log("Delete Task_Group : " + JSON.stringify(list_));
+     
+     this.toast.success('Task Delete Group Success!', 'Success!', {
+       timeOut:1500
+     });
+    })
+  }
+ 
 
 
 

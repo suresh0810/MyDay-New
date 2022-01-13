@@ -48,8 +48,8 @@
         <!--Workspace Dropdown-->
         <div  class="ms-auto">
           <div ngbDropdown class="btn-group">
-            <button class="btn btn-light wsb">+ Workspace</button>
-            <button class="btn btn-light  lni lni-more-alt crtworkspace" id="dropdownBasic5" ngbDropdownToggle>
+            <button class="btn btn-light wsb" (click)="openVerticallyCentered(content)">+ Workspace</button>
+            <button class="btn btn-light   crtworkspace" id="dropdownBasic5" ngbDropdownToggle>
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">
               <a class="dropdown-item " (click)="openVerticallyCentered(content)">+ Add New Workspace</a>
@@ -111,7 +111,7 @@
         <!--Create Board-->
         <div class="ms-auto">
           <div ngbDropdown  class="btn-group">
-            <button class="btn btn-light wsb">+ Add Board</button>
+            <button class="btn btn-light wsb" (click)="openVerticallyCentered(newboard)">+ Add Board</button>
             <button class="btn btn-light  lni lni-chevron-down crtworkspace" id="dropdownBasic5" ngbDropdownToggle> 
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">
@@ -218,8 +218,8 @@
 
         <div class="d-lg-flex align-items-center mb-4 gap-3">
           <div class="position-relative">
-            <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"> <span
-              class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+            <input type="text" class="form-control ps-5 radius-30 " name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" > <span
+              class="position-absolute top-50 product-show translate-middle-y"></span>
           </div>
 
           <div class="col-sm-3">
@@ -246,7 +246,7 @@
 
 
         <div 
-          *ngFor="let Group_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards[Selected_Board_Index].List_Of_Groups;  let j = index"
+          *ngFor="let Group_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards[Selected_Board_Index].List_Of_Groups|filter:searchText;  let j = index"
           [attr.data-index]="j">  
             <div ngbDropdown class="btn-group">
               <button class="btn btn-light" data-bs-toggle="dropdown"> {{Group_.Group_Title}}</button>
@@ -255,7 +255,7 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class="dropdown_hand">
                 <a class="dropdown-item" (click)=create_Task(j)>Add Item</a>
-                <a class="dropdown-item" (click)="openVerticallyCentered(newgroup)">Delete Group</a>
+                <a class="dropdown-item" (click)="DeleteTaskGroup(Group_)">Delete Group</a>
               </div>
             </div><br>
             
@@ -271,7 +271,7 @@
               </thead>
               <tbody>
 
-                <tr *ngFor="let Item_ of Group_.List_Of_Items; let i = index" [attr.data-index]="i">
+                <tr *ngFor="let Item_ of Group_.List_Of_Items|filter:searchText; let i = index" [attr.data-index]="i">
 
                   <!-- item text -->
                   <td>
@@ -283,7 +283,7 @@
                       <mat-icon matSuffix (click)="openNav(Item_)" class="dropdown_hand" style="margin-top: 10px;">maps_ugc</mat-icon>    
                                                                     
                     </mat-form-field>
-                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" style="height: 32px;"></button>
+                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" style="height: 32px;" (click)="DeleteTask(Item_)"></button>
                   </div>
                     <!--<button class="btn    item_icon" (click)="openNav(Item_)">
                       <span class="material-icons" style="margin-left: -7px ;">maps_ugc</span>
@@ -321,7 +321,7 @@
 
                   <!-- Status -->
                   <td *ngFor="let kstatus of Item_.List_Of_Status_columns;">
-                    <div class="btn-group">            
+                    <div ngbDropdown class="btn-group">            
                     <select [(ngModel)]="kstatus.Status_Selected_Option" class="form-control kstatus"
                       [style.background]="kstatus.Status_Selected_Option.Option_Color.get(rgba)"
                       (ngModelChange)="UpdateTask(Item_)" class="form-control form-control-sm">                      
@@ -331,10 +331,10 @@
                         {{KstatusOption_.Option_Title}}
                       </option>                                                            
                     </select>
-                    <button type="button" class="btn btn-light  bx bxs-plus-square" data-bs-toggle="dropdown"
+                    <button type="button" class="btn btn-light  ads" id="dropdownBasic5" ngbDropdownToggle
                         style="font-size: 12px">
                       </button>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class="">
                         <li>                                            
                           <input [style.background]="color" [ngModel]="kstatus.List_Of_Status_Opionts.Option_Title" class="form-control">       
                                                                                       
@@ -363,7 +363,7 @@
                   </td>
                   <!-- Dropdown  -->
                   <td *ngFor="let kdropdown of Item_.List_Of_Dropdown_columns; let i = index" [attr.data-index]="i">
-                    <div class="btn-group">
+                    <div ngbDropdown class="btn-group">
                     <ng-select [items]="kdropdown.List_Of_Dropdown_Options" appearance="outline radius-15"
                       [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="Dropdown_Name"
                       style="margin-top: -3px; font-size: 12px;" [(ngModel)]="kdropdown.Dropdown_Selected_Option"
@@ -378,10 +378,9 @@
                  
                     </ng-select>               
                       
-                      <button type="button" class="btn btn-light  bx bxs-plus-square" data-bs-toggle="dropdown"
-                        style="font-size: 12px">
+                      <button type="button" class="btn btn-light ads" id="dropdownBasic5" ngbDropdownToggle >
                       </button>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic5">
                         <li>
                           <mat-form-field appearance="outline">
                           <input matInput class="form-control form-control-sm" [(ngModel)]="Dropdown_Name" name="Dropdown_Name">
@@ -499,6 +498,7 @@
 <div id="mySidenav" class="sidenav_Close">
   <!--{{Selected_Item.Item_Title}}-->
   <!-- Side Menu  Tab-->
+  
   <div class="col">
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">
       <h1 class="sidemenu_close">&times;</h1>
@@ -507,68 +507,64 @@
     <br />
     <div class="card">
       <div class="card-body">
-        <ul class="nav nav-tabs nav-primary" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" data-bs-toggle="tab" href="#primaryhome" role="tab" aria-selected="true">
-              <div class="d-flex align-items-center">
-                <div class="tab-icon"><i class='bx bx-cloud-upload font-18 me-1'></i>
-                </div>
-                <div class="tab-title">Updates</div>
 
-              </div>
-            </a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" data-bs-toggle="tab" href="#primaryprofile" role="tab" aria-selected="false">
-              <div class="d-flex align-items-center">
-                <div class="tab-icon"><i class='bx bx-user-pin font-18 me-1'></i>
-                </div>
-                <div class="tab-title">Files</div>
-              </div>
-            </a>
-          </li>
-
-        </ul>
-        <div class="tab-content py-3">
-
-
-
-
-
-          <div class="tab-pane fade show active" id="primaryhome" role="tabpanel">
+        <ul class="nav nav-tabs nav-tabs-primary">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#tabe-1">	<i class="icon-cloud-upload icons"></i>
+							<span class="hidden-xs">Update</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#tabe-2">	<i class="icon-folder-alt icons"></i>
+							<span class="hidden-xs">File</span>
+						</a>
+					</li>
+					<li ngbDropdown class="nav-item">
+						<a class="nav-link" href="javascript:;" id="dropdownBasic6" ngbDropdownToggle>	<i class="icon-settings"></i>
+							<span class="hidden-xs">Setting</span>
+						</a>
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic6">	
+							<a ngbDropdownItem data-toggle="tab" href="#tabe-3">Link 1</a>
+							<a ngbDropdownItem href="javascript:;">Link 2</a>
+							<a ngbDropdownItem href="javascript:;">Link 3</a>
+						</div>
+					</li>
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div id="tabe-1" class="container tab-pane active">
             <form>
-            <mat-form-field appearance="outline" class="text_item_update">
-              <textarea matInput (paste)="onPaste($event)" [(ngModel)]="Temp_Item_Update.Item_Update_Content"
-                name="item_update" class="text_item_update" >              
-              </textarea>              
-            <div *ngFor='let url of images; let i = index' style="height: 100%; width: 400px; display: inline-block;">
-              <a href="javascript:void(0)" (click)="deleteImage(url)" (click)="del(url)" class="lni lni lni-trash" style="display: none;"></a>          
-              <a href="javascript:void(0)" (click)="deleteImage(url)"  class="lni lni lni-trash" style="margin-left: 390px;"></a>
-              <img [src]="url" [(ngModel)]="Temp_Item_Update.Item_Update_files"  style="margin: 3px;" class="text_item_update">                              
-            </div>
-             <!-- <img #imgRenderer [(ngModel)]="Temp_Item_Update.Item_Update_files" class="text_item_update"  />-->
-            
-            </mat-form-field>
-            <input id="file"  type="file" name="file" [(ngModel)]="Temp_Item_Update.Item_Update_files" class="form-control" multiple="" (change)="onFileChange($event)">
-            
-            <br/>
-            <!-- Place to render the image -->                  
-            <!-- Arul Update <button class="btn btn-primary item-update_bt" (click)="create_Update()" (click)="reset()" >Update</button> -->
-            <button class="btn btn-primary item-update_bt" (click)="create_Update()" >Update</button>
-            <div class="card" *ngFor="let update_ of Selected_Item.Item_Updates;">
-              <div class="card-body">
-                {{update_.Item_Update_Content}}
-                <div *ngFor="let file_ of update_.Item_Update_files;">
-                  <img src="file_.name" alt="Paris" width="300" height="300">
-                  {{file_.name}}
-                  {{file_.webkitRelativePath}}
+              <mat-form-field style="border: 2px solid white;" class="text_item_update">
+                <textarea matInput (paste)="onPaste($event)" [(ngModel)]="Temp_Item_Update.Item_Update_Content"
+                  name="item_update" class="text_item_update" >              
+                </textarea>              
+              <div *ngFor='let url of images; let i = index' style="height: 100%; width: 400px; display: inline-block;">
+                <a href="javascript:void(0)" (click)="deleteImage(url)" (click)="del(url)" class="lni lni lni-trash" style="display: none;"></a>          
+                <a href="javascript:void(0)" (click)="deleteImage(url)"  class="lni lni lni-trash" style="margin-left: 390px;"></a>
+                <img [src]="url" [(ngModel)]="Temp_Item_Update.Item_Update_files"  style="margin: 3px;" class="text_item_update">                              
+              </div>
+               <!-- <img #imgRenderer [(ngModel)]="Temp_Item_Update.Item_Update_files" class="text_item_update"  />-->
+              
+              </mat-form-field>
+              <input id="file"  type="file" name="file" [(ngModel)]="Temp_Item_Update.Item_Update_files" class="form-control" multiple="" (change)="onFileChange($event)">
+              
+              <br/>
+              <!-- Place to render the image -->                  
+              <!-- Arul Update <button class="btn btn-primary item-update_bt" (click)="create_Update()" (click)="reset()" >Update</button> -->
+              <button class="btn btn-primary item-update_bt" (click)="create_Update()" >Update</button>
+              <div class="card" *ngFor="let update_ of Selected_Item.Item_Updates;">
+                <div class="card-body">
+                  {{update_.Item_Update_Content}}
+                  <div *ngFor="let file_ of update_.Item_Update_files;">
+                    <img src="file_.name" alt="Paris" width="300" height="300">
+                    {{file_.name}}
+                    {{file_.webkitRelativePath}}
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-          </div>
-
-          <div class="tab-pane fade" id="primaryprofile" role="tabpanel">
+            </form>
+					</div>
+					<div id="tabe-2" class="container tab-pane fade">
             <div class="card radius-15">
               <div class="card-body" >
                 <div class="card-title">
@@ -577,12 +573,15 @@
                 <hr/>
                 <input id="fancy-file-upload" type="file" name="files" accept=".pdf,.doc,.xls" multiple />               
               </div>              
-            </div>       
-          </div>
+            </div> 
+					</div>
+					<div id="tabe-3" class="container tab-pane fade">
+						<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+					</div>
+				</div>                 
+         
 
         </div>
       </div>
     </div>
-
-
   </div>
