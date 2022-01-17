@@ -157,9 +157,8 @@
         </div>-->
 
         <mat-tab-group matMultilineTab (selectedTabChange)="tabClick($event)">
-          <mat-tab *ngFor="let Item_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards; let i = index"
-          value="i" label="{{Item_.Board_Title}}"></mat-tab>
-
+          <mat-tab *ngFor="let Item_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards; let i = index" ngValue="i"
+         label="{{Item_.Board_Title}}"></mat-tab>
         </mat-tab-group>
       </div>
     </div>
@@ -242,9 +241,6 @@
             </div>
           </div>
         </div>
-
-
-
         <div 
           *ngFor="let Group_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards[Selected_Board_Index].List_Of_Groups|filter:searchText;  let j = index"
           [attr.data-index]="j">  

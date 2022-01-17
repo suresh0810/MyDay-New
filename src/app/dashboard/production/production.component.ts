@@ -313,10 +313,11 @@ export class ProductionComponent implements OnInit {
 
     //create task in DB
     this.DBService_.createTask(tempItem).subscribe((Data_: ObjectId) => {
-      tempItem._id = Data_;
+      tempItem._id = Data_;      
       this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items_id_Index.push(new Item_Data(Data_));
       this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items.push(tempItem);
-
+      console.log('temp test');
+      console.log(tempItem);
     })
     
 
@@ -343,6 +344,8 @@ export class ProductionComponent implements OnInit {
   createTask(Item_: Item) {
     this.DBService_.createTask(Item_).subscribe((Data_: ObjectId) => {
       Item_._id = Data_;
+
+      
     })
   }
 
@@ -367,9 +370,13 @@ export class ProductionComponent implements OnInit {
 
     this.DBService_.createWorkspace(tempworkspace).subscribe((Data_: ObjectId) => {
       console.log("Created Workspace ID:");
-      console.log(Data_);
-      this.User_.List_Of_Workspace_Access_index.push(new ObjectId(Data_));
+      console.log(Data_);      
+      this.User_.List_Of_Workspace_Access_index.push(new ObjectId(Data_));      
       this.UpdateUser_Database();
+      this.toast.success('Workspace Add Success!', 'Success!', {
+        timeOut:1500
+      });
+     
     })
   }
 
@@ -379,12 +386,15 @@ export class ProductionComponent implements OnInit {
   }
 
   create_boards(bname: string) {
-
     this.printindexstatus();
 
     this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.push(new Board(bname));
     this.Selected_Board_Index = this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.length - 1;
-    // this.Selected_board.Board_Title = bname;       
+    // this.Selected_board.Board_Title = bname; 
+    
+    this.toast.success('Workspace Add Success!', 'Success!', {
+      timeOut:1500
+    });
   }
 
   Create_Dropdown_Option(dopname: string, kdropdown_index: number) {
