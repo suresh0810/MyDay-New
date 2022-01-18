@@ -138,6 +138,11 @@ LoadUserData(Data_){
     return this.http.post(this.apiurl + "/createFinance_item", Data_);
   }
 
+  create_Expenses_Group(Data_){  
+    console.log("calling url : "+this.apiurl + "/create_Expenses_Group");
+    return this.http.post(this.apiurl + "/create_Expenses_Group", Data_);
+  }  
+
   UpdateFinance(Data_){  
     console.log("calling url : "+this.apiurl + "/updateFinance_item");
     return this.http.post(this.apiurl + "/updateFinance_item", Data_);

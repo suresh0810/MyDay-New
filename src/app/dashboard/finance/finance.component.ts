@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import * as chartsData from '../../shared/data/ecommerce1';
 import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
-import { User, Task, Expenses, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../Classes';
+import { User, Task, Expenses, FirebaseUser, KStatus, KstatusOption,createddate,Deadline, Expenses_list } from '../Classes';
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Pipe, PipeTransform } from '@angular/core'
 import {
   ChartComponent,
   ApexChart,
@@ -98,13 +100,16 @@ export class FinanceComponent implements OnInit {
   Temp_Task: Task;
   userName: string;
   Selected_People: string;
+  Spent_For:string;
   //FB_User: any;
   taskdetails: string;
   User_: User;
   Tasks: Task[];
   List_of_Tasks = [];  
   Expenses_List = [];
+  List_of_Expenses_Group = [];
   Temp_Expenses : Expenses;
+  Temp_Expenses_List:Expenses_list
   Finance_Item:Expenses[];
  //Global_UserList: [];
   closeResult: string = '';
@@ -128,20 +133,28 @@ export class FinanceComponent implements OnInit {
  public add2:number;
  public add3:number;
 
+ Selected_group_Index: number;
+ Selected_group_list_Index: number;
 
-  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
+  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
     
    }
 
   ngOnInit(): void {
     this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
-    this.Temp_Expenses = new Expenses("", "",  this.FirebaseUser_, "", "");
+    this.Temp_Expenses = new Expenses("", "",  this.FirebaseUser_, "", "", "");
+    this.Temp_Expenses_List =new Expenses_list("");
+
     this.getFirebaseUsers();
+
+
+    this.Selected_group_Index = 0;
+
     this.auth.user_.subscribe(user =>
       {
            // this.FB_User = user;
             console.log("this.FB_User : ");   
-            console.log(user); 
+            console.log(user.userName); 
                 
            this.Global_UserList.forEach(element => 
             {       
@@ -156,6 +169,10 @@ export class FinanceComponent implements OnInit {
             this.User_ = new User(this.FirebaseUser_); 
      //this.UpdateUserFristime(this.User_);  
       })
+
+    
+
+      
   }
 
   onKeypressEvent(event: any){
@@ -170,6 +187,30 @@ export class FinanceComponent implements OnInit {
   div(){
     this.num3 = this.add3 / this.num1  ;
   }
+
+
+  //Expenses_Group
+
+  create_Expenses_Group(_newExpenses_group :Expenses){
+    console.log(this.FirebaseUser_);   
+    _newExpenses_group.Owner_Of_The_Task={} as FirebaseUser;
+    _newExpenses_group.Owner_Of_The_Task.id = this.FirebaseUser_.id;
+    _newExpenses_group.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
+
+    this.DBService_.createFinanceitem(_newExpenses_group).subscribe((Data_) => {               
+      console.log(Data_);
+      
+      this.toast.success('Create Expenses Group Success!','Success!', {
+        timeOut:1500
+      });  
+      this.LoadFinancelistOnlyOwned();            
+    // this.LoadUserDataFromServer(this.User_);
+    });    
+  }
+
+  
+
+//Expenses_Item
 
   createFinance(_newExpenses: Expenses): void 
   {
@@ -194,12 +235,53 @@ export class FinanceComponent implements OnInit {
     });    
   }
 
+  tabClick(event) {
+    console.log(event);
+    this.Selected_group_Index = event.index;
+    // this.Selected_board.Board_Title = event.tab.textLabel;
+    // this.Selected_Group.Group_Title =this.Selected_board.Board_Title
+  }
+
+
   updateFinanceitem(_Task: Task) {
     //var temp = new Task(Index)
     this.DBService_.UpdateFinance(_Task).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));     
     })
     this.LoadFinancelistOnlyOwned();
+  }
+
+
+  create_Expenses(_newExpenses: Expenses_list){
+
+   // var nwgroup = new Expenses_list(_Task);
+
+    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(_newExpenses);
+    this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
+      console.log("Update ToDolist_item : " + JSON.stringify(list_));
+      console.log('test')
+      console.log(this.List_of_Expenses_Group[this.Selected_group_Index]) ;    
+    })
+    this.LoadFinancelistOnlyOwned();
+
+  }
+
+
+  Delete_Expenses(_newExpenses: Expenses_list) 
+  {
+   
+    const index: number = this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.indexOf(_newExpenses);
+    if (index !== -1) {
+      this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.splice(index, 1);
+    }         
+    this.DBService_.DeleteFinancelist(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
+      console.log("Delete ToDolist_item : " + JSON.stringify(list_));
+      
+      this.toast.success('Task Delete Success!', 'Success!', {
+        timeOut:1500
+      });
+      this.LoadFinancelistOnlyOwned();
+    })
   }
 
   DeleteFinance(_Task: Task) 
@@ -217,11 +299,17 @@ export class FinanceComponent implements OnInit {
       this.LoadFinancelistOnlyOwned();
     })
   }
+
+
+
+
   LoadFinancelistOnlyOwned() {
+    
     this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
-      this.Expenses_List = list_;      
+      this.Expenses_List = list_;
+      this.List_of_Expenses_Group = list_         
         console.log("usertask");
-        console.log(this.List_of_Tasks);
+        console.log(this.List_of_Expenses_Group);
      })
     }
 
@@ -255,5 +343,10 @@ export class FinanceComponent implements OnInit {
       //submit form
     }
    }
+   // Pop Model
+
+   openVerticallyCentered(content) {
+    this.modalService.open(content, { centered: true });
+  }
 
 }

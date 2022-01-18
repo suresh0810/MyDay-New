@@ -318,6 +318,9 @@ export class ProductionComponent implements OnInit {
       this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items.push(tempItem);
       console.log('temp test');
       console.log(tempItem);
+      this.toast.success('New Item Create Success!', 'Success!', {
+        timeOut:1500
+      }); 
     })
     
 
@@ -373,7 +376,7 @@ export class ProductionComponent implements OnInit {
       console.log(Data_);      
       this.User_.List_Of_Workspace_Access_index.push(new ObjectId(Data_));      
       this.UpdateUser_Database();
-      this.toast.success('Workspace Add Success!', 'Success!', {
+      this.toast.success('Workspace Create Success!', 'Success!', {
         timeOut:1500
       });
      
@@ -392,9 +395,9 @@ export class ProductionComponent implements OnInit {
     this.Selected_Board_Index = this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.length - 1;
     // this.Selected_board.Board_Title = bname; 
     
-    this.toast.success('Workspace Add Success!', 'Success!', {
+    this.toast.success('Board Create Success!', 'Success!', {
       timeOut:1500
-    });
+    });    
   }
 
   Create_Dropdown_Option(dopname: string, kdropdown_index: number) {
@@ -434,6 +437,10 @@ export class ProductionComponent implements OnInit {
 
     this.DBService_.UpdateWorkspace(this.Loaded_Wrokspaces[this.Selected_Workspace_Index]).subscribe(Data_ => {
       console.log(Data_);
+
+      this.toast.success('Group Create Success!', 'Success!', {
+        timeOut:1500
+      });       
     })
 
   }

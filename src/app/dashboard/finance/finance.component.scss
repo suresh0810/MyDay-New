@@ -127,3 +127,86 @@ td.sticky-right, th.sticky-right {
   margin-bottom: 5px; margin-left: -0px; margin-top: -0px;
 }
 
+
+
+
+  
+:host {
+  >.container {
+      max-width: 1264px;     
+      width: 100%;      
+      margin: 0 auto;
+      display: flex;      
+      justify-content: space-between;
+      background: none;
+  }
+  ::ng-deep {
+   
+      .mat-tab-group {
+          flex-direction: row;
+          
+      }
+      .mat-tab-header {
+        border-bottom: black;
+      }
+      .mat-tab-header-pagination {
+          display: none !important;
+      }
+      .mat-tab-label {
+        height: 35px;
+        width: 150px;
+        font-size: 14px; 
+        padding: 0 4px;
+        text-align: start;  
+        text-overflow: initial;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: white;
+                 
+      }     
+      .mat-tab-labels {
+        flex-direction: row;
+        background: transparent;
+      //  box-shadow:5px 5px 5px #888888;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: white;
+      }
+      .mat-tab-label.mat-tab-label-active {        
+      //  background-color:#006599;
+      background-color:#fafafa5b;
+        color: white;
+        text-transform: uppercase;
+       // box-shadow:3px 3px 3px #888888;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 1px;
+      }
+      .mat-tab-label.mat-tab-label-active:hover {
+        background-color:#fafafa5b;
+      }
+      .mat-tab-label:hover {
+          background-color: rgba(216, 216, 216, 0.226);
+      }
+     
+      .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+        background-color: green;
+    }
+      .mat-tab-body-wrapper {
+          flex: 1 1 auto;
+      }
+  }
+
+  .adicon{
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  .dropdown_hand{
+    cursor: pointer; cursor:hand;
+  }
+
+  
+}
