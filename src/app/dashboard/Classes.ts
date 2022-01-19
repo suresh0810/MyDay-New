@@ -55,54 +55,54 @@ this.end_date=end_date_;
 
 export class Expenses{
 
-    constructor(Spent_For_:string, amount_: string, Owner_FB_User_:FirebaseUser, add_:string, date:string, Expense_Group_Name_:string){ 
+    constructor( Owner_FB_User_:FirebaseUser, date:Date, Expense_Group_Name_:string){ 
         
-        this.Spent_by = [];
-        this.Spent_For =  Spent_For_;     
-        this.Spent_Amount = amount_;             
-        this.split_equaly = [];
+       // this.Spent_by = [];
+       // this.Spent_For =  Spent_For_;     
+       // this.Spent_Amount = amount_;             
+       // this.split_equaly = [];
         this.Spent_date = date;
 
        // this.Finance_item_Createddate =Finance_item_createddate_;
        this.Owner_Of_The_Task=Owner_FB_User_;
            
        this.Expense_Group_Name =Expense_Group_Name_;
-       this.Expense_Total;
+      // this.Expense_Total;
        this.List_Of_Expense = [];
 
     }
-    Spent_by:FirebaseUser[];   
-    Spent_For:string;    
-    Spent_Amount:string;     
-    split_equaly:FirebaseUser[];
-    Spent_date: string;
+   // Spent_by:FirebaseUser[];   
+   // Spent_For:string;    
+   // Spent_Amount:string;     
+    //split_equaly:FirebaseUser[];
+    Spent_date: Date;
     Owner_Of_The_Task:FirebaseUser;
     Expense_Group_Name:string;
-    Expense_Total:number;
+   // Expense_Total:number;
     List_Of_Expense:Expenses_list[]=[];     
 }
 
 export class Expenses_list{
 
-    constructor(Spent_For_:string){
+    constructor(Spent_For_:string, Owner_FB_User_:FirebaseUser){
 
-        this.Spent_by = [];
+       // this.Spent_by = [];
         this.Spent_For =  Spent_For_;     
        // this.Spent_Amount = amount_;             
        // this.split_equaly = [];
        // this.Spent_date = date;
-       // this.Owner_Of_The_Task=Owner_FB_User_;
-       this.Expenses_list_item.push(new Expenses_list_item(Spent_For_));
+        this.Owner_Of_The_Task= Owner_FB_User_;
+     
 
     }
-
-    Spent_by:FirebaseUser[];   
+    userName:string;
+    Spent_by:string;   
     Spent_For:string;    
     Spent_Amount:string;     
     split_equaly:FirebaseUser[];
     Spent_date: string;
     Owner_Of_The_Task:FirebaseUser;   
-    Expenses_list_item:Expenses_list_item[]=[] 
+    
 }
 
 export class Expenses_list_item{

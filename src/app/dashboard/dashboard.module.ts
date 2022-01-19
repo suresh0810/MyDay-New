@@ -17,7 +17,7 @@ import { FinanceComponent } from './finance/finance.component';
 import { TaskComponent } from './task/task.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
+import { SumPipeModule } from './pipe/sum.pipe';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -59,6 +59,6 @@ import { ColorPickerModule } from 'ngx-color-picker';
     FinanceComponent,
     TaskComponent,               
    ],
-    providers: [],
+    providers: [SumPipeModule],
 })
 export class DashboardModule { }

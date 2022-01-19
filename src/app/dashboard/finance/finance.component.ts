@@ -8,6 +8,9 @@ import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pipe, PipeTransform } from '@angular/core'
+import { SumPipe } from '../pipe/sum.pipe';
+
+
 import {
   ChartComponent,
   ApexChart,
@@ -82,10 +85,14 @@ export const MY_FORMATS = {
   }
 };
 
+
+
 @Component({
+  
   selector: 'app-finance',
   templateUrl: './finance.component.html',
   styleUrls: ['./finance.component.scss'],
+  
   providers: [
     {
       provide: DateAdapter,
@@ -93,9 +100,11 @@ export const MY_FORMATS = {
       deps: [MAT_DATE_LOCALE]
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    DatePipe
+    DatePipe,    
   ]
 })
+
+
 export class FinanceComponent implements OnInit {
   Temp_Task: Task;
   userName: string;
@@ -125,6 +134,10 @@ export class FinanceComponent implements OnInit {
   load:string;
   searchText;
 
+  lists_:Expenses_list[];
+
+  totalamount:number;
+
  public num1:number;
  public num2:number;
  public num3:number;
@@ -132,18 +145,28 @@ export class FinanceComponent implements OnInit {
  public add1:number;
  public add2:number;
  public add3:number;
-
+ val: number;
  Selected_group_Index: number;
  Selected_group_list_Index: number;
 
   constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
-    
+    //const a = [1,5,7];
+//const sum = a.reduce((sum, p) => sum + p);
+//console.log(sum);
+
+var total_amount = 0; 
+$.each(this.List_of_Expenses_Group[this.Selected_group_Index], function( i, v ) { total_amount += v.Spent_Amount ; });
+console.log();
+console.log(total_amount);
+
+
+
    }
 
   ngOnInit(): void {
     this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
-    this.Temp_Expenses = new Expenses("", "",  this.FirebaseUser_, "", "", "");
-    this.Temp_Expenses_List =new Expenses_list("");
+    this.Temp_Expenses = new Expenses(  this.FirebaseUser_, new Date(Date.now()), "");
+    this.Temp_Expenses_List =new Expenses_list( "", this.FirebaseUser_,);
 
     this.getFirebaseUsers();
 
@@ -170,8 +193,10 @@ export class FinanceComponent implements OnInit {
      //this.UpdateUserFristime(this.User_);  
       })
 
-    
+     
+  
 
+ 
       
   }
 
@@ -189,10 +214,24 @@ export class FinanceComponent implements OnInit {
   }
 
 
+  getTotal() {
+    let total = 0;
+    for (var i = 0; i < this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.length; i++) {
+        if (this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense[i].Spent_Amount) {
+            total += this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense[i].Spent_Amount;
+            this.totalamount = total;
+        }
+    }
+    
+    return total;
+  }
+  
+
   //Expenses_Group
 
   create_Expenses_Group(_newExpenses_group :Expenses){
-    console.log(this.FirebaseUser_);   
+    console.log(this.FirebaseUser_);  
+    _newExpenses_group.Spent_date=new Date(Date.now()); 
     _newExpenses_group.Owner_Of_The_Task={} as FirebaseUser;
     _newExpenses_group.Owner_Of_The_Task.id = this.FirebaseUser_.id;
     _newExpenses_group.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
@@ -243,7 +282,7 @@ export class FinanceComponent implements OnInit {
   }
 
 
-  updateFinanceitem(_Task: Task) {
+  updateFinanceitem(_Task: Task) {    
     //var temp = new Task(Index)
     this.DBService_.UpdateFinance(_Task).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));     
@@ -251,11 +290,15 @@ export class FinanceComponent implements OnInit {
     this.LoadFinancelistOnlyOwned();
   }
 
+ 
 
   create_Expenses(_newExpenses: Expenses_list){
-
+    _newExpenses.Spent_by = this.FirebaseUser_.userName;
+    
+   // _newExpenses.Owner_Of_The_Task={} as FirebaseUser;
+   // _newExpenses.Owner_Of_The_Task.id = this.FirebaseUser_.id;
+   // _newExpenses.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
    // var nwgroup = new Expenses_list(_Task);
-
     this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(_newExpenses);
     this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));
@@ -266,10 +309,10 @@ export class FinanceComponent implements OnInit {
 
   }
 
+  
 
-  Delete_Expenses(_newExpenses: Expenses_list) 
-  {
-   
+  Delete_Expenses(_newExpenses: Expenses_list)
+  {   
     const index: number = this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.indexOf(_newExpenses);
     if (index !== -1) {
       this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.splice(index, 1);
@@ -283,6 +326,7 @@ export class FinanceComponent implements OnInit {
       this.LoadFinancelistOnlyOwned();
     })
   }
+
 
   DeleteFinance(_Task: Task) 
   {
@@ -303,14 +347,17 @@ export class FinanceComponent implements OnInit {
 
 
 
-  LoadFinancelistOnlyOwned() {
-    
+  LoadFinancelistOnlyOwned() {    
     this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
       this.Expenses_List = list_;
       this.List_of_Expenses_Group = list_         
         console.log("usertask");
+
         console.log(this.List_of_Expenses_Group);
+       
      })
+     
+
     }
 
     getFirebaseUsers() {
@@ -330,11 +377,13 @@ export class FinanceComponent implements OnInit {
       return this.Global_UserList;
     } 
     reset(){
-      this.Temp_Expenses.Spent_by = [];
-      this.Temp_Expenses.Spent_For="";
-      this.Temp_Expenses.Spent_Amount="";
-      this.Temp_Expenses.Spent_date="";
+      this.Temp_Expenses_List.Spent_For="";
+      this.Temp_Expenses_List.Spent_Amount="";
+      this.Temp_Expenses_List.Spent_date="";
      
+    }
+    reset_group(){
+      this.Temp_Expenses.Expense_Group_Name="";
     }
 
 //input enter key

@@ -40,7 +40,7 @@ import { AuthService } from './auth/auth.service';
 import { DBService } from './dashboard/api/DB.service';
 import { FirebaseService } from './auth/firebase.service';
 
-
+import { SumPipeModule } from '../app/dashboard/pipe/sum.pipe';
 
 
 
@@ -72,7 +72,7 @@ import { FirebaseService } from './auth/firebase.service';
     DemoMaterialModule,
     Ng2SearchPipeModule
   ],
-  providers: [AuthService,DBService,FirebaseService,
+  providers: [AuthService,DBService,FirebaseService,SumPipeModule,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
   ],
  
