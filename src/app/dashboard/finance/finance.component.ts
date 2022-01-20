@@ -7,7 +7,7 @@ import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Pipe, PipeTransform } from '@angular/core'
+import { Pipe, PipeTransform } from '@angular/core';
 import { SumPipe } from '../pipe/sum.pipe';
 
 
@@ -303,9 +303,10 @@ console.log(total_amount);
     this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));
       console.log('test')
-      console.log(this.List_of_Expenses_Group[this.Selected_group_Index]) ;    
+      console.log(this.List_of_Expenses_Group[this.Selected_group_Index]) ; 
+      this.LoadFinancelistOnlyOwned();   
     })
-    this.LoadFinancelistOnlyOwned();
+    
 
   }
 

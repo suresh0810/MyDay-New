@@ -35,7 +35,7 @@
           </div>
           </div><br><br>
 
-          <div *ngFor="let _Expenses of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense; let j = index" [attr.data-index]="j">
+          <div *ngFor="let _Expenses of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let j = index" [attr.data-index]="j">
             <table style="cellspacing:2px ">
             <tr>
               <td style="width: 10%;  overflow: auto;" >
@@ -128,13 +128,7 @@
               </tr>
             </table>
             </form>          
-          </mat-toolbar>
-
-       
-        
-
-
-
+          </mat-toolbar>          
 			<!--	<ul class="nav nav-tabs nav-tabs-success">
 					<li class="nav-item" *ngFor="let _Group of List_of_Expenses_Group">
 						<a class="nav-link" data-toggle="tab" href="#{{_Group.Expense_Group_Name}}">	<i class="icon-people icons"></i>
@@ -174,7 +168,6 @@
           <!--    <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
               [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" (click)="reset()">Create
               Workspace</button>  -->
-
           </div>
         </ng-template>
 				<!-- Tab panes -->
@@ -182,20 +175,12 @@
 					<div *ngFor="let _Group of List_of_Expenses_Group"  class="container tab-pane active" id="{{_Group.Expense_Group_Name}}">
 						<p>{{_Group.Expense_Group_Name}}</p>
 						
-					</div>
-					
+					</div>					
 				</div>-->
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- Tab Group -->
-
-
-
-
-
-  
-      
+<!-- Tab Group -->      
       <!--End Row-->
