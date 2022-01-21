@@ -162,6 +162,10 @@ LoadUserData(Data_){
     console.log("url : "+this.apiurl + "/deleteFinance_item");
     return this.http.post(this.apiurl + "/deleteFinance_item", Data_);
   }
+  DeleteExpenses_list(Data_){
+    console.log("url : "+this.apiurl + "/deleteExpenses_item");
+    return this.http.post(this.apiurl + "/deleteExpenses_item", Data_);
+  }
 
   LoadFinancelistUserData(Data_){  
     console.log("calling url : "+this.apiurl + "/loadFinancelistUserData");

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
- 
+ // algodExpApiUrl:"https://mydayapi.kuvira.in",
   algodExpApiUrl:"http://localhost:3001",
   kiteAuthrizeUrl:"http://localhost:3001/kite/login",
   _User_id:"",

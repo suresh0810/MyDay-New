@@ -117,6 +117,8 @@ export class FinanceComponent implements OnInit {
   List_of_Tasks = [];  
   Expenses_List = [];
   List_of_Expenses_Group = [];
+  List_of_Expense =[];
+
   Temp_Expenses : Expenses;
   Temp_Expenses_List:Expenses_list
   Finance_Item:Expenses[];
@@ -133,8 +135,10 @@ export class FinanceComponent implements OnInit {
   Global_UserList: FirebaseUser[];
   load:string;
   searchText;
+Idsend=[]
 
-  lists_:Expenses_list[];
+List_of_Expenses = [];
+  //lists_:Expenses_list[];
 
   totalamount:number;
 
@@ -149,29 +153,21 @@ export class FinanceComponent implements OnInit {
  Selected_group_Index: number;
  Selected_group_list_Index: number;
 
+ temp_:Expenses[];
+
   constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
-    //const a = [1,5,7];
-//const sum = a.reduce((sum, p) => sum + p);
-//console.log(sum);
 
-var total_amount = 0; 
-$.each(this.List_of_Expenses_Group[this.Selected_group_Index], function( i, v ) { total_amount += v.Spent_Amount ; });
-console.log();
-console.log(total_amount);
-
-
-
-   }
+  }
 
   ngOnInit(): void {
-    this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+  //  this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     this.Temp_Expenses = new Expenses(  this.FirebaseUser_, new Date(Date.now()), "");
     this.Temp_Expenses_List =new Expenses_list( "", this.FirebaseUser_,);
 
     this.getFirebaseUsers();
 
-
     this.Selected_group_Index = 0;
+    this.Selected_group_list_Index =0;
 
     this.auth.user_.subscribe(user =>
       {
@@ -194,7 +190,9 @@ console.log(total_amount);
       })
 
      
-  
+    
+    
+      
 
  
       
@@ -213,6 +211,7 @@ console.log(total_amount);
     this.num3 = this.add3 / this.num1  ;
   }
 
+//Expenses Total Amount
 
   getTotal() {
     let total = 0;
@@ -227,7 +226,7 @@ console.log(total_amount);
   }
   
 
-  //Expenses_Group
+  //Create Expenses_Group
 
   create_Expenses_Group(_newExpenses_group :Expenses){
     console.log(this.FirebaseUser_);  
@@ -236,9 +235,12 @@ console.log(total_amount);
     _newExpenses_group.Owner_Of_The_Task.id = this.FirebaseUser_.id;
     _newExpenses_group.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
 
-    this.DBService_.createFinanceitem(_newExpenses_group).subscribe((Data_) => {               
-      console.log(Data_);
-      
+    this.List_of_Expenses.push(_newExpenses_group);
+
+    this.DBService_.create_Expenses_Group(_newExpenses_group).subscribe((list_: ObjectId) => {      
+    // _newExpenses_group._id = new ObjectId(list_.id);  
+    // this.List_of_Expenses.push(new ObjectId(list_.id))     
+      console.log(list_);     
       this.toast.success('Create Expenses Group Success!','Success!', {
         timeOut:1500
       });  
@@ -251,28 +253,30 @@ console.log(total_amount);
 
 //Expenses_Item
 
-  createFinance(_newExpenses: Expenses): void 
-  {
+ // createFinance(_newExpenses: Expenses): void 
+ // {
    /// _newExpenses.Spent_date=new Date(Date.now());
-    console.log(this.FirebaseUser_);   
-    _newExpenses.Owner_Of_The_Task={} as FirebaseUser;
-    _newExpenses.Owner_Of_The_Task.id = this.FirebaseUser_.id;
-    _newExpenses.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
+   // console.log(this.FirebaseUser_);   
+   // _newExpenses.Owner_Of_The_Task={} as FirebaseUser;
+   // _newExpenses.Owner_Of_The_Task.id = this.FirebaseUser_.id;
+  //  _newExpenses.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
   
 // calculate per person amount.
 // Push the amount in all user's Credit database.
 // Credit-> Credit_Provider,Credit_Reciver,Credit_Amount,Credit_Expense_ID.
     
-    this.DBService_.createFinanceitem(_newExpenses).subscribe((Data_) => {               
-      console.log(Data_);
+  //  this.DBService_.createFinanceitem(_newExpenses).subscribe((Data_) => {               
+    //  console.log(Data_);
       
-      this.toast.success('Create Task Success!','Success!', {
-        timeOut:1500
-      });  
-      this.LoadFinancelistOnlyOwned();          
+    //  this.toast.success('Create Task Success!','Success!', {
+     //   timeOut:1500
+     // });  
+     // this.LoadFinancelistOnlyOwned();          
     // this.LoadUserDataFromServer(this.User_);
-    });    
-  }
+   // });    
+  //}
+
+  //tab index
 
   tabClick(event) {
     console.log(event);
@@ -282,51 +286,82 @@ console.log(total_amount);
   }
 
 
-  updateFinanceitem(_Task: Task) {    
-    //var temp = new Task(Index)
-    this.DBService_.UpdateFinance(_Task).subscribe((list_) => {
+  updateFinanceitem(_newExpenses: Expenses_list) {    
+   // var temp = new Expenses_list(index)
+   this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.length-1;
+    this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));     
     })
     this.LoadFinancelistOnlyOwned();
   }
-
- 
-
-  create_Expenses(_newExpenses: Expenses_list){
-    _newExpenses.Spent_by = this.FirebaseUser_.userName;
-    
-   // _newExpenses.Owner_Of_The_Task={} as FirebaseUser;
-   // _newExpenses.Owner_Of_The_Task.id = this.FirebaseUser_.id;
-   // _newExpenses.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
-   // var nwgroup = new Expenses_list(_Task);
-    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(_newExpenses);
-    this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
-      console.log("Update ToDolist_item : " + JSON.stringify(list_));
-      console.log('test')
-      console.log(this.List_of_Expenses_Group[this.Selected_group_Index]) ; 
-      this.LoadFinancelistOnlyOwned();   
-    })
-    
-
-  }
+  
 
   
 
-  Delete_Expenses(_newExpenses: Expenses_list)
-  {   
+  Delete_Expense_group(_newExpenses:Expenses)
+  {     
+    const index: number = this.List_of_Expenses_Group.indexOf(_newExpenses);
+    if (index !== -1) {
+      this.List_of_Expenses_Group.splice(index, 1);
+    }        
+    this.DBService_.DeleteFinancelist(_newExpenses).subscribe((list_:ObjectId) => {
+    //  _newExpenses._id = list_
+      console.log("Delete ToDolist_item : " + JSON.stringify(list_));
+      this.LoadFinancelistOnlyOwned();
+      
+      this.toast.success('Task Delete Success!', 'Success!', {
+        timeOut:1500
+      });
+      
+    })
+  }
+
+
+  Delete_Expense(_newExpenses:Expenses_list)
+  {
+    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.length-1;
     const index: number = this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.indexOf(_newExpenses);
     if (index !== -1) {
       this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.splice(index, 1);
-    }         
-    this.DBService_.DeleteFinancelist(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
-      console.log("Delete ToDolist_item : " + JSON.stringify(list_));
+    }           
+    this.DBService_.DeleteExpenses_list(index).subscribe((list_:ObjectId) => {
+     // _newExpenses._id = list_     
+      console.log("Delete Expense list : " + JSON.stringify(list_));
       
       this.toast.success('Task Delete Success!', 'Success!', {
         timeOut:1500
       });
       this.LoadFinancelistOnlyOwned();
-    })
+    }),(error) => {
+  console.log(error);
+}
+    
   }
+ 
+
+  create_Expenses(_newExpenses: Expenses_list){
+
+    if(this.Temp_Expenses_List.Spent_Amount){
+    _newExpenses.Spent_by = this.FirebaseUser_.userName;  
+
+    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(_newExpenses);
+    this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_: ObjectId) => {
+      _newExpenses._id = new ObjectId(list_.id); 
+     // this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(new ObjectId(_newExpenses._id));
+     // this.Idsend.push(new ObjectId(list_));
+      console.log("Update ToDolist_item : " + JSON.stringify(list_));
+      console.log('test')
+      console.log(this.List_of_Expenses_Group[this.Selected_group_Index]); 
+      this.LoadFinancelistOnlyOwned();   
+    })
+  }else{
+    this.toast.warning('Please Enter The Amount');
+  }
+  }
+
+ 
+
+  
 
 
   DeleteFinance(_Task: Task) 
@@ -349,12 +384,16 @@ console.log(total_amount);
 
 
   LoadFinancelistOnlyOwned() {    
-    this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
+    this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: Expenses[]) => {
       this.Expenses_List = list_;
       this.List_of_Expenses_Group = list_         
         console.log("usertask");
-
         console.log(this.List_of_Expenses_Group);
+
+        if(list_.length==0){
+          this.create_Expenses_Group(this.Temp_Expenses);       
+         }
+        
        
      })
      

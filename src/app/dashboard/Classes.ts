@@ -69,12 +69,17 @@ export class Expenses{
        this.Expense_Group_Name =Expense_Group_Name_;
       // this.Expense_Total;
        this.List_Of_Expense = [];
+       
+
+      
 
     }
    // Spent_by:FirebaseUser[];   
    // Spent_For:string;    
    // Spent_Amount:string;     
     //split_equaly:FirebaseUser[];
+
+    _id:ObjectId;
     Spent_date: Date;
     Owner_Of_The_Task:FirebaseUser;
     Expense_Group_Name:string;
@@ -101,7 +106,8 @@ export class Expenses_list{
     Spent_Amount:string;     
     split_equaly:FirebaseUser[];
     Spent_date: string;
-    Owner_Of_The_Task:FirebaseUser;   
+    Owner_Of_The_Task:FirebaseUser; 
+    _id:ObjectId;  
     
 }
 

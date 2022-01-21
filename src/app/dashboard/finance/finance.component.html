@@ -16,10 +16,12 @@
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-body">
+        <div>
         <mat-tab-group  matMultilineTab (selectedTabChange)="tabClick($event)" class="nav nav-tabs nav-tabs-success">
          
           <mat-tab class="mats" *ngFor="let _Group of List_of_Expenses_Group; let i = index" ngValue="i"
-         label="{{_Group.Expense_Group_Name}}" ><i class="fa fa-plus-square dropdown_hand adicon" (click)="openVerticallyCentered(Expenses_Add)"></i>							
+         label="{{_Group.Expense_Group_Name}}" ><i class="fa fa-plus-square dropdown_hand adicon" (click)="openVerticallyCentered(Expenses_Add)"></i>	
+         <i class="zmdi zmdi-delete dropdown_hand adicon" (click)="Delete_Expense_group(_Group)"></i>						
          </mat-tab>       			        
         </mat-tab-group>
        
@@ -29,43 +31,43 @@
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">           
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" >Delete Group</a>
+            <a class="dropdown-item"  >Delete Group</a>
             <a class="dropdown-item" (click)="openVerticallyCentered(Expenses_Add)">Add Group</a>
             
           </div>
           </div><br><br>
-
-          <div *ngFor="let _Expenses of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let j = index" [attr.data-index]="j">
+        </div>
+          <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
             <table style="cellspacing:2px ">
             <tr>
               <td style="width: 10%;  overflow: auto;" >
                 <div class="position-relative has-icon-right" >
-                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_Expenses.Spent_by"
-                    name="_Expenses.Spent_For" on-focusout="updateFinanceitem(_Expenses)">
+                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_Expense.Spent_by"
+                    name="_Expense.Spent_For" on-focusout="updateFinanceitem(_Expense)">
                 </div>
               </td>
             <td style="width: 30%;  overflow: auto;">
               <div class="position-relative has-icon-right">
-                <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_Expenses.Spent_For"
-                  name="_Expenses.Spent_For" on-focusout="updateFinanceitem(_Expenses)">
+                <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_Expense.Spent_For"
+                  name="_Expense.Spent_For" on-focusout="updateFinanceitem(_Expense)">
               </div>
             </td>
             <td style="width: 14%;  overflow: auto;">
               <div class="position-relative has-icon-right">
               <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">                
-                <input matInput [matDatepicker]="picker" [(ngModel)]="_Expenses.Spent_date" name="_Expenses.Spent_date" (ngModelChange)="updateFinanceitem(_Expenses)">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="_Expense.Spent_date" name="_Expense.Spent_date" (ngModelChange)="updateFinanceitem(_Expense)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field></div>
             </td>  
             <td style="width: 14%;  overflow: auto;">
               <div class="position-relative has-icon-right">
-                <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_Expenses.Spent_Amount"
-                  name="_Expenses.Spent_Amount" on-focusout="updateFinanceitem(_Expenses)">
+                <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_Expense.Spent_Amount"
+                  name="_Expense.Spent_Amount" disabled>
               </div>
             </td>            
             <td style="width: 2%; ">
-              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(_Expenses)">
+              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expense(_Expense)">
               </button>
             </td> 
           </tr>
@@ -121,9 +123,9 @@
                 </td>                                            
                            
                 <td> <!-- Temp_Finance_Items.split_equaly-->
-                  <input type="submit" (window:keypress.enter)="onSomeAction($event)" class="btn  btn-block btn-light form-control"
+                  <input type="submit"  class="btn  btn-block btn-light form-control"
                     style=" border-radius: 2px; color: white;  height: 38px;"
-                    (click)="create_Expenses(Temp_Expenses_List)" (click)="reset()" value="Save">
+                    (click)="create_Expenses(Temp_Expenses_List)"  value="Save" (click)="reset()" (window:keypress.enter)="onSomeAction($event)">
                 </td>
               </tr>
             </table>
@@ -163,7 +165,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
             <button type="button" class="btn btn-primary" (click)="create_Expenses_Group(Temp_Expenses)" (click)="reset_group()"
-              [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" >Create Group Name</button>
+              [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Create Group Name</button>
 
           <!--    <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
               [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" (click)="reset()">Create
