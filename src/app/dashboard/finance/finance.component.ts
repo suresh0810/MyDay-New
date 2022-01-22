@@ -9,7 +9,8 @@ import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pipe, PipeTransform } from '@angular/core';
 import { SumPipe } from '../pipe/sum.pipe';
-
+import { Observable } from 'rxjs/Observable';
+import {tap, map, delay} from 'rxjs/operators';
 
 import {
   ChartComponent,
@@ -117,7 +118,7 @@ export class FinanceComponent implements OnInit {
   List_of_Tasks = [];  
   Expenses_List = [];
   List_of_Expenses_Group = [];
-  List_of_Expense =[];
+  List_Of_Expense =[];
 
   Temp_Expenses : Expenses;
   Temp_Expenses_List:Expenses_list
@@ -137,7 +138,7 @@ export class FinanceComponent implements OnInit {
   searchText;
 Idsend=[]
 
-List_of_Expenses = [];
+List_of_Expenses=[];
   //lists_:Expenses_list[];
 
   totalamount:number;
@@ -154,7 +155,7 @@ List_of_Expenses = [];
  Selected_group_list_Index: number;
 
  temp_:Expenses[];
-
+ total;
   constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
 
   }
@@ -193,7 +194,7 @@ List_of_Expenses = [];
     
     
       
-
+      
  
       
   }
@@ -220,8 +221,7 @@ List_of_Expenses = [];
             total += this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense[i].Spent_Amount;
             this.totalamount = total;
         }
-    }
-    
+    }    
     return total;
   }
   
@@ -234,8 +234,7 @@ List_of_Expenses = [];
     _newExpenses_group.Owner_Of_The_Task={} as FirebaseUser;
     _newExpenses_group.Owner_Of_The_Task.id = this.FirebaseUser_.id;
     _newExpenses_group.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
-
-    this.List_of_Expenses.push(_newExpenses_group);
+    
 
     this.DBService_.create_Expenses_Group(_newExpenses_group).subscribe((list_: ObjectId) => {      
     // _newExpenses_group._id = new ObjectId(list_.id);  
@@ -319,15 +318,14 @@ List_of_Expenses = [];
 
   Delete_Expense(_newExpenses:Expenses_list)
   {
-    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.length-1;
-    const index: number = this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.indexOf(_newExpenses);
-    if (index !== -1) {
-      this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.splice(index, 1);
+   // this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.length-1;
+    const data_: number = this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.indexOf(_newExpenses);
+    if (data_ !== -1) {
+      this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.splice(data_, 1);
     }           
-    this.DBService_.DeleteExpenses_list(index).subscribe((list_:ObjectId) => {
+    this.DBService_.DeleteExpenses_list(data_).subscribe((list_:ObjectId) => {
      // _newExpenses._id = list_     
-      console.log("Delete Expense list : " + JSON.stringify(list_));
-      
+      console.log("Delete Expense list : " + JSON.stringify(list_));      
       this.toast.success('Task Delete Success!', 'Success!', {
         timeOut:1500
       });
@@ -353,48 +351,28 @@ List_of_Expenses = [];
       console.log('test')
       console.log(this.List_of_Expenses_Group[this.Selected_group_Index]); 
       this.LoadFinancelistOnlyOwned();   
+      this.toast.success('Expenses Create Success!', 'Success!', {
+        timeOut:1500
+      });
     })
   }else{
     this.toast.warning('Please Enter The Amount');
   }
   }
 
- 
-
-  
-
-
-  DeleteFinance(_Task: Task) 
-  {
-    const index: number = this.List_of_Tasks.indexOf(_Task);
-    if (index !== -1) {
-        this.List_of_Tasks.splice(index, 1);
-    }         
-    this.DBService_.DeleteFinancelist(_Task).subscribe((list_) => {
-      console.log("Delete ToDolist_item : " + JSON.stringify(list_));
-      
-      this.toast.success('Task Delete Success!', 'Success!', {
-        timeOut:1500
-      });
-      this.LoadFinancelistOnlyOwned();
-    })
-  }
-
-
-
 
   LoadFinancelistOnlyOwned() {    
     this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: Expenses[]) => {
-      this.Expenses_List = list_;
-      this.List_of_Expenses_Group = list_         
+     // this.Expenses_List = list_;
+     
+      this.List_of_Expenses_Group = list_  ;  
+     this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense = list_
+     
         console.log("usertask");
-        console.log(this.List_of_Expenses_Group);
-
+        console.log(this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense);
         if(list_.length==0){
           this.create_Expenses_Group(this.Temp_Expenses);       
-         }
-        
-       
+         }            
      })
      
 

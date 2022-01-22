@@ -26,7 +26,7 @@
         </mat-tab-group>
        
         <div ngbDropdown class="btn-group">
-          <button class="btn btn-light wsb" >{{List_of_Expenses_Group[Selected_group_Index].Expense_Group_Name}} | Count : {{List_of_Expenses_Group[Selected_group_Index].List_Of_Expense.length}}</button>
+          
           <button class="btn btn-light   crtworkspace" id="dropdownBasic5" ngbDropdownToggle>
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">           
@@ -37,7 +37,7 @@
           </div>
           </div><br><br>
         </div>
-          <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
+          <div *ngFor="let _Expense of List_of_Expenses_Group[Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
             <table style="cellspacing:2px ">
             <tr>
               <td style="width: 10%;  overflow: auto;" >
@@ -85,7 +85,7 @@
              
             </td>  
             <td style="width: 14%;  overflow: auto;">
-              <h4 class="form-control form-control-sm" style="width: 310px; text-align: center; align-items: center;">Total : Rs. {{totalamount}}</h4>
+              <h4 class="form-control form-control-sm" style="width: 310px; text-align: center; align-items: center;">Total : Rs. <input disabled class="total" type="button" value='{{ getTotal() }}'  /></h4>
             </td>            
             <td style="width: 2%; ">
              

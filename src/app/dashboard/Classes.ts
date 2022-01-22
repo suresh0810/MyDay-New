@@ -111,27 +111,6 @@ export class Expenses_list{
     
 }
 
-export class Expenses_list_item{
-
-    constructor(Spent_For_:string){
-
-        this.Spent_by = [];
-        this.Spent_For =  Spent_For_;     
-       // this.Spent_Amount = amount_;             
-       // this.split_equaly = [];
-       // this.Spent_date = date;
-       // this.Owner_Of_The_Task=Owner_FB_User_;
-
-    }
-
-    Spent_by:FirebaseUser[];   
-    Spent_For:string;    
-    Spent_Amount:string;     
-    split_equaly:FirebaseUser[];
-    Spent_date: string;
-    Owner_Of_The_Task:FirebaseUser;    
-}
-
 
 
 
