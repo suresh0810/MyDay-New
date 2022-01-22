@@ -37,7 +37,7 @@
           </div>
           </div><br><br>
         </div>
-          <div *ngFor="let _Expense of List_of_Expenses_Group[Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
+          <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
             <table style="cellspacing:2px ">
             <tr>
               <td style="width: 10%;  overflow: auto;" >
@@ -103,20 +103,20 @@
                   </td>
                 <td style="width: 300px;">
                   <div class="position-relative has-icon-right">
-                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Expenses_List.Spent_For" name="Temp_Expenses_List.Spent_For" placeholder="Spent_For"
+                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_For" name="Temp_Expense.Spent_For" placeholder="Spent_For"
                       class="form-control">
                   </div>
                 </td>
                 <td style="width: 300px;">
                   <div class="position-relative has-icon-right">
-                    <input type="number" style="width: 100%; " [(ngModel)]="Temp_Expenses_List.Spent_Amount" name="Temp_Expenses_List.Spent_Amount" placeholder="Spent_Amount"
+                    <input type="number" style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_Amount" name="Temp_Expense.Spent_Amount" placeholder="Spent_Amount"
                       class="form-control">
                   </div>
                 </td>
                 <td style="width: 14%;  overflow: auto;">
                   <div class="position-relative has-icon-right">
                   <mat-form-field appearance="outline radius-15" class="form-control">                
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Expenses_List.Spent_date" name="Temp_Expenses_List.Spent_date" placeholder="Spent_date">
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Expense.Spent_date" name="Temp_Expense.Spent_date" placeholder="Spent_date">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field></div>
@@ -125,7 +125,7 @@
                 <td> <!-- Temp_Finance_Items.split_equaly-->
                   <input type="submit"  class="btn  btn-block btn-light form-control"
                     style=" border-radius: 2px; color: white;  height: 38px;"
-                    (click)="create_Expenses(Temp_Expenses_List)"  value="Save" (click)="reset()" (window:keypress.enter)="onSomeAction($event)">
+                    (click)="create_Expenses(Temp_Expense)"  value="Save" (click)="reset()" (window:keypress.enter)="onSomeAction($event)">
                 </td>
               </tr>
             </table>
@@ -155,7 +155,7 @@
               <label>Expenses Group Name</label>
               <div class="form-group">
                 <mat-form-field appearance="outline radius-15" class="" style="width: 100%; height: 100%;">
-                  <input matInput [(ngModel)]="Temp_Expenses.Expense_Group_Name" name='Temp_Expenses.Expense_Group_Name'  required class="form-control" style="border: 1px solid chartreuse;">
+                  <input matInput [(ngModel)]="Temp_Expense_Group.Expense_Group_Name" name='Temp_Expense_Group.Expense_Group_Name'  required class="form-control" style="border: 1px solid chartreuse;">
                 </mat-form-field>
                 <br><br>                
                 <!-- Place to render the image -->
@@ -164,7 +164,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="create_Expenses_Group(Temp_Expenses)" (click)="reset_group()"
+            <button type="button" class="btn btn-primary" (click)="create_Expenses_Group(Temp_Expense_Group)" (click)="reset_group()"
               [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Create Group Name</button>
 
           <!--    <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"

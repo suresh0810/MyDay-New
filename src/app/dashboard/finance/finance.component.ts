@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as chartsData from '../../shared/data/ecommerce1';
 import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
-import { User, Task, Expenses, FirebaseUser, KStatus, KstatusOption,createddate,Deadline, Expenses_list } from '../Classes';
+import { User, Task,  FirebaseUser, KStatus, KstatusOption,createddate,Deadline, Expense_Group,Expense} from '../Classes';
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
@@ -120,9 +120,9 @@ export class FinanceComponent implements OnInit {
   List_of_Expenses_Group = [];
   List_Of_Expense =[];
 
-  Temp_Expenses : Expenses;
-  Temp_Expenses_List:Expenses_list
-  Finance_Item:Expenses[];
+  Temp_Expense_Group : Expense_Group;
+  Temp_Expense:Expense
+ // Finance_Item:Expenses[];
  //Global_UserList: [];
   closeResult: string = '';
   FirebaseUser_: FirebaseUser;
@@ -154,7 +154,7 @@ Idsend=[]
  Selected_group_Index: number;
  Selected_group_list_Index: number;
 
- temp_:Expenses[];
+
  total;
   constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
 
@@ -162,13 +162,13 @@ Idsend=[]
 
   ngOnInit(): void {
   //  this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
-    this.Temp_Expenses = new Expenses(  this.FirebaseUser_, new Date(Date.now()), "");
-    this.Temp_Expenses_List =new Expenses_list( "", this.FirebaseUser_,);
+    this.Temp_Expense_Group= new Expense_Group(  this.FirebaseUser_, new Date(Date.now()), "");
+    this.Temp_Expense =new Expense( "", this.FirebaseUser_,0,this.Temp_Expense_Group.Database_id, this.Global_UserList,"" );
 
     this.getFirebaseUsers();
 
     this.Selected_group_Index = 0;
-    this.Selected_group_list_Index =0;
+    //this.Selected_group_list_Index =0;
 
     this.auth.user_.subscribe(user =>
       {
@@ -228,16 +228,14 @@ Idsend=[]
 
   //Create Expenses_Group
 
-  create_Expenses_Group(_newExpenses_group :Expenses){
+  create_Expenses_Group(_newExpens_group :Expense_Group){
     console.log(this.FirebaseUser_);  
-    _newExpenses_group.Spent_date=new Date(Date.now()); 
-    _newExpenses_group.Owner_Of_The_Task={} as FirebaseUser;
-    _newExpenses_group.Owner_Of_The_Task.id = this.FirebaseUser_.id;
-    _newExpenses_group.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
-    
-
-    this.DBService_.create_Expenses_Group(_newExpenses_group).subscribe((list_: ObjectId) => {      
-    // _newExpenses_group._id = new ObjectId(list_.id);  
+    _newExpens_group.Spent_date=new Date(Date.now()); 
+    _newExpens_group.Owner_Of_The_Task={} as FirebaseUser;
+    _newExpens_group.Owner_Of_The_Task.id = this.FirebaseUser_.id;
+    _newExpens_group.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;   
+    this.DBService_.create_Expenses_Group(_newExpens_group).subscribe((list_: ObjectId) => {      
+      _newExpens_group.Database_id = new ObjectId(list_.id);  
     // this.List_of_Expenses.push(new ObjectId(list_.id))     
       console.log(list_);     
       this.toast.success('Create Expenses Group Success!','Success!', {
@@ -285,7 +283,7 @@ Idsend=[]
   }
 
 
-  updateFinanceitem(_newExpenses: Expenses_list) {    
+  updateFinanceitem(_newExpenses: Expense) {    
    // var temp = new Expenses_list(index)
    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.length-1;
     this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_) => {
@@ -297,7 +295,7 @@ Idsend=[]
 
   
 
-  Delete_Expense_group(_newExpenses:Expenses)
+  Delete_Expense_group(_newExpenses:Expense_Group)
   {     
     const index: number = this.List_of_Expenses_Group.indexOf(_newExpenses);
     if (index !== -1) {
@@ -316,7 +314,7 @@ Idsend=[]
   }
 
 
-  Delete_Expense(_newExpenses:Expenses_list)
+  Delete_Expense(_newExpenses:Expense)
   {
    // this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.length-1;
     const data_: number = this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.indexOf(_newExpenses);
@@ -337,16 +335,14 @@ Idsend=[]
   }
  
 
-  create_Expenses(_newExpenses: Expenses_list){
+  create_Expenses(_newExpense: Expense){
+    
+    _newExpense.Spent_by = this.FirebaseUser_.userName; 
+    _newExpense.Database_id = this.Temp_Expense_Group.Database_id; 
 
-    if(this.Temp_Expenses_List.Spent_Amount){
-    _newExpenses.Spent_by = this.FirebaseUser_.userName;  
-
-    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(_newExpenses);
+    this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(_newExpense);
     this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_: ObjectId) => {
-      _newExpenses._id = new ObjectId(list_.id); 
-     // this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(new ObjectId(_newExpenses._id));
-     // this.Idsend.push(new ObjectId(list_));
+        
       console.log("Update ToDolist_item : " + JSON.stringify(list_));
       console.log('test')
       console.log(this.List_of_Expenses_Group[this.Selected_group_Index]); 
@@ -355,23 +351,22 @@ Idsend=[]
         timeOut:1500
       });
     })
-  }else{
-    this.toast.warning('Please Enter The Amount');
-  }
+ 
   }
 
 
   LoadFinancelistOnlyOwned() {    
-    this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: Expenses[]) => {
-     // this.Expenses_List = list_;
-     
+    this.DBService_.LoadFinancelistOnlyOwned(this.FirebaseUser_).subscribe((list_: Expense[]) => {
+     // this.Expenses_List = list_;     
       this.List_of_Expenses_Group = list_  ;  
-     this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense = list_
+    // this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense = list_
      
         console.log("usertask");
-        console.log(this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense);
+
+        console.log(this.List_of_Expenses_Group);
+
         if(list_.length==0){
-          this.create_Expenses_Group(this.Temp_Expenses);       
+          this.create_Expenses_Group(this.Temp_Expense_Group);                
          }            
      })
      
@@ -395,13 +390,13 @@ Idsend=[]
       return this.Global_UserList;
     } 
     reset(){
-      this.Temp_Expenses_List.Spent_For="";
-      this.Temp_Expenses_List.Spent_Amount="";
-      this.Temp_Expenses_List.Spent_date="";
+      this.Temp_Expense.Spent_For="";
+      this.Temp_Expense.Spent_Amount=0;
+     
      
     }
     reset_group(){
-      this.Temp_Expenses.Expense_Group_Name="";
+      this.Temp_Expense_Group.Expense_Group_Name="";
     }
 
 //input enter key

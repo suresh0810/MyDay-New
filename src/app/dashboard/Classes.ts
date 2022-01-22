@@ -74,7 +74,7 @@ export class Expense_Group{
 
 export class Expense{
 
-    constructor(Spent_For_:string, Owner_FB_User_:FirebaseUser,Spent_Amount_:number,Database_Group_id_:ObjectId,  Spent_For_User_List_:FirebaseUser[],Spent_by_:FirebaseUser ){
+    constructor(Spent_For_:string, Owner_FB_User_:FirebaseUser,Spent_Amount_:number,Database_Group_id_:ObjectId,  Spent_For_User_List_:FirebaseUser[],Spent_by_:string ){
 
         this.Spent_by=Spent_by_;
         this.Spent_For_User_List=  Spent_For_User_List_;
@@ -84,7 +84,7 @@ export class Expense{
         this.Database_Group_id=Database_Group_id_;
     }
 
-    Spent_by:FirebaseUser;   
+    Spent_by:string;   
     Spent_For:string;    
     Spent_Amount:number;     
     Spent_For_User_List:FirebaseUser[];
