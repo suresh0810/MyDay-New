@@ -53,62 +53,48 @@ this.end_date=end_date_;
     end_date:Date;
 }
 
-export class Expenses{
+export class Expense_Group{
 
-    constructor( Owner_FB_User_:FirebaseUser, date:Date, Expense_Group_Name_:string){ 
-        
-       // this.Spent_by = [];
-       // this.Spent_For =  Spent_For_;     
-       // this.Spent_Amount = amount_;             
-       // this.split_equaly = [];
+    constructor(Owner_FB_User_:FirebaseUser, date:Date, Expense_Group_Name_:string){
         this.Spent_date = date;
 
-       // this.Finance_item_Createddate =Finance_item_createddate_;
-       this.Owner_Of_The_Task=Owner_FB_User_;
-           
-       this.Expense_Group_Name =Expense_Group_Name_;
-      // this.Expense_Total;
-       this.List_Of_Expense = [];
-       
-
-      
-
+        this.Owner_Of_The_Task=Owner_FB_User_;           
+        this.Expense_Group_Name =Expense_Group_Name_;
+        this.List_Of_Expense = [];
     }
-   // Spent_by:FirebaseUser[];   
-   // Spent_For:string;    
-   // Spent_Amount:string;     
-    //split_equaly:FirebaseUser[];
 
-    _id:ObjectId;
+    Database_id:ObjectId;
     Spent_date: Date;
     Owner_Of_The_Task:FirebaseUser;
     Expense_Group_Name:string;
-   // Expense_Total:number;
-    List_Of_Expense:Expenses_list[]=[];     
+    Expense_Total:number;
+    List_Of_Expense:Expense[]=[];  
+
 }
 
-export class Expenses_list{
+export class Expense{
 
-    constructor(Spent_For_:string, Owner_FB_User_:FirebaseUser){
+    constructor(Spent_For_:string, Owner_FB_User_:FirebaseUser,Spent_Amount_:number,Database_Group_id_:ObjectId,  Spent_For_User_List_:FirebaseUser[],Spent_by_:FirebaseUser ){
 
-       // this.Spent_by = [];
-        this.Spent_For =  Spent_For_;     
-       // this.Spent_Amount = amount_;             
-       // this.split_equaly = [];
-       // this.Spent_date = date;
-        this.Owner_Of_The_Task= Owner_FB_User_;
-     
-
+        this.Spent_by=Spent_by_;
+        this.Spent_For_User_List=  Spent_For_User_List_;
+        this.Spent_For =  Spent_For_;   
+        this.Owner_Of_The_Expense= Owner_FB_User_;
+        this.Spent_Amount=Spent_Amount_;
+        this.Database_Group_id=Database_Group_id_;
     }
-    userName:string;
-    Spent_by:string;   
+
+    Spent_by:FirebaseUser;   
     Spent_For:string;    
-    Spent_Amount:string;     
-    split_equaly:FirebaseUser[];
-    Spent_date: string;
-    Owner_Of_The_Task:FirebaseUser; 
-    _id:ObjectId;  
-    
+    Spent_Amount:number;     
+    Spent_For_User_List:FirebaseUser[];
+    Spent_date: Date;
+
+
+    Owner_Of_The_Expense:FirebaseUser; 
+    Database_id:ObjectId;
+    Database_Group_id:ObjectId;
+
 }
 
 

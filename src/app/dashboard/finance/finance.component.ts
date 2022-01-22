@@ -138,7 +138,7 @@ export class FinanceComponent implements OnInit {
   searchText;
 Idsend=[]
 
-List_of_Expenses=[];
+  List_of_Expense=[];
   //lists_:Expenses_list[];
 
   totalamount:number;
