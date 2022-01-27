@@ -26,6 +26,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatInputModule} from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { DailytrackerComponent } from './dailytracker/dailytracker.component';
 
 
 
@@ -57,7 +58,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
     UserProfileComponent,
     ProductionComponent,
     FinanceComponent,
-    TaskComponent,               
+    TaskComponent,
+    DailytrackerComponent,               
    ],
     providers: [SumPipeModule],
 })

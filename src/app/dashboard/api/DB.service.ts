@@ -172,6 +172,40 @@ LoadUserData(Data_){
     return this.http.get(this.apiurl + "/loadTodolistUserData",Data_);
   }
 
+
+
+  //Expenses Service
+
+ 
+
+  Create_Daily_Tracker(Data_){  
+    console.log("calling url : "+this.apiurl + "/CreateDaily_Tracker");
+    return this.http.post(this.apiurl + "/CreateDaily_Tracker", Data_);
+  }  
+
+  LoadDaily_Tracker_Update_listOnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/LoadDaily_Tracker_Update_listOnlyOwned");
+    return this.http.post (this.apiurl + "/LoadDaily_Tracker_Update_listOnlyOwned",FilterData_);
+  }
+
+  Daily_Tracker_Update_Task(Data_){  
+    console.log("calling url : "+this.apiurl + "/Daily_Tracker_Update_Task");
+    return this.http.post(this.apiurl + "/Daily_Tracker_Update_Task", Data_);
+  }
+
+  Daily_Tracker_Update_(Data_){  
+    console.log("calling url : "+this.apiurl + "/Daily_Tracker_Update_Task");
+    return this.http.post(this.apiurl + "/Daily_Tracker_Update_Task", Data_);
+  }
+
+  Daily_Tracker_Update_Delete(Data_){
+    console.log("url : "+this.apiurl + "/Daily_Tracker_Update_Delete");
+    return this.http.post(this.apiurl + "/Daily_Tracker_Update_Delete", Data_);
+  }
+
+
+  
+
  
 
 

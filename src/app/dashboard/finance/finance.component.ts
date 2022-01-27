@@ -117,8 +117,8 @@ export class FinanceComponent implements OnInit {
   Tasks: Task[];
   List_of_Tasks = [];  
   Expenses_List = [];
-  List_of_Expenses_Group = [];
-  List_Of_Expense =[];
+  List_of_Expenses_Group: any= [];
+  List_Of_Expense: any= [];
 
   Temp_Expense_Group : Expense_Group;
   Temp_Expense:Expense

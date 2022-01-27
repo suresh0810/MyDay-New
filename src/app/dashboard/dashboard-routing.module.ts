@@ -5,6 +5,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProductionComponent } from './production/production.component';
 import { FinanceComponent } from './finance/finance.component';
 import { TaskComponent } from './task/task.component';
+import { DailytrackerComponent } from './dailytracker/dailytracker.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,15 @@ const routes: Routes = [
         data: {
           title: 'Finance'
         }
-      },          
+      },   
+      
+      {
+        path: 'dailytracker',
+        component: DailytrackerComponent,
+        data: {
+          title: 'dailytracker'
+        }
+      },
     
     ]
   }

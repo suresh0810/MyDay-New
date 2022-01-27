@@ -98,6 +98,34 @@ export class Expense{
 }
 
 
+export class Daily_Tracker{
+
+    constructor(month_:Date, Owner_FB_User_:FirebaseUser){
+    this.Month = month_;
+    this.Owner_Of_The_Task=Owner_FB_User_; 
+    }
+    Month:Date;
+    Owner_Of_The_Task:FirebaseUser;
+    List_Of_Daily_Tracker_Update:Daily_Tracker_Update[]=[];
+    Database_id:ObjectId;
+}
+
+export class Daily_Tracker_Update{
+
+    constructor(Daily_Tracker_Update_Date_:Date, Daily_Tracker_Update_Task:string, Database_Daily_Tracker_id_:ObjectId ){
+        this.Daily_Tracker_Update_Date = Daily_Tracker_Update_Date_;
+        this.Daily_Tracker_Update_Task = Daily_Tracker_Update_Task; 
+         this.Database_Daily_Tracker_id = Database_Daily_Tracker_id_;
+    }
+    Daily_Tracker_Update_Date:Date;
+    Daily_Tracker_Update_Task:string;
+    Database_id:ObjectId;
+    Database_Daily_Tracker_id:ObjectId;
+
+}
+
+
+
 
 
 

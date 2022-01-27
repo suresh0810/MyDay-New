@@ -2,7 +2,20 @@
 
 <div class="row pt-2 pb-2">
     <div class="col-sm-9">
-      <h4 class="page-title">Expenses</h4>
+      <tr class="mobile">
+        <td style="width:60%;">
+          <h4 class="page-title">Expenses</h4>
+        </td>
+        <td style="width:40%;" >          
+      <h4 class="form-control form-control-sm " style="width: 170px; text-align: center; align-items: center;">Total : Rs. <input disabled class="total" type="button" value='{{ getTotal() }}'  /></h4>
+    </td>   
+    </tr>
+    <tr class="desk">
+      <td style="width:100%;">
+        <h4 class="page-title">Expenses</h4>
+      </td>
+       
+  </tr>
     </div>
     <div class="col-sm-3 desk" >
      
@@ -16,8 +29,8 @@
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-body">
-        <div>
-        <mat-tab-group  matMultilineTab (selectedTabChange)="tabClick($event)" class="nav nav-tabs nav-tabs-success">
+       
+        <mat-tab-group  matMultilineTab (selectedTabChange)="tabClick($event)" class="nav-tabs nav-tabs-success">
          
           <mat-tab class="mats" *ngFor="let _Group of List_of_Expenses_Group; let i = index" ngValue="i"
          label="{{_Group.Expense_Group_Name}}" ><i class="fa fa-plus-square dropdown_hand adicon" (click)="openVerticallyCentered(Expenses_Add)"></i>	
@@ -25,19 +38,11 @@
          </mat-tab>       			        
         </mat-tab-group>
        
-        <div ngbDropdown class="btn-group">
-          
-          <button class="btn btn-light   crtworkspace" id="dropdownBasic5" ngbDropdownToggle>
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">           
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item"  >Delete Group</a>
-            <a class="dropdown-item" (click)="openVerticallyCentered(Expenses_Add)">Add Group</a>
-            
-          </div>
-          </div><br><br>
-        </div>
-          <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
+        
+
+        <!-- Desktop -->
+    
+          <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i" class="desk">
             <table style="cellspacing:2px ">
             <tr>
               <td style="width: 10%;  overflow: auto;" >
@@ -75,8 +80,8 @@
         
 
           </div>
-          <br/><br/>
-          <table style="cellspacing:2px ">
+          <br class="desk" /><br class="desk" />
+          <table style="cellspacing:2px " class="desk">
             <tr>
             <td style="width: 60%;  overflow: auto;">
              
@@ -92,8 +97,81 @@
             </td> 
           </tr>
         </table>
-          <input hidden type="text" value='{{ getTotal() }}' /> 
+        
+
+
+        <!-- Mobile -->
+
+
+
+
+        <div class="sticky-container">
+          <div class="table-responsive mobile">
+            <table class="table table-lg">
+
+            
+     <!-- <thead>                            
+            <tr style="height: 25px;">
+              <th  scope="col" >Spent by</th>
+              <th scope="col">Spent For</th>
+              <th scope="col">Spent Date</th>
+              <th scope="col" style=" text-align: center;" class="sticky-right">Amount</th>
+              <th scope="col" >Action</th>
+            </tr>
+          </thead>-->
+          
+            
+          <tbody >
+          <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
+            
+            <tr>
+              <td  >
+                <div class="position-relative has-icon-right" >
+                  <input class="form-control form-control-sm" style="width: 80px; " [(ngModel)]="_Expense.Spent_by"
+                    name="_Expense.Spent_For" on-focusout="updateFinanceitem(_Expense)">
+                </div>
+              </td>
+            <td style="width: 170px;">
+              <div class="position-relative has-icon-right">
+                <input class="form-control form-control-sm" style="width: 170px; " [(ngModel)]="_Expense.Spent_For"
+                  name="_Expense.Spent_For" on-focusout="updateFinanceitem(_Expense)">
+              </div>
+            </td>
+            <td style="width: 120px;  overflow: auto;">
+              <div class="position-relative has-icon-right">
+              <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" style="width: 120px;">                
+                <input matInput  [matDatepicker]="picker" [(ngModel)]="_Expense.Spent_date" name="_Expense.Spent_date" (ngModelChange)="updateFinanceitem(_Expense)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field></div>
+            </td>  
+            <td style="width: 57px;  overflow: auto;" class="sticky-right" >
+              <div class="position-relative has-icon-right">
+                <input class="form-control form-control-sm" style="width: 57px;" [(ngModel)]="_Expense.Spent_Amount"
+                  name="_Expense.Spent_Amount" disabled>
+              </div>
+            </td>            
+            <td style="width: 10px; ">
+              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expense(_Expense)">
+              </button>
+            </td> 
+          </tr>
+         
+          </div>
+         </tbody>
+          </table>
+
+          </div></div>
+        
+
+
+
+
+
+          <input hidden type="text" value='{{ getTotal() }}' />
+           
           <mat-toolbar color="accent" class="footer">
+            
             <form>
           <!--  <input   [(ngModel)]="Temp_Expenses.add" name="Temp_Expenses.add" [value]="Temp_Expenses.Paid_by.length + Temp_Expenses.split_equaly.length" > -->
               <table style="cellspacing:5px">
@@ -103,14 +181,12 @@
                   </td>
                 <td style="width: 300px;">
                   <div class="position-relative has-icon-right">
-                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_For" name="Temp_Expense.Spent_For" placeholder="Spent_For"
-                      class="form-control">
+                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_For" name="Temp_Expense.Spent_For" placeholder="Spent_For" class="form-control">
                   </div>
                 </td>
                 <td style="width: 300px;">
                   <div class="position-relative has-icon-right">
-                    <input type="number" style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_Amount" name="Temp_Expense.Spent_Amount" placeholder="Spent_Amount"
-                      class="form-control">
+                    <input type="number" style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_Amount" name="Temp_Expense.Spent_Amount" placeholder="Spent_Amount" class="form-control">
                   </div>
                 </td>
                 <td style="width: 14%;  overflow: auto;">
@@ -130,8 +206,47 @@
               </tr>
             </table>
             </form>          
-          </mat-toolbar>          
-			<!--	<ul class="nav nav-tabs nav-tabs-success">
+          </mat-toolbar> 
+          
+          
+          <mat-toolbar color="accent" class="foot">           
+            <form>
+              <table style="cellspacing:5px">
+              <tr >
+                <td style="width: 27%;">
+                  <div class="position-relative has-icon-right">
+                    <input style="width: 100%; margin-left: -7px;"  [(ngModel)]="FirebaseUser_.userName" name="FirebaseUser_.userName"  class="form-control" placeholder="Spent_by">
+                  </div>
+                </td>
+                <td style="width: 43%;">
+                  <div class="position-relative has-icon-right">
+                    <input autofocus style="width: 100%; margin-left: -7px;" [(ngModel)]="Temp_Expense.Spent_For" name="Temp_Expense.Spent_For" placeholder="Spent_For" class="form-control">
+                  </div>
+                </td>
+                <td style="width: 25%;">
+                  <div class="position-relative has-icon-right">
+                    <input type="number" style="width: 100%; margin-left: -7px;"  [(ngModel)]="Temp_Expense.Spent_Amount" name="Temp_Expense.Spent_Amount" placeholder="Spent_Amount" class="form-control">
+                  </div>
+                </td>
+                <td style=" background: transparent; width: 10%;">
+                  <div class="position-relative has-icon-right">
+                    <mat-form-field appearance="outline radius-15" class="form-control" style="font-size: 16px; width: 25px; min-height: 38px; margin-left: -7px;">                
+                      <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Expense.Spent_date" name="Temp_Expense.Spent_date" placeholder="Spent_date"  >
+                      <mat-datepicker-toggle matSuffix [for]="picker" style="margin-left: -20px; margin-top: 5px;"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field></div>
+                </td>
+                <td style="width: 5%;">                
+                    <mat-icon  (click)="create_Expenses(Temp_Expense)" (click)="reset()"  style="margin-top: 10px; " (window:keypress.enter)="onSomeAction($event)">send</mat-icon>
+                </td>
+              </tr>
+            </table>
+            </form>          
+          </mat-toolbar>
+
+
+
+			    <!--	<ul class="nav nav-tabs nav-tabs-success">
 					<li class="nav-item" *ngFor="let _Group of List_of_Expenses_Group">
 						<a class="nav-link" data-toggle="tab" href="#{{_Group.Expense_Group_Name}}">	<i class="icon-people icons"></i>
 							<span class="hidden-xs">{{_Group.Expense_Group_Name}}</span>            
@@ -142,8 +257,8 @@
 						<a class="nav-link" href="javascript:;" (click)="openVerticallyCentered(Expenses_Add)">	<i class="fa fa-plus-square"></i>							
 						</a>					
 					</li>
-				</ul>-->
-        <ng-template #Expenses_Add let-modal>
+				  </ul>-->
+          <ng-template #Expenses_Add let-modal>
           <div class="modal-header">
             <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Create Expenses Group</h1>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -171,14 +286,14 @@
               [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" (click)="reset()">Create
               Workspace</button>  -->
           </div>
-        </ng-template>
-				<!-- Tab panes -->
-			<!--	<div class="tab-content">
+          </ng-template>
+				  <!-- Tab panes -->
+		    	<!--	<div class="tab-content">
 					<div *ngFor="let _Group of List_of_Expenses_Group"  class="container tab-pane active" id="{{_Group.Expense_Group_Name}}">
 						<p>{{_Group.Expense_Group_Name}}</p>
 						
 					</div>					
-				</div>-->
+				  </div>-->
 			</div>
 		</div>
 	</div>

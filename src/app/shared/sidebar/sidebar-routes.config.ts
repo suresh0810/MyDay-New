@@ -9,6 +9,7 @@ export const ROUTES: RouteInfo[] = [
             { path: '/dashboard/production', title: 'Production', icon: 'icon-layers icons', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/dashboard/task', title: 'Task', icon: 'icon-notebook icons', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/dashboard/finance', title: 'Expenses', icon: 'icon-wallet icons', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/dashboard/dailytracker', title: 'Daily Tracker', icon: 'fa fa-hourglass', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             // { path: '/dashboard/user-profile', title: 'User Profile', icon: 'zmdi zmdi-dot-circle-alt', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
                        
         ]
