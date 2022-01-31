@@ -759,6 +759,17 @@ export class ProductionComponent implements OnInit {
     const index = this.images.indexOf(url);
     this.images.splice(index[0]);
   }
+
+  w3_open() {
+    
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("openNav").style.display = 'none';
+    
+  }
+  w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("openNav").style.display = "inline-block";
+  }
 }
 
 

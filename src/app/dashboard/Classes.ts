@@ -21,12 +21,14 @@ export class User{
 
     constructor(FirebaseUser_:FirebaseUser)
     {
-        this.FirebaseUser=FirebaseUser_;      
+        this.FirebaseUser=FirebaseUser_; 
+          
     }
     
     _id:ObjectId;    
     FirebaseUser:FirebaseUser;
     List_of_Task:Task;
+    
 }
 
 export class Task{
@@ -97,17 +99,36 @@ export class Expense{
 
 }
 
+export class Users{
+    constructor(user_name_ ,Owner_FB_User_:FirebaseUser){        
+
+        this.User_Name = user_name_;
+        this.Owner_Of_The_Task=Owner_FB_User_;
+        this.List_of_Daily_Tracker_Month=[];
+    }
+
+    User_Name:string;
+    Owner_Of_The_Task:FirebaseUser;
+    Database_id:ObjectId;
+    List_of_Daily_Tracker_Month:Daily_Tracker[]=[];
+    
+}
+
 
 export class Daily_Tracker{
 
-    constructor(month_:Date, Owner_FB_User_:FirebaseUser){
+    constructor(month_:Date,){
     this.Month = month_;
-    this.Owner_Of_The_Task=Owner_FB_User_; 
+    this.List_Of_Daily_Tracker_Update=[];
+  
+ 
     }
     Month:Date;
+    name:string;
     Owner_Of_The_Task:FirebaseUser;
-    List_Of_Daily_Tracker_Update:Daily_Tracker_Update[]=[];
+    
     Database_id:ObjectId;
+    List_Of_Daily_Tracker_Update:Daily_Tracker_Update[]=[];
 }
 
 export class Daily_Tracker_Update{

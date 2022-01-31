@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as chartsData from '../../shared/data/ecommerce1';
 import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
-import { User,  FirebaseUser, Daily_Tracker, Daily_Tracker_Update} from '../Classes';
+import { User,  FirebaseUser, Daily_Tracker, Daily_Tracker_Update, Users} from '../Classes';
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
@@ -104,28 +104,45 @@ export const MY_FORMATS = {
 export class DailytrackerComponent implements OnInit {
 
   User_: User;
-
-  List_Of_Daily_Tracker: any= [];
+  Users_:Users;
+  User_List:any=[];
+  User_Lists:any[]; 
+  List_Of_Daily_Tracker: any[]= [];
+  List_Of_Daily_Tracker_Update:any[]=[];
+  Temp_User:Users;
   Temp_Daily_Tracker:Daily_Tracker;
   Temp_Daily_Tracker_Update:Daily_Tracker_Update;
 
+  List_Of_Daily_Tracker_All:any=[];
+
   Selected_Month_Index: number;
   Selected_Month_Update_Index: number;
+
+  Selected_Month_All_Index: number;
+  Selected_Month_Update_All_Index:number;
   
 
   FirebaseUser_: FirebaseUser;
   Global_UserList: FirebaseUser[];
   searchText:string;
 
-  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) { }
+  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
+   // this.LoadDaily_Tracker_Update_listOnlyOwned();
+    this.Load_Daily_Tracker_All();
+
+   }
 
   ngOnInit(): void {
-
-    this.Temp_Daily_Tracker = new Daily_Tracker( new Date(Date.now()), this.FirebaseUser_);
+    this.Temp_User = new Users("", this.FirebaseUser_);
+    this.Temp_Daily_Tracker = new Daily_Tracker( new Date(Date.now()));
     this.Temp_Daily_Tracker_Update = new Daily_Tracker_Update(new Date(Date.now()),"", this.Temp_Daily_Tracker.Database_id);
 
     this.Selected_Month_Index = 0;
     this.Selected_Month_Update_Index =0;
+    this.Selected_Month_All_Index=0;
+    this.Selected_Month_Update_All_Index=0;
+
+    this.Load_Daily_Tracker_All();
 
     this.getFirebaseUsers();
 
@@ -146,6 +163,7 @@ export class DailytrackerComponent implements OnInit {
               console.log("this.FirebaseUser_"); 
               console.log(this.FirebaseUser_); 
               this.LoadDaily_Tracker_Update_listOnlyOwned();
+            
              }
          });  
             this.User_ = new User(this.FirebaseUser_); 
@@ -155,14 +173,34 @@ export class DailytrackerComponent implements OnInit {
 
   }
 
-  Create_Daily_Tracker(_newDaily_Tracker :Daily_Tracker){     
+
+  Create_Daily_Tracker_user(_newDaily_Tracker :Users){ 
+   
+    _newDaily_Tracker.User_Name = this.FirebaseUser_.userName;
     _newDaily_Tracker.Owner_Of_The_Task={} as FirebaseUser;
     _newDaily_Tracker.Owner_Of_The_Task.id = this.FirebaseUser_.id;
     _newDaily_Tracker.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;   
     this.DBService_.Create_Daily_Tracker(_newDaily_Tracker).subscribe((Data_: ObjectId) => {      
       _newDaily_Tracker.Database_id = new ObjectId(Data_.id);       
       console.log(Data_); 
-      this.LoadDaily_Tracker_Update_listOnlyOwned();    
+      this.LoadDaily_Tracker_Update_listOnlyOwned(); 
+      this.Load_Daily_Tracker_All();   
+      this.toast.success('Create Expenses Group Success!','Success!', {
+        timeOut:1500
+      });       
+    });    
+  }
+
+  Create_Daily_Tracker(_newDaily_Tracker :Daily_Tracker){
+    //_newDaily_Tracker.Month = new Date(Date.now());
+        
+    this.User_Lists[this.Selected_Month_Index].List_of_Daily_Tracker_Month.push(_newDaily_Tracker)
+       
+    this.DBService_.Daily_Tracker_Update_Task(this.User_Lists[this.Selected_Month_Index]).subscribe((Data_: ObjectId) => {      
+      _newDaily_Tracker.Database_id = new ObjectId(Data_.id);       
+      console.log(Data_); 
+      this.LoadDaily_Tracker_Update_listOnlyOwned();   
+      this.Load_Daily_Tracker_All(); 
       this.toast.success('Create Expenses Group Success!','Success!', {
         timeOut:1500
       });       
@@ -171,15 +209,17 @@ export class DailytrackerComponent implements OnInit {
 
   Create_Daily_Tracker_Update(_newDaily_Tracker_Update: Daily_Tracker_Update){    
    
-    _newDaily_Tracker_Update.Database_id = this.Temp_Daily_Tracker.Database_id; 
+    _newDaily_Tracker_Update.Database_id = this.Temp_Daily_Tracker.Database_id;
+    this.User_Lists[this.Selected_Month_Index].List_of_Daily_Tracker_Month[this.Selected_Month_Update_Index].List_Of_Daily_Tracker_Update.push(_newDaily_Tracker_Update);
 
-    this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.push(_newDaily_Tracker_Update);
-    this.DBService_.Daily_Tracker_Update_Task(this.List_Of_Daily_Tracker[this.Selected_Month_Index]).subscribe((list_: ObjectId) => {
+    
+    this.DBService_.Daily_Tracker_Update_Task(this.User_Lists[this.Selected_Month_Index]).subscribe((list_: ObjectId) => {
         
       console.log("Update ToDolist_item : " + JSON.stringify(list_));
       console.log('test')
       console.log(this.List_Of_Daily_Tracker[this.Selected_Month_Index]); 
       this.LoadDaily_Tracker_Update_listOnlyOwned();
+      this.Load_Daily_Tracker_All();
       this.toast.success('Expenses Create Success!', 'Success!', {
         timeOut:1500
       });
@@ -193,6 +233,7 @@ export class DailytrackerComponent implements OnInit {
        console.log("Update Daily_Tracker : " + JSON.stringify(Data_));     
      })
      this.LoadDaily_Tracker_Update_listOnlyOwned();
+     this.Load_Daily_Tracker_All();
    }
 
   Daily_Tracker_Update(_newDaily_Tracker_Update: Daily_Tracker_Update) {    
@@ -202,18 +243,22 @@ export class DailytrackerComponent implements OnInit {
        console.log("Update Daily_Tracker : " + JSON.stringify(Data_));     
      })
      this.LoadDaily_Tracker_Update_listOnlyOwned();
+     this.Load_Daily_Tracker_All();
    }
 
    Daily_Tracker_Delete(_newDaily_Tracker) {    
     // var temp = new Daily_Tracker_Update(index)
    // this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.length-1;
      this.DBService_.Daily_Tracker_Update_Delete(_newDaily_Tracker).subscribe((Data_) => {
-       console.log("Update Daily_Tracker Delete: " + JSON.stringify(Data_));       
+       console.log("Update Daily_Tracker Delete: " + JSON.stringify(Data_));  
+       this.LoadDaily_Tracker_Update_listOnlyOwned();
+     this.Load_Daily_Tracker_All();     
        this.toast.success('Expenses Create Success!', 'Success!', {
         timeOut:1500
       });
      })
-     this.LoadDaily_Tracker_Update_listOnlyOwned();
+     
+    
    }
 
    Daily_Tracker_Update_Delete(index: number) {  
@@ -228,28 +273,44 @@ export class DailytrackerComponent implements OnInit {
       });
      })
      this.LoadDaily_Tracker_Update_listOnlyOwned();
+     this.Load_Daily_Tracker_All();
    }
 
 
 
   LoadDaily_Tracker_Update_listOnlyOwned() {    
-    this.DBService_.LoadDaily_Tracker_Update_listOnlyOwned(this.FirebaseUser_).subscribe((Data_: Daily_Tracker[]) => {
+    this.DBService_.LoadDaily_Tracker_Update_listOnlyOwned(this.FirebaseUser_).subscribe((Data_: Users[]) => {
      // this.Expenses_List = list_;     
-      this.List_Of_Daily_Tracker = Data_  ;  
+      this.User_Lists = Data_  ;  
+    
     // this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense = list_     
-        console.log("List_Of_Daily_Tracker");
+        console.log("User_Lists");
 
-        console.log(this.List_Of_Daily_Tracker);
+        console.log(this.User_Lists);
 
         if(Data_.length==0){
-          this.Create_Daily_Tracker(this.Temp_Daily_Tracker);                
-         }            
+          this.Create_Daily_Tracker_user(this.Temp_User);                        
+         }  
+         this.Load_Daily_Tracker_All();          
      })    
+    }
+   
+    
+
+
+    Load_Daily_Tracker_All(){
+      this.DBService_.Load_Daily_Tracker_All().subscribe((Data_:User[])=>{
+        this.User_List = Data_;
+        console.log('List_Of_Daily_Tracker_All');
+        console.log(this.User_List);
+        
+      })          
     }
 
 
 
   tabClick(event) {
+    console.log('tab');
     console.log(event);
     this.Selected_Month_Index = event.index;
     // this.Selected_board.Board_Title = event.tab.textLabel;
@@ -258,6 +319,16 @@ export class DailytrackerComponent implements OnInit {
   tabClick1(event){
     console.log(event);
     this.Selected_Month_Update_Index = event.index;
+  }
+
+  tabClick2(event){
+    console.log(event);
+    this.Selected_Month_All_Index = event.index;
+  }
+
+  tabClick3(event){
+    console.log(event);
+    this.Selected_Month_Update_All_Index = event.index;
   }
 
   getFirebaseUsers() {

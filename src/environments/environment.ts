@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  algodExpApiUrl:"http://localhost:3001",
+ algodExpApiUrl:"http://localhost:3001",
   //algodExpApiUrl:"https://mydayapi.kuvira.in",
   
   firebaseConfig : {

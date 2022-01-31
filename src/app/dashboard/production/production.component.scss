@@ -13,7 +13,7 @@ td{
 }
 
 .WsCreat{
-min-width: 220px;
+min-width: 100%;
 }
 
 
@@ -296,6 +296,7 @@ td:nth-child(2){width: 200px;}
 
 .wsb{
   text-align: left;
+ 
 }
 
 .crtworkspace{
@@ -465,6 +466,35 @@ tbody td:nth-child(1):hover {
   width: 31px;
   text-align: center;
   
+}
+
+
+@media screen and (max-width: 768px) {
+  .desk {
+    display: none;
+  }
+  .footer{
+    display: none;
+  }
+  .tabletitle1{
+    display: none;
+  }
+  
+}
+@media screen and (min-width: 768px) {
+  .mobile {
+    display: none;       
+  } 
+  .foot{
+    display: none;
+  } 
+  .sticky-container{
+    display: none;
+  }  
+  .tabletitle{
+    display: none;
+  }
+   
 }
 
 

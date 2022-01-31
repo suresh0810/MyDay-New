@@ -203,6 +203,11 @@ LoadUserData(Data_){
     return this.http.post(this.apiurl + "/Daily_Tracker_Update_Delete", Data_);
   }
 
+  Load_Daily_Tracker_All(){  
+    console.log("calling url : "+this.apiurl + "/Daily_Tracker_Update_list");
+    return this.http.get(this.apiurl + "/Daily_Tracker_Update_list");
+  }
+
 
   
 
