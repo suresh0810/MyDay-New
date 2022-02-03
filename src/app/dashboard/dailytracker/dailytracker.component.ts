@@ -11,7 +11,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { SumPipe } from '../pipe/sum.pipe';
 import { Observable } from 'rxjs/Observable';
 import {tap, map, delay} from 'rxjs/operators';
-
+import { ProductionComponent } from '../production/production.component';
 
 import {
   ChartComponent,
@@ -103,10 +103,12 @@ export const MY_FORMATS = {
 })
 export class DailytrackerComponent implements OnInit {
 
+ 
+
   User_: User;
   Users_:Users;
-  User_List:any=[];
-  User_Lists:any[]; 
+  User_List: Users[]=[];
+  User_Lists: Users[]=[]; 
   List_Of_Daily_Tracker: any[]= [];
   List_Of_Daily_Tracker_Update:any[]=[];
   Temp_User:Users;
@@ -128,19 +130,19 @@ export class DailytrackerComponent implements OnInit {
 
   constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
    // this.LoadDaily_Tracker_Update_listOnlyOwned();
-    this.Load_Daily_Tracker_All();
+    
 
    }
 
   ngOnInit(): void {
-    this.Temp_User = new Users("", this.FirebaseUser_);
+    this.Temp_User = new Users("", this.FirebaseUser_, "");
     this.Temp_Daily_Tracker = new Daily_Tracker( new Date(Date.now()));
     this.Temp_Daily_Tracker_Update = new Daily_Tracker_Update(new Date(Date.now()),"", this.Temp_Daily_Tracker.Database_id);
 
     this.Selected_Month_Index = 0;
-    this.Selected_Month_Update_Index =0;
-    this.Selected_Month_All_Index=0;
-    this.Selected_Month_Update_All_Index=0;
+    this.Selected_Month_Update_Index = 0;
+    this.Selected_Month_All_Index = 0;
+    this.Selected_Month_Update_All_Index = 0;
 
     this.Load_Daily_Tracker_All();
 
@@ -162,7 +164,7 @@ export class DailytrackerComponent implements OnInit {
               this.FirebaseUser_=element;
               console.log("this.FirebaseUser_"); 
               console.log(this.FirebaseUser_); 
-              this.LoadDaily_Tracker_Update_listOnlyOwned();
+              this.LoadDaily_Tracker_Update_listOnlyOwned();             
             
              }
          });  
@@ -173,10 +175,11 @@ export class DailytrackerComponent implements OnInit {
 
   }
 
-
+// User Create
   Create_Daily_Tracker_user(_newDaily_Tracker :Users){ 
    
-    _newDaily_Tracker.User_Name = this.FirebaseUser_.userName;
+    _newDaily_Tracker.User_Name = this.FirebaseUser_.userName; 
+    _newDaily_Tracker.User_Profile = this.FirebaseUser_.filepath;
     _newDaily_Tracker.Owner_Of_The_Task={} as FirebaseUser;
     _newDaily_Tracker.Owner_Of_The_Task.id = this.FirebaseUser_.id;
     _newDaily_Tracker.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;   
@@ -191,6 +194,7 @@ export class DailytrackerComponent implements OnInit {
     });    
   }
 
+// Month Create
   Create_Daily_Tracker(_newDaily_Tracker :Daily_Tracker){
     //_newDaily_Tracker.Month = new Date(Date.now());
         
@@ -207,6 +211,7 @@ export class DailytrackerComponent implements OnInit {
     });    
   }
 
+// Daily Tracker Create
   Create_Daily_Tracker_Update(_newDaily_Tracker_Update: Daily_Tracker_Update){    
    
     _newDaily_Tracker_Update.Database_id = this.Temp_Daily_Tracker.Database_id;
@@ -225,35 +230,44 @@ export class DailytrackerComponent implements OnInit {
       });
     }) 
   }
+
+  // Update Month
   
   Daily_Tracker_Month_Update(_newDaily_Tracker: Daily_Tracker) {    
     // var temp = new Expenses_list(index)
-    this.List_Of_Daily_Tracker[this.Selected_Month_Index].length-1;
-     this.DBService_.Daily_Tracker_Update_(this.List_Of_Daily_Tracker[this.Selected_Month_Index]).subscribe((Data_) => {
+    this.User_Lists[this.Selected_Month_Index].List_of_Daily_Tracker_Month.length-1;
+   // this.List_Of_Daily_Tracker[this.Selected_Month_Index].length-1;
+     this.DBService_.Daily_Tracker_Update_(this.User_Lists[this.Selected_Month_Index]).subscribe((Data_) => {
        console.log("Update Daily_Tracker : " + JSON.stringify(Data_));     
      })
      this.LoadDaily_Tracker_Update_listOnlyOwned();
      this.Load_Daily_Tracker_All();
    }
+
+   // Update Daily Tracker Task
 
   Daily_Tracker_Update(_newDaily_Tracker_Update: Daily_Tracker_Update) {    
     // var temp = new Expenses_list(index)
-    this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.length-1;
-     this.DBService_.Daily_Tracker_Update_(this.List_Of_Daily_Tracker[this.Selected_Month_Index]).subscribe((Data_) => {
+    this.User_Lists[this.Selected_Month_Index].List_of_Daily_Tracker_Month[this.Selected_Month_Update_Index].List_Of_Daily_Tracker_Update.length-1;
+   // this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.length-1;
+     this.DBService_.Daily_Tracker_Update_(this.User_Lists[this.Selected_Month_Index]).subscribe((Data_) => {
        console.log("Update Daily_Tracker : " + JSON.stringify(Data_));     
      })
      this.LoadDaily_Tracker_Update_listOnlyOwned();
      this.Load_Daily_Tracker_All();
    }
 
-   Daily_Tracker_Delete(_newDaily_Tracker) {    
+   //Delete Month
+
+   Daily_Tracker_Month_Delete(_newDaily_Tracker) {    
     // var temp = new Daily_Tracker_Update(index)
    // this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.length-1;
+   this.User_Lists[this.Selected_Month_Index].List_of_Daily_Tracker_Month.length-1;
      this.DBService_.Daily_Tracker_Update_Delete(_newDaily_Tracker).subscribe((Data_) => {
        console.log("Update Daily_Tracker Delete: " + JSON.stringify(Data_));  
        this.LoadDaily_Tracker_Update_listOnlyOwned();
      this.Load_Daily_Tracker_All();     
-       this.toast.success('Expenses Create Success!', 'Success!', {
+       this.toast.success('Daily Tracker Delete Success!', 'Success!', {
         timeOut:1500
       });
      })
@@ -261,14 +275,17 @@ export class DailytrackerComponent implements OnInit {
     
    }
 
-   Daily_Tracker_Update_Delete(index: number) {  
+   Daily_Tracker_Update_Delete(_newDaily_Tracker) {  
      
-    this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.splice(this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.indexOf(index), 1);
-    // var temp = new Daily_Tracker_Update(index)
-   // this.List_Of_Daily_Tracker[this.Selected_Month_Index].List_Of_Daily_Tracker_Update.length-1;
-     this.DBService_.Daily_Tracker_Update_Delete(index).subscribe((Data_) => {
-       console.log("Update Daily_Tracker Delete: " + JSON.stringify(Data_));       
-       this.toast.success('Expenses Create Success!', 'Success!', {
+  // const index: number = this.User_Lists[this.Selected_Month_Index].List_of_Daily_Tracker_Month[this.Selected_Month_Update_Index].List_Of_Daily_Tracker_Update.indexOf(Daily_Tracker_Update_);
+   // if (index !== -1) {
+   //   this.User_Lists[this.Selected_Month_Index].List_of_Daily_Tracker_Month[this.Selected_Month_Update_Index].List_Of_Daily_Tracker_Update.splice(index, 1);
+   // }        
+    
+     this.DBService_.Daily_Tracker_Update_Delete(_newDaily_Tracker.id).subscribe((Data_) => {
+     
+      console.log("Update Daily_Tracker Delete: " + JSON.stringify(_newDaily_Tracker));       
+       this.toast.success('Daily Delete Success!', 'Success!', {
         timeOut:1500
       });
      })
@@ -290,16 +307,17 @@ export class DailytrackerComponent implements OnInit {
 
         if(Data_.length==0){
           this.Create_Daily_Tracker_user(this.Temp_User);                        
-         }  
-         this.Load_Daily_Tracker_All();          
+       }  
+              
      })    
     }
+   
    
     
 
 
     Load_Daily_Tracker_All(){
-      this.DBService_.Load_Daily_Tracker_All().subscribe((Data_:User[])=>{
+      this.DBService_.Load_Daily_Tracker_All().subscribe((Data_:Users[])=>{
         this.User_List = Data_;
         console.log('List_Of_Daily_Tracker_All');
         console.log(this.User_List);
@@ -338,7 +356,7 @@ export class DailytrackerComponent implements OnInit {
           id: e.payload.doc.id,
           isEdit: false,
           userName: e.payload.doc.data()['userName'],
-        //  filepath: e.payload.doc.data()['filepath'],
+         filepath: e.payload.doc.data()['filepath'],
         
         };
       })

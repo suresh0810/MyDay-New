@@ -12,7 +12,7 @@ export interface FirebaseUser {
     id:string;
     isEdit: boolean;
     //FirstName: string;
-   // filepath: string;
+    filepath: string;
     userName:string;
 }
 
@@ -100,14 +100,16 @@ export class Expense{
 }
 
 export class Users{
-    constructor(user_name_ ,Owner_FB_User_:FirebaseUser){        
+    constructor(user_name_ ,Owner_FB_User_:FirebaseUser,profile_:string ){        
 
         this.User_Name = user_name_;
+        this.User_Profile =profile_;
         this.Owner_Of_The_Task=Owner_FB_User_;
-        this.List_of_Daily_Tracker_Month=[];
+        this.List_of_Daily_Tracker_Month.push(new Daily_Tracker(new Date(Date.now())));
     }
 
     User_Name:string;
+    User_Profile:string;
     Owner_Of_The_Task:FirebaseUser;
     Database_id:ObjectId;
     List_of_Daily_Tracker_Month:Daily_Tracker[]=[];
@@ -119,14 +121,12 @@ export class Daily_Tracker{
 
     constructor(month_:Date,){
     this.Month = month_;
-    this.List_Of_Daily_Tracker_Update=[];
+    this.List_Of_Daily_Tracker_Update.push(new Daily_Tracker_Update(new Date(Date.now()),"", this.Database_id));
   
  
     }
-    Month:Date;
-    name:string;
-    Owner_Of_The_Task:FirebaseUser;
-    
+    Month:Date;   
+    Owner_Of_The_Task:FirebaseUser;    
     Database_id:ObjectId;
     List_Of_Daily_Tracker_Update:Daily_Tracker_Update[]=[];
 }

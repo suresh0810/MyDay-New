@@ -1,0 +1,79 @@
+<p>dailytrackerall works!</p>
+<!-- Breadcrumb-->
+
+
+
+
+<mat-tab-group matMultilineTab (selectedTabChange)="tabClick2($event)" class="nav-tabs nav-tabs-success">
+    <mat-tab *ngFor="let _User of User_List; let i = index" value="i" label="{{_User.User_Name}}">
+    </mat-tab>
+</mat-tab-group>
+
+<mat-tab-group matMultilineTab (selectedTabChange)="tabClick3($event)" class="nav-tabs nav-tabs-success">
+    <mat-tab class="mats"
+        *ngFor="let _Months of User_List[Selected_Month_All_Index].List_of_Daily_Tracker_Month; let j = index" value="j"
+        label="{{_Months.Month|date:'MMM'}}">
+
+        <div class="row mobile"
+            *ngFor="let _DailyTask of _Months.List_Of_Daily_Tracker_Update|filter:searchText let i = index"
+            [attr.data-index]="i">
+            <div class="col-lg-12">
+                <div id="accordion8">
+                    <div class="card mb-1 border border-success">
+                        <div class="card-header">
+                            <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;"
+                                data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false"
+                                aria-controls="collapse-22">
+                                <tr>
+                                    <td style="width: 110px; text-align: left; font-size: 12px;">
+                                        {{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td>
+                                    <td>{{_DailyTask.Daily_Tracker_Update_Task|slice:0:13}}</td>
+                                </tr>
+                            </button>
+                        </div>
+                        <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+
+                            <div class="card-body"><textarea matInput type="textarea"
+                                    [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task"
+                                    name="_DailyTask.Daily_Tracker_Update_Task" placeholder="Daily_Tracker_Update_Task"
+                                    required></textarea>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--List daily task-->
+
+<!--create daily task-->
+
+
+
+
+<!--create daily task-->
