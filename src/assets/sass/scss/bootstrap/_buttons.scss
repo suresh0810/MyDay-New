@@ -35,13 +35,13 @@
   
   .btn-primary {
 	color: #fff;
-	background-color: #7934f3;
-	border-color: #7934f3;
+	background-color: rgba(247, 109, 109, 0.755);
+	border-color: #ffffff;
   
 	&:hover {
-	  color: #fff;
-	  background-color: #6a27e0;
-	  border-color: #6a27e0;
+	  color: rgba(247, 109, 109, 0.755);
+	  background-color: #ffffff;
+	  border-color: rgba(0, 0, 0, 0.755);
 	}
   
 	&.focus,
@@ -334,13 +334,13 @@
   }
   
   .btn-light {
-	color: #fff;
-	background-color: rgba(255, 255, 255, 0.125);
+	color: #ffffffe0;
+	background-color: rgba(213, 39, 39, 0.755);
 	border-color: rgba(255, 255, 255, 0.125);
   
 	&:hover {
 	  color: #fff;
-	  background-color: rgba(255, 255, 255, 0.18);
+	  background-color: rgba(213, 39, 39, 0.755);
 	  border-color: rgba(255, 255, 255, 0.18);
 	}
   
@@ -368,7 +368,7 @@
   
   .show > .btn-light.dropdown-toggle {
 	color: #fff;
-	background-color: rgba(255, 255, 255, 0.125);
+	background-color: rgba(213, 39, 39, 0.755);
 	border-color: rgba(255, 255, 255, 0.125);
   }
   
@@ -961,13 +961,13 @@
   }
   
   .btn-link {
-	color: white;
+	color: #626161e0;
 	font-weight: 600;
 	box-shadow: none;
   
 	&:hover,
 	&:focus {
-	  color: white;
+	  color: rgba(213, 39, 39, 0.755);
 	  text-decoration: none;
 	}
   }

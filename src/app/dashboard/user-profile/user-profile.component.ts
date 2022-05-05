@@ -10,8 +10,8 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { finalize, tap } from 'rxjs/operators';
 import { User } from '../../auth/user';
 import { ToastrService } from 'ngx-toastr';
-
-
+import { FirebaseService } from 'src/app/auth/firebase.service';
+import { Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../Classes';
 export interface MyData {
   name: string;
   filepath: string;
@@ -26,7 +26,8 @@ export interface MyData {
 export class UserProfileComponent implements OnInit {
 
   //
-
+  FirebaseUser_: FirebaseUser;
+    Global_UserList: FirebaseUser[];
   
  // Upload Task 
  task: AngularFireUploadTask;
@@ -69,7 +70,8 @@ export class UserProfileComponent implements OnInit {
   City:string;
   phoneNumber:number;
   aboutme:string;
-
+  Selected_People;
+  User_: User;
   user: any;
 
   constructor(
@@ -80,6 +82,7 @@ export class UserProfileComponent implements OnInit {
      private toast:ToastrService,
       private modalService: NgbModal,
       config: NgbModalConfig,
+      private firebaseService:FirebaseService, 
   ) { 
    
 
@@ -100,6 +103,9 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
+
+    this.getFirebaseUsers();
+
     this.auth.user_.subscribe(user =>{
       this.user = user;
       this.userId = user.userId; 
@@ -113,9 +119,17 @@ export class UserProfileComponent implements OnInit {
       this.City = user.City;
       this.State = user.State;
       this.aboutme =user.aboutme;
+     this.Selected_People = user.Selected_People;
 
     })
     
+  }
+
+  
+  fb_id(event){
+    console.log(this.Selected_People)
+    this.Selected_People = event
+
   }
 
   
@@ -135,6 +149,8 @@ export class UserProfileComponent implements OnInit {
           'City':this.City,
           'State':this.State,
           'aboutme':this.aboutme,
+          'Selected_People': this.Selected_People,
+
           
 
                                 
@@ -144,7 +160,7 @@ export class UserProfileComponent implements OnInit {
   .then(() =>{
    
   this.toast.success('Update Success!', 'success');
-    this.router.navigate(['/user-profile']);
+    this.router.navigate(['./dashboard/user-profile']);
   
   })
   .catch(error =>{
@@ -230,6 +246,24 @@ export class UserProfileComponent implements OnInit {
       this.toast.success(error);
     });
   }
+
+
+  getFirebaseUsers() {
+    this.firebaseService.read_users().subscribe(data => {
+      this.Global_UserList = data.map(e => {
+        return {
+          id: e.payload.doc.id,
+          isEdit: false,
+          userName: e.payload.doc.data()['userName'],
+         filepath: e.payload.doc.data()['filepath'],
+         Selected_People: e.payload.doc.data()['Selected_People'],
+        };
+      })
+      console.log("this.Global_UserList");  
+      console.log(this.Global_UserList);     
+    });
+    return this.Global_UserList;
+  }  
 
 
 }

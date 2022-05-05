@@ -1,0 +1,114 @@
+
+<div class="row">
+    <div class="col-lg-6 col-xl-3 icon" > 
+      <a data-code="f3e9" data-name="group" href="javascript:;">
+      <div class="media align-items-center">
+        <span>Sector</span> 
+        <div class="media-body ml-3">         
+        </div>
+        <i class="fa fa-edit " (click)="openVerticallyCentered(Create_Sector)"></i>
+      </div>         
+      </a>
+    </div>
+    <div class="col-lg-6 col-xl-3 icon" > 
+      <a data-code="f3e9" data-name="group" href="javascript:;">
+      <div class="media align-items-center">
+        <span>Spent For</span> 
+        <div class="media-body ml-3">         
+        </div>
+        <i class="fa fa-edit " (click)="openVerticallyCentered(Create_SpentFor_)"></i>
+      </div>         
+      </a>
+    </div>
+    
+    
+    <div class="col-lg-6 col-xl-3 icon" data-code="f3eb" data-name="shape"> <a href="javascript:;"><i class="zmdi zmdi-shape"></i> <span>shape</span></a>
+    </div>
+    <div class="col-lg-6 col-xl-3 icon" data-code="f3ec" data-name="spinner" > <a href="javascript:;"><i class="zmdi zmdi-spinner"></i> <span>spinner</span></a>
+    </div>        
+</div>
+<!-- Create_Sector -->
+<ng-template #Create_Sector let-modal>
+    <div class="modal-header" style="height: 50px;">
+        <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;" >Sector</h1>      
+        <button type="button" class="close"  aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <div class="card" >
+            <div class="card-body">
+                <th  style="width: 700px">Sector Name</th>
+                <th >Action</th>
+                <table>
+                    <tr *ngFor="let Sector_ of List_of_Sector">
+                    <td style="width: 680px" >
+                        <div class="position-relative has-icon-right">
+                          <input class="form-control form-control-sm" [(ngModel)]="Sector_.Sector_Name"  name="Sector_.Sector_Name" style="width: 100%; " on-focusout="Update_Sector(Sector_)">
+                        </div>
+                      </td>
+                      <td style="text-align: center;">
+                          <button class="zmdi zmdi-delete form-control form-control-sm" style="border: 1px solid white; margin-left: 10px; font-size: 15px;" (click)="Delete_Sector(Sector_)"></button>
+                      </td>
+                    </tr>
+                </table>
+            </div>
+    </div>  
+
+    </div>
+    <div class="modal-footer" > 
+        <tr>
+            <td style="width: 700px; ">
+                <input autofocus style="width: 100%; margin-top: 10px;" [(ngModel)]="Temp_Sector.Sector_Name" name="Temp_Sector.Sector_Name" placeholder="Spent_For" class="form-control">
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" (click)="Create_Sect(Temp_Sector)" (click)="sect_reset()" style="height: 40px;" >Save</button>
+            </td>
+        </tr>      
+           
+    
+        
+      </div>
+</ng-template>
+<!-- Create_SpentFor -->
+<ng-template #Create_SpentFor_ let-modal>
+    <div class="modal-header" style="height: 50px;">
+        <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;" >SpentFor</h1>      
+        <button type="button" class="close"  aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <div class="card" >
+            <div class="card-body">
+                <th  style="width: 700px">SpentFor Name</th>
+                <th >Action</th>
+                <table>
+                    <tr *ngFor="let _SpentFor of List_of_SpentFor">
+                    <td style="width: 680px" >
+                        <div class="position-relative has-icon-right">
+                          <input class="form-control form-control-sm" [(ngModel)]="_SpentFor.Spent_Name"  name="_SpentFor.Spent_Name" style="width: 100%; "  on-focusout="Update_SpentFor(_SpentFor)">
+                        </div>
+                      </td>
+                      <td style="text-align: center;">
+                          <button class="zmdi zmdi-delete form-control form-control-sm" style="border: 1px solid white; margin-left: 10px; font-size: 15px;" (click)="Delete_SpentFor(_SpentFor)"></button>
+                      </td>
+                    </tr>
+                </table>
+            </div>
+    </div>  
+    </div>
+    <div class="modal-footer" > 
+        <tr>
+            <td style="width: 700px; ">
+                <input autofocus style="width: 100%; margin-top: 10px;" [(ngModel)]="Temp_SpentFor.Spent_Name" name="Temp_SpentFor.Spent_Name" placeholder="Spent_For" class="form-control">
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" (click)="Create_SpentFor(Temp_SpentFor)" (click)="SpentFor_reset()"  style="height: 40px;" >Save</button>
+            </td>
+        </tr>      
+           
+    
+        
+      </div>
+</ng-template>

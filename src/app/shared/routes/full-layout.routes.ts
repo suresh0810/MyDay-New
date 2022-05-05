@@ -18,6 +18,14 @@ export const Full_ROUTES: Routes = [
         loadChildren: () => import('../../ui-icons/ui-icons.module').then(m => m.UiIconsModule)
 
     },
+    {
+        path: 'ui-elements',
+        loadChildren: () => import('../../ui-elements/ui-elements.module').then(m => m.UIElementsModule)
+    },
+    {
+        path: 'components',
+        loadChildren: () => import('../../components/components.module').then(m => m.ComponentsModule)
+    },
   
    
     

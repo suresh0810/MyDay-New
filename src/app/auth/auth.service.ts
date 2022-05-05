@@ -49,18 +49,18 @@ export class AuthService
      )
 
 
-    this.afauth.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
-      } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-      }
-    })  
+    // this.afauth.authState.subscribe(user => {
+    //   if (user) {
+    //     this.userData = user;
+    //     localStorage.setItem('user', JSON.stringify(this.userData));
+    //     JSON.parse(localStorage.getItem('user'));
+    //   } else {
+    //     localStorage.setItem('user', null);
+    //     JSON.parse(localStorage.getItem('user'));
+    //   }
+    // })  
     
-    this.attologin();
+    // this.attologin();
 
     }
 
@@ -81,8 +81,11 @@ export class AuthService
                 });
                 this.afauth.signOut();  
               } else {  
-                this.router.navigate(['./dashboard/production']);
+                this.router.navigate(['./dashboard/task']);
+                localStorage.setItem('user', JSON.stringify(data));               
                 this.toast.success('Your Account Login Successfully', 'Success!', {
+
+                  
                   timeOut:1500
                 });
               }  
@@ -108,22 +111,22 @@ export class AuthService
 
 
   
-  attologin(){
-    //const userData = JSON.parse(localStorage.getItem('user'));
-   // console.log(JSON.parse(userData));
-   const userData = JSON.parse(localStorage.getItem('user'));
+  // attologin(){
+  //   //const userData = JSON.parse(localStorage.getItem('user'));
+  //  // console.log(JSON.parse(userData));
+  //  const userData = JSON.parse(localStorage.getItem('user'));
    
-    if(!userData){
-      return;
-    }
+  //   if(!userData){
+  //     return;
+  //   }
  
-    this.CurrentUser.Email = userData    
-    JSON.parse(localStorage.getItem('user'));
-    console.log(JSON.stringify(this.CurrentUser));    
-    if(this.CurrentUser.Email){
-      this.router.navigate(['./dashboard/production']);
-    }   
-  }
+  //   this.CurrentUser.Email = userData    
+  //   JSON.parse(localStorage.getItem('user'));
+  //   console.log(JSON.stringify(this.CurrentUser));    
+  //   if(this.CurrentUser.Email){
+  //     this.router.navigate(['./dashboard/task']);
+  //   }   
+  // }
 
 
     

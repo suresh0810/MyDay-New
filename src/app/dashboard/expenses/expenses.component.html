@@ -1,0 +1,977 @@
+<!-- Breadcrumb-->
+<!-- 
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+     <h4 class="page-title">Task Track</h4>
+    </div>
+    <div class="col-sm-3 desk" >
+      <div ngbDropdown class="btn-group float-sm-right">
+        <button type="button" class="btn btn-primary"><i class="fa fa-cog mr-1"></i> Setting</button>
+        <button type="button" class="btn btn-primary" id="dropdownBasic5" ngbDropdownToggle> <span class="caret"></span>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic5">
+          <a href="javaScript:;" ngbDropdownItem>Action</a>
+          <a href="javaScript:;" ngbDropdownItem>Another action</a>
+          <a href="javaScript:;" ngbDropdownItem>Something else here</a>
+          <div class="dropdown-divider"></div>
+          <a href="javaScript:;" ngbDropdownItem>Separated link</a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <!-- End Breadcrumb-->               
+      <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;  background-color: rgba(236, 144, 144, 0.551);">     
+      <br> 
+
+      <ul class="nav nav-tabs nav-tabs-success">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#MyExpense"> <i class="icon-user"></i>
+            <span>My Expense</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#OtherExpense"> <i class="icon-people"></i>
+            <span>Other Expense</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <!--Tab 1-->
+        <div id="MyExpense" class="tab-pane active">
+
+          <!-- Expense -->
+          <div class="card">          
+            <div class="card-body">                        
+              <div class="row">
+                <div class="col-lg-6 col-xl-3 icon" > 
+                  <h5 class="card-title tabletitle" >Due Expense</h5>
+                  <h5 class="card-title tabletitle1" >Due Expense </h5>
+                </div>
+                <div class="col-lg-6 col-xl-3 icon" > 
+                </div>
+                <div class="col-lg-6 col-xl-3 icon" > 
+                </div>
+                <div class="col-lg-6 col-xl-3 icon" style="text-align: right;"> 
+                  <h5 style="color: rgba(213, 39, 39, 0.755);">Due Total: ₹{{DueTotal()}}</h5> 
+                </div>        
+            </div>          
+                
+              <th class="desk" style="width: 11%; ">Sector</th>
+              <th class="desk" style="width: 12%; ">Spent_For</th>
+              <th class="desk" style="width: 14%; ">Note</th>
+             <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+              <th class="desk" style="width: 11%; ">Spent Date</th>
+              <th class="desk" style="width: 11%; ">Spent_Amount</th>
+              <th class="desk" style="width: 11%; text-align: center;" >Status</th>
+              <th class="desk" style="width: 2%;">Action</th> 
+              <div *ngFor="let Expense_ of List_Of_Expense |filter:searchText"  class="card">
+                <table style="cellspacing:2px " class="desk" >
+                <tr *ngIf="Expense_.Status !='Paid'">
+                  <td style="width: 15%;" >
+                    <div class="position-relative has-icon-right">
+                      <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                        bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+                        style="font-size: 16px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.Sector_Name}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.Sector_Name}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>
+                  <td style="width: 16%;">
+                    <div class="position-relative has-icon-right">
+                      <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                        bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+                        style="font-size: 16px;  " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.Spent_Name}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.Spent_Name}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>
+                 <!-- <td style="width: 9%;">
+                    <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+                    <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                      disabled>
+                  </td>-->
+                  <td style="width: 20%; ">
+                    <div class="position-relative has-icon-right">
+                      <input type="text" style="width: 100%; " [(ngModel)]="Expense_.Note" name="Expense_.Note" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                    </div>                
+                  </td>
+                  <td style="width: 7%; ">
+                    <div class="position-relative has-icon-right">
+                      <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">                
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field></div>                    
+                  </td>
+                  <td style="width: 15%; ">
+                    <div class="position-relative has-icon-right">
+                      <input type="number" style="width: 100%; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                    </div>
+                  </td>
+                  <td style="width: 15%;">                   
+                    <div class="position-relative has-icon-right">
+                    <select style="width: 100%; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                      <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+                    </select>
+                    </div>
+                  </td>
+                  <!-- <td style="width: 1%; ">
+                <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+                </td>-->
+                  <td style="width: 5%; ">
+                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              </div>
+      
+            <div class="sticky-container">
+                <div class="table-responsive mobile">
+                  <table class="table table-lg">
+                    <thead>
+                      <tr style="height: 25px;" >          						
+                        <th  scope="col" style="color: #626161e0;">Sector</th>
+                        <th  scope="col" style="color: #626161e0;">Spent_For</th>
+                        <th  scope="col" style="color: #626161e0;">Note</th>
+                       <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+                        <th  scope="col" style="color: #626161e0;">Spent Date</th>
+                        <th  scope="col" style="color: #626161e0;">Spent_Amount</th>                       
+                        <th scope="col" class="sticky-right" style="text-align: center;" >Status</th>
+                        <th scope="col" style="color: #626161e0;">Action</th> 						
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let Expense_ of List_Of_Expense |filter:searchText" >
+                      <tr  *ngIf="Expense_.Status !='Paid'">								
+                        <td >
+                          <div class="position-relative has-icon-right">
+                            <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                              bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+                              style="font-size: 16px; width: 170px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label">{{item.Sector_Name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </ng-template>
+                              <ng-template ng-option-tmp let-item="item">
+                                {{item.Sector_Name}}
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                      </td>
+                        <td>
+                          <div class="position-relative has-icon-right">
+                            <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                              bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+                              style="font-size: 16px; width: 170px; " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label">{{item.Spent_Name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </ng-template>
+                              <ng-template ng-option-tmp let-item="item">
+                                {{item.Spent_Name}}
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                      </td>
+                      <td>
+                        <div class="position-relative has-icon-right">
+                          <input type="text" style="width: 200px; " [(ngModel)]="Expense_.Note" name="Expense_.Note" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                        </div>  
+                        </td>
+                        <td>
+                          <div class="position-relative has-icon-right">
+                            <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)" style="width: 150px;">                
+                              <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field></div> 
+                        </td>
+                        <td >
+                          <div class="position-relative has-icon-right">
+                            <input type="number" style="width: 150px; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                          </div>
+                        </td>
+                        <td class="sticky-right">
+                          <div class="position-relative has-icon-right">
+                            <select style="width: 60px; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                              <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+                            </select>
+                            </div>
+                        </td>
+                        <td>
+                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+                        </button>
+                      </td>
+                        
+                      </tr>											
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--	<form>
+                          <tr>
+                              <td style="width: 100%;"><br>
+                                  <div class="position-relative has-icon-right">
+                                  <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
+              name="Temp_Task.Task_Name">
+            </div>
+              <input type="submit"
+            class="btn  btn-block"
+            (click)="create_Task(Temp_Task)" value="Create Task">
+                                </td>
+                              
+                          </tr>
+                      </form>	-->        
+            </div>
+          </div>
+
+          <!-- Paid Expense --><br>
+
+          <div class="card">
+            <div class="card-body"> 
+              <div class="row">
+                <div class="col-lg-6 col-xl-3 icon" > 
+                  <h5 class="card-title tabletitle" >Paid Expense</h5>
+                  <h5 class="card-title tabletitle1" >Paid Expense</h5>   
+                </div>
+                <div class="col-lg-6 col-xl-3 icon" > 
+                </div>
+                <div class="col-lg-6 col-xl-3 icon" > 
+                </div>
+                <div class="col-lg-6 col-xl-3 icon" style="text-align: right;"> 
+                  <h5 style="color: green" >Paid Total: ₹{{PaidTotal()}}</h5> 
+                </div>        
+            </div>               
+                           
+                
+            <th class="desk" style="width: 11%; ">Sector</th>
+              <th class="desk" style="width: 12%; ">Spent_For</th>
+              <th class="desk" style="width: 14%; ">Note</th>
+             <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+              <th class="desk" style="width: 11%; ">Spent Date</th>
+              <th class="desk" style="width: 11%; ">Spent_Amount</th>
+              <th class="desk" style="width: 11%; text-align: center;" >Status</th>
+              <th class="desk" style="width: 2%;">Action</th> 
+              <div *ngFor="let Expense_ of List_Of_Expense |filter:searchText"  class="card">
+                <table style="cellspacing:2px " class="desk" >
+                <tr *ngIf="Expense_.Status =='Paid'">
+                  <td style="width: 15%;" >
+                    <div class="position-relative has-icon-right">
+                      <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                        bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+                        style="font-size: 16px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.Sector_Name}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.Sector_Name}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>
+                  <td style="width: 16%;">
+                    <div class="position-relative has-icon-right">
+                      <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                        bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+                        style="font-size: 16px;  " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.Spent_Name}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                          {{item.Spent_Name}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </td>
+                 <!-- <td style="width: 9%;">
+                    <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+                    <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                      disabled>
+                  </td>-->
+                  <td style="width: 20%; ">
+                    <div class="position-relative has-icon-right">
+                      <input type="text" style="width: 100%; " [(ngModel)]="Expense_.Note" name="Expense_.Note" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                    </div>                
+                  </td>
+                  <td style="width: 7%; ">
+                    <div class="position-relative has-icon-right">
+                      <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">                
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field></div>                    
+                  </td>
+                  <td style="width: 15%; ">
+                    <div class="position-relative has-icon-right">
+                      <input type="number" style="width: 100%; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                    </div>
+                  </td>
+                  <td style="width: 15%;">                   
+                    <div class="position-relative has-icon-right">
+                    <select style="width: 100%; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                      <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+                    </select>
+                    </div>
+                  </td>
+                  <!-- <td style="width: 1%; ">
+                <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+                </td>-->
+                  <td style="width: 5%; ">
+                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              </div>
+      
+            <div class="sticky-container">
+                <div class="table-responsive mobile">
+                  <table class="table table-lg">
+                    <thead>
+                      <tr style="height: 25px;" >          						
+                        <th  scope="col" style="color: #626161e0;">Sector</th>
+                        <th  scope="col" style="color: #626161e0;">Spent_For</th>
+                        <th  scope="col" style="color: #626161e0;">Note</th>
+                       <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+                        <th  scope="col" style="color: #626161e0;">Spent Date</th>
+                        <th  scope="col" style="color: #626161e0;">Spent_Amount</th>                       
+                        <th scope="col" class="sticky-right" style="text-align: center;" >Status</th>
+                        <th scope="col" style="color: #626161e0;">Action</th> 						
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let Expense_ of List_Of_Expense |filter:searchText" >
+                      <tr  *ngIf="Expense_.Status =='Paid'">								
+                        <td >
+                          <div class="position-relative has-icon-right">
+                            <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                              bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+                              style="font-size: 16px; width: 170px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label">{{item.Sector_Name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </ng-template>
+                              <ng-template ng-option-tmp let-item="item">
+                                {{item.Sector_Name}}
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                      </td>
+                        <td>
+                          <div class="position-relative has-icon-right">
+                            <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                              bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+                              style="font-size: 16px; width: 170px; " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label">{{item.Spent_Name}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </ng-template>
+                              <ng-template ng-option-tmp let-item="item">
+                                {{item.Spent_Name}}
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                      </td>
+                      <td>
+                        <div class="position-relative has-icon-right">
+                          <input type="text" style="width: 200px; " [(ngModel)]="Expense_.Note" name="Expense_.Note" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                        </div>  
+                        </td>
+                        <td>
+                          <div class="position-relative has-icon-right">
+                            <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)" style="width: 150px;">                
+                              <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field></div> 
+                        </td>
+                        <td >
+                          <div class="position-relative has-icon-right">
+                            <input type="number" style="width: 150px; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                          </div>
+                        </td>
+                        <td class="sticky-right">
+                          <div class="position-relative has-icon-right">
+                            <select style="width: 60px; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                              <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+                            </select>
+                            </div>
+                        </td>
+                        <td>
+                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+                        </button>
+                      </td>
+                        
+                      </tr>											
+                    </tbody>
+                  </table>
+                  
+                </div>
+              </div>
+
+              <mat-toolbar color="accent" class="foot">            
+                <form >
+              <!--  <input   [(ngModel)]="Temp_Expenses.add" name="Temp_Expenses.add" [value]="Temp_Expenses.Paid_by.length + Temp_Expenses.split_equaly.length" > -->
+                  <table style="cellspacing:2px;">
+                  <tr>  
+                    <td style=" background: transparent; ">
+                      <div class="position-relative has-icon-right">
+                        <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                          bindLabel="Sector_Name" [(ngModel)]="Temp_Expense.Sector" name="Temp_Expense.Sector"
+                          style="font-size: 10px; min-height: 38px;  width: 70px; margin-left: -7px;" class="form-control">
+                          <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label">{{item.Sector_Name}}</span>
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item">
+                            {{item.Sector_Name}}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </td>
+    
+                    <td style=" background: transparent; ">
+                      <div class="position-relative has-icon-right">
+                        <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                          bindLabel="Spent_Name" [(ngModel)]="Temp_Expense.Spent_For" name="Temp_Expense.Spent_For"
+                          style="font-size: 10px; min-height: 38px; width: 70px; " class="form-control">
+                          <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label">{{item.Spent_Name}}</span>
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item">
+                            {{item.Spent_Name}}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </td>
+                    <td style="width: 300px;">
+                      <div class="position-relative has-icon-right">
+                        <input type="text" style="width: 80px; " [(ngModel)]="Temp_Expense.Note" name="Temp_Expense.Note" placeholder="Spent_Amount" class="form-control">
+                      </div>
+                    </td>                                     
+                 
+                    <td style="width: 100px;">
+                      <div class="position-relative has-icon-right">
+                        <input type="number" style="width: 70px; " [(ngModel)]="Temp_Expense.Spent_Amount" name="Temp_Expense.Spent_Amount" placeholder="Spent_Amount" class="form-control">
+                      </div>
+                    </td>
+                    <td style="width: 14%;">
+                      <div class="position-relative has-icon-right">
+                      <mat-form-field appearance="outline radius-15" class="form-control" style="width: 20px;">                
+                        <input matInput type="date" [(ngModel)]="Temp_Expense.Spent_date" name="Temp_Expense.Spent_date" placeholder="Spent_date" >
+                         
+                      </mat-form-field></div>
+                    </td>                                            
+                               
+                    <td> <!-- Temp_Finance_Items.split_equaly-->
+                      <mat-icon (window:keypress.enter)="onSomeAction($event)" (click)="Create_Expenses(Temp_Expense)"  value="Save" (click)="reset_expense()" style="margin-top: 10px; ">send</mat-icon>
+                     
+                    </td>
+                  </tr>
+                </table>
+                </form>          
+              </mat-toolbar>
+              <!--	<form>
+                          <tr>
+                              <td style="width: 100%;"><br>
+                                  <div class="position-relative has-icon-right">
+                                  <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
+            name="Temp_Task.Task_Name">
+          </div>
+            <input type="submit"
+          class="btn  btn-block"
+          (click)="create_Task(Temp_Task)" value="Create Task">
+                              </td>
+                              
+                          </tr>
+                      </form>	-->        
+            </div>
+          </div>
+
+
+
+          <!-- footer Create Expense -->
+
+          <mat-toolbar color="accent" class="footer">            
+            <form style="">
+          <!--  <input   [(ngModel)]="Temp_Expenses.add" name="Temp_Expenses.add" [value]="Temp_Expenses.Paid_by.length + Temp_Expenses.split_equaly.length" > -->
+              <table style="cellspacing:2px; margin-top: -2px; margin-left: -15px; margin-right: -15px;">
+              <tr>  
+                <td style=" background: transparent; ">
+                  <div class="position-relative has-icon-right">
+                    <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                      bindLabel="Sector_Name" [(ngModel)]="Temp_Expense.Sector" name="Temp_Expense.Sector"
+                      style="font-size: 16px; min-height: 38px;  " class="form-control">
+                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.Sector_Name}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item">
+                        {{item.Sector_Name}}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </td>
+
+                <td style=" background: transparent; ">
+                  <div class="position-relative has-icon-right">
+                    <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                      bindLabel="Spent_Name" [(ngModel)]="Temp_Expense.Spent_For" name="Temp_Expense.Spent_For"
+                      style="font-size: 16px; min-height: 38px;  " class="form-control">
+                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.Spent_Name}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item">
+                        {{item.Spent_Name}}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </td>
+                <td style="width: 300px;">
+                  <div class="position-relative has-icon-right">
+                    <input type="text" style="width: 100%; " [(ngModel)]="Temp_Expense.Note" name="Temp_Expense.Note" placeholder="Spent_Amount" class="form-control">
+                  </div>
+                </td>                                     
+             
+                <td style="width: 100px;">
+                  <div class="position-relative has-icon-right">
+                    <input type="number" style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_Amount" name="Temp_Expense.Spent_Amount" placeholder="Spent_Amount" class="form-control">
+                  </div>
+                </td>
+                <td style="width: 14%;  overflow: auto;">
+                  <div class="position-relative has-icon-right">
+                  <mat-form-field appearance="outline radius-15" class="form-control">                
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Expense.Spent_date" name="Temp_Expense.Spent_date" placeholder="Spent_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field></div>
+                </td>                                            
+                           
+                <td> <!-- Temp_Finance_Items.split_equaly-->
+                  <input type="submit"  class="btn btn-primary form-control"
+                    style=" border-radius: 2px; color: white;  height: 38px;"
+                    (click)="Create_Expenses(Temp_Expense)"  value="Save" (click)="reset_expense()" (window:keypress.enter)="onSomeAction($event)">
+                </td>
+              </tr>
+            </table>
+            </form>          
+          </mat-toolbar>
+
+          
+
+        </div>
+
+
+         <!--Tab 2-->
+         <div id="OtherExpense" class="tab-pane fade">          
+            <!-- People Select Option -->
+            <div class="position-relative has-icon-right">
+              <select class="form-control form-control-sm" [(ngModel)]="Selected_due_user" name="Selected_due_user" (ngModelChange)="Change($event)" (change)="onChange($event.target.value)">
+                <option #clear [hidden]="clear.selected" style="background-color: white; color: black;">Clear</option>
+                <option *ngFor="let item_ of Global_UserList" [ngValue]="item_" style="background-color: white; color: black;">{{item_.userName}}</option>
+              </select>             
+            </div>
+            <!-- Selected Due --> <!--<h5 style="color: black;">Due: {{SelectedDue()}} , Paid: {{SelectedPaid()}}</h5>-->
+ <!-- Expense --><br>
+ <div class="card">          
+  <div class="card-body">                        
+    <div class="row">
+      <div class="col-lg-6 col-xl-3 icon" > 
+        <h5 class="card-title tabletitle" >Due Expense</h5>
+        <h5 class="card-title tabletitle1" >Due Expense </h5>
+      </div>
+      <div class="col-lg-6 col-xl-3 icon" > 
+      </div>
+      <div class="col-lg-6 col-xl-3 icon" > 
+      </div>
+      <div class="col-lg-6 col-xl-3 icon" style="text-align: right;"> 
+        <h5 style="color: rgba(213, 39, 39, 0.755);">Due Total: ₹{{SelectedDue()}}</h5> 
+      </div>        
+  </div>          
+      
+    <th class="desk" style="width: 21%; ">Sector</th>
+    <th class="desk" style="width: 22%; ">Spent_For</th>
+   <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+    <th class="desk" style="width: 12%; ">Spent Date</th>
+    <th class="desk" style="width: 12%; ">Spent_Amount</th>
+    <th class="desk" style="width: 13%; text-align: center;" >Status</th>
+    <th class="desk" style="width: 1%;">Action</th> 
+    <div *ngFor="let Expense_ of List_All_Expense |filter:searchText|filter:searchTexts"  class="card">
+      <table style="cellspacing:2px " class="desk" >
+      <tr *ngIf="Expense_.Status !='Paid'">
+        <td style="width: 25%;" >
+          <div class="position-relative has-icon-right">
+            <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+              bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+              style="font-size: 16px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-label">{{item.Sector_Name}}</span>
+                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{item.Sector_Name}}
+              </ng-template>
+            </ng-select>
+          </div>
+        </td>
+        <td style="width: 25%;">
+          <div class="position-relative has-icon-right">
+            <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+              bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+              style="font-size: 16px;  " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-label">{{item.Spent_Name}}</span>
+                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{item.Spent_Name}}
+              </ng-template>
+            </ng-select>
+          </div>
+        </td>
+       <!-- <td style="width: 9%;">
+          <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+          <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+            disabled>
+        </td>-->
+        <td style="width: 15%; ">
+          <div class="position-relative has-icon-right">
+            <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">                
+              <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field></div>                    
+        </td>
+        <td style="width: 15%; ">
+          <div class="position-relative has-icon-right">
+            <input type="number" style="width: 100%; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+          </div>
+        </td>
+        <td style="width: 15%;">                   
+          <div class="position-relative has-icon-right">
+          <select style="width: 100%; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+            <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+          </select>
+          </div>
+        </td>
+        <!-- <td style="width: 1%; ">
+      <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+      </td>-->
+        <td style="width: 5%; ">
+          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+          </button>
+        </td>
+      </tr>
+    </table>
+    </div>
+<!-- work -->
+    <div class="sticky-container">
+      <div class="table-responsive mobile">
+        <table class="table table-lg">
+          <thead>
+            <tr style="height: 25px;" >          						
+              <th  scope="col" style="color: #626161e0;">Sector</th>
+              <th  scope="col" style="color: #626161e0;">Spent_For</th>
+              <th  scope="col" style="color: #626161e0;">Note</th>
+             <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+              <th  scope="col" style="color: #626161e0;">Spent Date</th>
+              <th  scope="col" style="color: #626161e0;">Spent_Amount</th>                       
+              <th scope="col" class="sticky-right" style="text-align: center;" >Status</th>
+              <th scope="col" style="color: #626161e0;">Action</th> 						
+            </tr>
+          </thead>
+          <tbody *ngFor="let Expense_ of List_All_Expense |filter:searchText|filter:searchTexts" >
+            <tr  *ngIf="Expense_.Status !='Paid'">								
+              <td >
+                <div class="position-relative has-icon-right">
+                  <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                    bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+                    style="font-size: 16px; width: 170px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                      <span class="ng-value-label">{{item.Sector_Name}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{item.Sector_Name}}
+                    </ng-template>
+                  </ng-select>
+                </div>
+            </td>
+              <td>
+                <div class="position-relative has-icon-right">
+                  <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                    bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+                    style="font-size: 16px; width: 170px; " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                      <span class="ng-value-label">{{item.Spent_Name}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{item.Spent_Name}}
+                    </ng-template>
+                  </ng-select>
+                </div>
+            </td>
+            <td>
+              <div class="position-relative has-icon-right">
+                <input type="text" style="width: 200px; " [(ngModel)]="Expense_.Note" name="Expense_.Note" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+              </div>  
+              </td>
+              <td>
+                <div class="position-relative has-icon-right">
+                  <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)" style="width: 150px;">                
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field></div> 
+              </td>
+              <td >
+                <div class="position-relative has-icon-right">
+                  <input type="number" style="width: 150px; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                </div>
+              </td>
+              <td class="sticky-right">
+                <div class="position-relative has-icon-right">
+                  <select style="width: 60px; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                    <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+                  </select>
+                  </div>
+              </td>
+              <td>
+                <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+              </button>
+            </td>
+              
+            </tr>											
+          </tbody>
+        </table>
+      </div></div>
+    <!--	<form>
+                <tr>
+                    <td style="width: 100%;"><br>
+                        <div class="position-relative has-icon-right">
+                        <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
+  name="Temp_Task.Task_Name">
+</div>
+  <input type="submit"
+class="btn  btn-block"
+(click)="create_Task(Temp_Task)" value="Create Task">
+                    </td>
+                    
+                </tr>
+            </form>	-->        
+  </div>
+</div>
+
+<!-- Paid Expense --><br>
+
+<div class="card">
+  <div class="card-body"> 
+    <div class="row">
+      <div class="col-lg-6 col-xl-3 icon" > 
+        <h5 class="card-title tabletitle" >Paid Expense</h5>
+        <h5 class="card-title tabletitle1" >Paid Expense</h5>   
+      </div>
+      <div class="col-lg-6 col-xl-3 icon" > 
+      </div>
+      <div class="col-lg-6 col-xl-3 icon" > 
+      </div>
+      <div class="col-lg-6 col-xl-3 icon" style="text-align: right;"> 
+        <h5 style="color: green" >Paid Total: ₹{{SelectedPaid()}}</h5> 
+      </div>        
+  </div>               
+                 
+      
+    <th class="desk" style="width: 21%; ">Sector</th>
+    <th class="desk" style="width: 22%; ">Spent_For</th>
+   <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+    <th class="desk" style="width: 12%; ">Spent Date</th>
+    <th class="desk" style="width: 12%; ">Spent_Amount</th>
+    <th class="desk" style="width: 13%; text-align: center;" >Status</th>
+    <th class="desk" style="width: 1%;">Action</th> 
+    <div *ngFor="let Expense_ of List_All_Expense |filter:searchText|filter:searchTexts"  class="card">
+      <table style="cellspacing:2px " class="desk" >
+      <tr *ngIf="Expense_.Status =='Paid'">
+        <td style="width: 25%;" >
+          <div class="position-relative has-icon-right">
+            <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+              bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+              style="font-size: 16px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-label">{{item.Sector_Name}}</span>
+                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{item.Sector_Name}}
+              </ng-template>
+            </ng-select>
+          </div>
+        </td>
+        <td style="width: 25%;">
+          <div class="position-relative has-icon-right">
+            <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+              bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+              style="font-size: 16px;  " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-label">{{item.Spent_Name}}</span>
+                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{item.Spent_Name}}
+              </ng-template>
+            </ng-select>
+          </div>
+        </td>
+       <!-- <td style="width: 9%;">
+          <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+          <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+            disabled>
+        </td>-->
+        <td style="width: 15%; ">
+          <div class="position-relative has-icon-right">
+            <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">                
+              <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field></div>                    
+        </td>
+        <td style="width: 15%; ">
+          <div class="position-relative has-icon-right">
+            <input type="number" style="width: 100%; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+          </div>
+        </td>
+        <td style="width: 15%;">                   
+          <div class="position-relative has-icon-right">
+          <select style="width: 100%; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+            <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+          </select>
+          </div>
+        </td>
+        <!-- <td style="width: 1%; ">
+      <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+      </td>-->
+        <td style="width: 5%; ">
+          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+          </button>
+        </td>
+      </tr>
+    </table>
+    </div>
+<!-- work -->
+    <div class="sticky-container">
+      <div class="table-responsive mobile">
+        <table class="table table-lg">
+          <thead>
+            <tr style="height: 25px;" >          						
+              <th  scope="col" style="color: #626161e0;">Sector</th>
+              <th  scope="col" style="color: #626161e0;">Spent_For</th>
+              <th  scope="col" style="color: #626161e0;">Note</th>
+             <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+              <th  scope="col" style="color: #626161e0;">Spent Date</th>
+              <th  scope="col" style="color: #626161e0;">Spent_Amount</th>                       
+              <th scope="col" class="sticky-right" style="text-align: center;" >Status</th>
+              <th scope="col" style="color: #626161e0;">Action</th> 						
+            </tr>
+          </thead>
+          <tbody *ngFor="let Expense_ of List_All_Expense |filter:searchText|filter:searchTexts" >
+            <tr  *ngIf="Expense_.Status =='Paid'">								
+              <td >
+                <div class="position-relative has-icon-right">
+                  <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                    bindLabel="Sector_Name" [(ngModel)]="Expense_.Sector" name="Expense_.Sector"
+                    style="font-size: 16px; width: 170px;" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                      <span class="ng-value-label">{{item.Sector_Name}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{item.Sector_Name}}
+                    </ng-template>
+                  </ng-select>
+                </div>
+            </td>
+              <td>
+                <div class="position-relative has-icon-right">
+                  <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                    bindLabel="Spent_Name" [(ngModel)]="Expense_.Spent_For" name="Expense_.Spent_For"
+                    style="font-size: 16px; width: 170px; " class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                      <span class="ng-value-label">{{item.Spent_Name}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{item.Spent_Name}}
+                    </ng-template>
+                  </ng-select>
+                </div>
+            </td>
+            <td>
+              <div class="position-relative has-icon-right">
+                <input type="text" style="width: 200px; " [(ngModel)]="Expense_.Note" name="Expense_.Note" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+              </div>  
+              </td>
+              <td>
+                <div class="position-relative has-icon-right">
+                  <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)" style="width: 150px;">                
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="Expense_.Spent_date" name="Expense_.Spent_date" placeholder="Spent_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field></div> 
+              </td>
+              <td >
+                <div class="position-relative has-icon-right">
+                  <input type="number" style="width: 150px; " [(ngModel)]="Expense_.Spent_Amount" name="Expense_.Spent_Amount" placeholder="Spent_Amount" class="form-control form-control-sm" on-focusout="Update_Expenses(Expense_)">
+                </div>
+              </td>
+              <td class="sticky-right">
+                <div class="position-relative has-icon-right">
+                  <select style="width: 60px; " [(ngModel)]="Expense_.Status" name="Expense_.Status" placeholder="Spent_Amount" class="form-control form-control-sm" (ngModelChange)="Update_Expenses(Expense_)">
+                    <option *ngFor="let status_ of Status" value="{{status_.Status_Name}}" style="background-color: white; color: black;">{{status_.Status_Name}}</option>
+                  </select>
+                  </div>
+              </td>
+              <td>
+                <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="Delete_Expenses(Expense_)">
+              </button>
+            </td>
+              
+            </tr>											
+          </tbody>
+        </table>
+      </div></div>
+    <!--	<form>
+                <tr>
+                    <td style="width: 100%;"><br>
+                        <div class="position-relative has-icon-right">
+                        <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
+  name="Temp_Task.Task_Name">
+</div>
+  <input type="submit"
+class="btn  btn-block"
+(click)="create_Task(Temp_Task)" value="Create Task">
+                    </td>
+                    
+                </tr>
+            </form>	-->        
+  </div>
+</div>
+
+        </div>
+
+    </div>

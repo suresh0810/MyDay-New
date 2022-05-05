@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild ,ElementRef} from '@angular/core';
 import * as chartsData from '../../shared/data/ecommerce1';
 import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
-import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../Classes';
+import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline,Task_Update } from '../Classes';
 import { ObjectId } from 'bson';
+import { FormGroup, FormControl } from "@angular/forms";
 import { FirebaseService } from 'src/app/auth/firebase.service';
-import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ChartComponent,
   ApexChart,
@@ -64,6 +65,7 @@ MAT_DATE_FORMATS
 } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DatePipe } from "@angular/common";
+import { AnyRecord } from 'dns';
 export const MY_FORMATS = {
   parse: {
     dateInput: "YYYY-MM-DD HH:mm:ss"
@@ -95,14 +97,27 @@ export const MY_FORMATS = {
   ]
 })
 export class TaskComponent implements OnInit {
+  @ViewChild('imgRenderer') imgRenderer: ElementRef;
+  @ViewChild('f') myNgForm;
   userName: string;
   Selected_People: string;
 
-  //FB_User: any;
+  FB_User: any;
   taskdetails: string;
   User_: User;
   Tasks: Task[];
   List_of_Tasks = [];
+  List_of_Complete_task = [];
+  Task_Id:string;
+img;
+image = [];
+ 
+  Temp_Task_Update:Task_Update;
+  images;
+  imagess = [];
+  Temp_Task_Content: string;
+  Temp_Task_Files: File[];
+  List_of_Tasks_filter = [];
  //Global_UserList: [];
   closeResult: string = '';
   FirebaseUser_: FirebaseUser;
@@ -113,9 +128,17 @@ export class TaskComponent implements OnInit {
   List_of_option: KstatusOption;
 date:string;
   Temp_Task: Task;
+  Selected_Task: Task;
+  Selected_Task_update:Task_Update;
+
   created_at:Date;
   Global_UserList: FirebaseUser[];
   load:string;
+  name;
+
+  Selected_index:number;
+
+  sidenave: HTMLElement;
 
   @ViewChild("chart-1") chart: ChartComponent;
 
@@ -125,7 +148,16 @@ date:string;
   placement = 'bottom';
   placement1 = 'bottom';
   searchText;
+
+  searchTexts;
+  searchTextsowner;
+
   complete;
+
+  load_image =[];
+  form: FormGroup;
+
+  Select_update_index:number;
   
   // line -Chart 1
   public lineChartData = chartsData.lineChartData;
@@ -178,8 +210,9 @@ date:string;
   public chartHovered(e: any): void {
     //your code here
   }
-  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
-    this.LoadToDolistOnlyOwned();
+  
+  constructor(private modalService: NgbModal,private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
+   
 
 
     //this.afs.collection('users').valueChanges().subscribe(List => {
@@ -276,17 +309,30 @@ date:string;
   ngOnInit(): void {
 
       
-    $.getScript('./assets/js/ecommerce1.js');    
+    $.getScript('./assets/js/ecommerce1.js'); 
+
+    this.Selected_index = 0;
+    this.Select_update_index = 0;
+
+    this.Temp_Task_Content = "";
+    this.Temp_Task_Files = [];
+
+    this.Temp_Task_Update = new Task_Update(this.Temp_Task_Content,this.Temp_Task_Files,new Date(Date.now()));  
     
-    this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
-    
-   
+    this.Temp_Task = new Task("","Pending", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+    this.Selected_Task = new Task("","Pending", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+    this.Selected_Task_update = new Task_Update("",[],new Date(Date.now()))
+
+    this.sidenave = document.getElementById('mySidenav');
+  
     this.getFirebaseUsers();
     this.auth.user_.subscribe(user =>
       {
            // this.FB_User = user;
-            console.log("this.FB_User : ");   
-            console.log(user);     
+            console.log("this.FB_User : "); 
+              this.name = user.userName;
+              this.searchTextsowner = user.userName;
+            console.log(user.userName);     
            this.Global_UserList.forEach(element => 
             {       
              if(user.userId==element.id)
@@ -295,6 +341,8 @@ date:string;
               console.log("this.FirebaseUser_"); 
               console.log(this.FirebaseUser_); 
               this.LoadToDolistOnlyOwned();
+              this.LoadToDolist_Done_OnlyOwned();
+              this.LoadToDolist_filter_OnlyOwned();
              }
          });  
             this.User_ = new User(this.FirebaseUser_); 
@@ -310,40 +358,72 @@ date:string;
     })
   }
 
-  create_Task(_newTask: Task): void 
-  {
+  create_Task(_newTask: Task){
+  this.List_of_Tasks.push(_newTask.Task_Name); 
+ 
+    
     _newTask.Task_Createddate=new Date(Date.now());
     _newTask.start_date=new Date(Date.now());
     _newTask.end_date=new Date(Date.now());
     console.log(this.FirebaseUser_);
-    
+
     _newTask.Owner_Of_The_Task={} as FirebaseUser;
     _newTask.Owner_Of_The_Task.id = this.FirebaseUser_.id;
     _newTask.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
-
-   // localStorage.setItem('createToDolist_item', JSON.stringify(_newTask));
-
-   this.List_of_Tasks.push(_newTask);
-
+   _newTask.Assing_People = this.FirebaseUser_.Selected_People;
     this.DBService_.createToDolist(_newTask).subscribe((Data_) => {               
       console.log(Data_);
+      // this.DBService_.LoadToDolistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
+      //   this.List_of_Tasks = list_;      
+      //     console.log("usertask");                
+      //     console.log(this.List_of_Tasks);
           
-      this.toast.success('Create Task Success!','Success!', {
-        timeOut:1500
-      });      
-     this.LoadToDolistOnlyOwned();      
+      //     this.toast.success('Create Task Success!','Success!', {
+      //       timeOut:1500
+      //     }); 
+      //  })    
+       
+      //  this.DBService_.LoadToDolist_filter_OnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
+      //   this.List_of_Tasks_filter = list_;      
+      //     console.log("usertask filter");      
+      //     console.log(this.List_of_Tasks_filter);
+      //  })
+         this.LoadToDolistOnlyOwned();
+         this.LoadToDolist_filter_OnlyOwned();
+         this.LoadToDolist_Done_OnlyOwned();
+         this.toast.success('Create Task Success!','Success!', {
+          timeOut:1500
+          }); 
     // this.LoadUserDataFromServer(this.User_);
-    });   
+    });
     
-  }
+    
+    }
 
   LoadToDolistOnlyOwned() {
   this.DBService_.LoadToDolistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
     this.List_of_Tasks = list_;      
-      console.log("usertask");
+      console.log("usertask");      
       console.log(this.List_of_Tasks);
+     
+     
    })
   }
+  LoadToDolist_Done_OnlyOwned(){
+    this.DBService_.LoadToDolist_Done_OnlyOwned(this.FirebaseUser_).subscribe((Data_: any) => {
+      this.List_of_Complete_task = Data_;      
+        console.log("List_of_Complete_task");      
+        console.log(this.List_of_Complete_task);       
+     })
+
+  }
+  LoadToDolist_filter_OnlyOwned() {
+    this.DBService_.LoadToDolist_filter_OnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
+      this.List_of_Tasks_filter = list_;      
+        console.log("usertask filter");      
+        console.log(this.List_of_Tasks_filter);
+     })
+    }
 
 
 
@@ -352,6 +432,11 @@ date:string;
     this.DBService_.UpdateToDolist(_Task).subscribe((list_) => {
       console.log("Update ToDolist_item : " + JSON.stringify(list_));
       this.LoadToDolistOnlyOwned();
+      this.LoadToDolist_Done_OnlyOwned();
+      this. LoadToDolist_filter_OnlyOwned();
+      this.toast.success('Task Update Success!', 'Success!', {
+        timeOut:1500
+      });
     })
   }
 
@@ -365,6 +450,8 @@ date:string;
     this.DBService_.DeleteToDolist(_Task).subscribe((list_) => {
       console.log("Delete ToDolist_item : " + JSON.stringify(list_));
       this.LoadToDolistOnlyOwned();
+      this.LoadToDolist_Done_OnlyOwned();
+      this. LoadToDolist_filter_OnlyOwned();
       this.toast.success('Task Delete Success!', 'Success!', {
         timeOut:1500
       });
@@ -378,7 +465,8 @@ date:string;
           id: e.payload.doc.id,
           isEdit: false,
           userName: e.payload.doc.data()['userName'],
-        //  filepath: e.payload.doc.data()['filepath'],
+         filepath: e.payload.doc.data()['filepath'],
+         Selected_People: e.payload.doc.data()['Selected_People'],
         };
       })
       console.log("this.Global_UserList");  
@@ -386,6 +474,14 @@ date:string;
     });
     return this.Global_UserList;
   }  
+
+
+  onChange(value) {
+    //alert(value);
+    if(value == 'Clear'){
+      this.searchTexts = '';
+    }
+  }
 
   reset() {
     this.Temp_Task.Task_Name = "";
@@ -399,4 +495,255 @@ date:string;
     }
    }
 
+   Status = [
+     {id:0, Status_Name:''},
+    {id:1, Status_Name:'Pending'},
+    {id:2, Status_Name:'Started'},
+    {id:3, Status_Name:'Done'},
+    {id:4, Status_Name:'WIP'},
+    {id:5, Status_Name:'Stuck'},
+  ]
+
+  openNav(Task_) {
+    console.log(Task_._id);
+    this.Task_Id = Task_._id;   
+     this.Selected_Task = Task_;
+    this.sidenave.classList.add('sidenav_Open');
+     this.sidenave.classList.remove('sidenav_Close');
+     this.index_leng();
+  }
+  openNavm(Task_) {
+    console.log(Task_._id);
+    this.Task_Id = Task_._id;   
+     this.Selected_Task = Task_;
+    this.sidenave.classList.add('sidenav_Opens');
+     this.sidenave.classList.remove('sidenav_Close');
+     this.index_leng();
+  }
+  closeNav() {
+     this.sidenave.classList.add('sidenav_Close');
+     this.sidenave.classList.remove('sidenav_Open');
+  }
+
+  deleteImage(url: any) {
+    const index = this.images.indexOf(url);
+    this.images.splice(index, 1);
+    this.Temp_Task_Update.Task_Update_files.splice(index, 1);
+  }
+  del(url: any) {
+    const index = this.images.indexOf(url);
+    this.images.splice(index[0]);
+  }
+
+  onPaste(event: any) {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    let blob: File = null;
+
+    for (const item of items) {
+      if (item.type.indexOf('image') === 0) {
+        blob = item.getAsFile();
+      }
+    }
+
+    // load image if there is a pasted image
+    if (blob !== null) {
+      const reader = new FileReader();
+      reader.onload = (evt: any) => {
+        //   console.log(evt.target.result); // data url!
+        //this.imgRenderer.nativeElement.src = evt.target.result;
+        this.imagess.push(evt.target.result);
+        console.log("File Name: " + evt.target.result);
+        this.imagess = evt.target.result;
+        //save local storage
+        //get location src
+        //store src string
+  
+
+        this.Temp_Task_Files.push(blob);
+      };
+      reader.readAsDataURL(blob);
+    }
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      this.imagess = event.target.files;  
+                 
+    }   
+
+
+    // onFileChange(event) {
+    //   if (event.target.files.length > 0) {
+    //     const file = event.target.files[0];
+    //     this.images = file;               
+    //   }  
+
+    // if (event.target.files && event.target.files[0]) {
+    //   var files = event.target.files.length;
+    //   for (let i = 0; i < files; i++) {
+    //     var reader = new FileReader();
+    //     reader.onload = (event: any) => {
+    //       console.log(event.target.result);
+    //       this.images.push(event.target.result);
+    //       this.imagess = event.target.result;
+    //       this.Temp_Task_Update.Task_Update_files.push(event.target.result)
+    //     }
+    //     reader.readAsDataURL(event.target.files[i]);
+    //   }
+    // }
+    // event.srcElement.value = null;
+  }
+
+
+  selectImage(event) {
+    if (event.target.files.length > 0) {
+      this.image = event.target.files; 
+     
+
+        
+    }
+  }
+
+  onSubmit(){
+   const formData = new FormData();                
+    formData.append('file', this.images);     
+    console.log(formData)
+
+    this.DBService_.uplode_Item(formData).subscribe((Data_: any) => {          
+      console.log(Data_);     
+      
+      this.toast.warning('Plaese click Update!', 'Warning!', {
+        timeOut:1500
+      
+      });
+     
+    })
+   
+  }
+
+
+
+
+
+  Task_Select(event){
+    console.log(this.Task_Id);
+    this.Task_Id = event;
+    this.Selected_index = event;
+  }
+
+
+
+  Task_Update(Taskupdate_:Task_Update) {
+    const formData = new FormData();
+    console.log(this.image)    
+    for(let img of this.imagess){
+      formData.append('files', img)       
+    }
+    Taskupdate_.index = this.Selected_Task.Task_Updates.length + 1
+    Taskupdate_.Task_id = this.Task_Id;
+    Taskupdate_.Date = new Date(Date.now()) 
+    formData.append('files', JSON.stringify(Taskupdate_))         
+   // console.log(formData)   
+   // let fulldata = {data:Taskupdate_,file:formData} 
+   // Taskupdate_.Task_Update_files = this.images;
+  
+   
+    this.Selected_Task.Task_Updates.push(new Task_Update(this.Temp_Task_Update.Task_Update_Content, this.Temp_Task_Update.Task_Update_files,new Date(Date.now())));
+    Taskupdate_.Task_id = this.Task_Id; 
+    Taskupdate_.Task_Update_Content = this.Temp_Task_Update.Task_Update_Content;
+    Taskupdate_.Task_Update_files = this.Temp_Task_Update.Task_Update_files;
+    this.DBService_.uplode_multi_image(formData).subscribe((list_) => {
+      console.log("Update ToDolist_item : " + JSON.stringify(list_));
+      this.LoadToDolistOnlyOwned();
+      this.LoadToDolist_Done_OnlyOwned();
+      this. LoadToDolist_filter_OnlyOwned();
+      this.toast.success('Task Update Success!', 'Success!', {
+        timeOut:1500
+      });
+  
+    })   
+  }
+
+  task_update_form_reset(){
+    this.Temp_Task_Update.Task_Update_Content = "";
+    this.Temp_Task_Update.Task_Update_files = [];
+  }
+
+
+
+  // Task_Update(Taskupdate_:Task_Update) {
+  //   const formData = new FormData();
+  //   console.log(this.images)    
+  //   formData.append('file', this.images)  
+  //   formData.append('file', JSON.stringify(Taskupdate_))    
+  //  // console.log(formData)   
+  //  // let fulldata = {data:Taskupdate_,file:formData}  
+
+  //  // Taskupdate_.Task_Update_files = this.images;
+  //   this.Selected_Task.Task_Updates.push(new Task_Update(this.Temp_Task_Update.Task_Update_Content, this.Temp_Task_Update.Task_Update_files));
+  //   Taskupdate_.Task_id = this.Task_Id; 
+  //   Taskupdate_.Task_Update_Content = this.Temp_Task_Update.Task_Update_Content;
+  //   Taskupdate_.Task_Update_files = this.Temp_Task_Update.Task_Update_files;
+  //   this.DBService_.ToDolist_Task_Update(formData).subscribe((list_) => {
+  //     console.log("Update ToDolist_item : " + JSON.stringify(list_));
+  //     this.LoadToDolistOnlyOwned();
+  //     this.LoadToDolist_Done_OnlyOwned();
+  //     this. LoadToDolist_filter_OnlyOwned();
+  
+  //   })   
+  // }
+
+  update_index(event){    
+    this.Select_update_index = event;
+    console.log(this.Select_update_index)
+
+  }
+  slecect(event){
+    this.Selected_Task_update = event;
+    console.log(this.Selected_Task_update.id)
+    
+  }
+
+  Task_Update_Change(_Task_update: Task_Update) {
+    _Task_update.index = this.Select_update_index;   
+    _Task_update.Task_id = this.Task_Id;
+    _Task_update.Date = new Date(Date.now()) 
+    this.DBService_.Task_Update_Change(_Task_update).subscribe((list_) => {
+      console.log("Update ToDolist_item : " + JSON.stringify(list_));
+      this.LoadToDolistOnlyOwned();
+      this.LoadToDolist_Done_OnlyOwned();
+      this. LoadToDolist_filter_OnlyOwned();
+      this.toast.success('Task Update Change Success!', 'Success!', {
+        timeOut:1500
+      });
+    })
+  }
+
+  index_leng(){   
+     this.Selected_Task.Task_Updates.length+1;
+     console.log(this.Selected_Task.Task_Updates.length + 1)
+  }
+
+  Task_update_delete(_Task_update: Task_Update) {
+    const index: number = this.Selected_Task.Task_Updates.indexOf(_Task_update);
+    if (index !== -1) {
+      this.Selected_Task.Task_Updates.splice(index, 1);
+    }  
+    _Task_update.Task_id = this.Task_Id;
+    _Task_update.index = this.Select_update_index;        
+    this.DBService_.Task_update_delete(_Task_update).subscribe((list_) => {
+      console.log("Delete ToDolist_item : " + JSON.stringify(list_));
+      this.LoadToDolistOnlyOwned();
+      this.LoadToDolist_Done_OnlyOwned();
+      this. LoadToDolist_filter_OnlyOwned();
+      this.toast.success('Task Update Delete Success!', 'Success!', {
+        timeOut:1500
+      });
+    })
+  }
+
+
+  openVerticallyCentered(content) {
+    this.modalService.open(content, { centered: true });
+  }
 }

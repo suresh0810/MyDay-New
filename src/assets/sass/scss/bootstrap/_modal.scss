@@ -35,18 +35,18 @@
 .modal-content {
   border-radius: 0.25rem;
   font-size: 14px;
-  background: #000;
+  background: rgb(255, 255, 255);
 }
 .close {
   font-size: 1.4rem;
   font-weight: 400;
-  color: #fff;
+  color: rgb(0, 0, 0);
   opacity: 0.7;
 }
 .close:hover {
   font-size: 1.4rem;
   font-weight: 400;
-  color: #fff;
+  color: rgba(213, 39, 39, 0.755);
 }
 .swal-modal {
   border-radius: 0.25rem;

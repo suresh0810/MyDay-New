@@ -286,7 +286,7 @@ date:string;
     
     $.getScript('./assets/js/ecommerce1.js');    
     
-    this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+    this.Temp_Task = new Task("","", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     
    
     this.getFirebaseUsers();
@@ -387,7 +387,8 @@ date:string;
           id: e.payload.doc.id,
           isEdit: false,
           userName: e.payload.doc.data()['userName'],
-        //  filepath: e.payload.doc.data()['filepath'],
+          filepath: e.payload.doc.data()['filepath'],
+          Selected_People: e.payload.doc.data()['Selected_People'],
         };
       })
       console.log("this.Global_UserList");  

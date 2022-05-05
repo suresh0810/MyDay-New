@@ -22,7 +22,7 @@
     </div>
   </div>
   <!-- End Breadcrumb-->               
-      <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;">     
+      <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search" style="border-radius: 10px; height: 40px; background-color: rgba(236, 144, 144, 0.551);">     
       <br>
 <!-- Tab Group -->
 <div class="row">
@@ -41,6 +41,22 @@
         
 
         <!-- Desktop -->
+        <tr class="desk">
+          <td style="width: 200px; text-indent: 10px;">
+            <div class="position-relative has-icon-right">
+            Spent by
+          </div>
+          </td>
+          <td style="width: 630px; text-indent: 50px;">
+            Spent For
+          </td>
+          <td style="width: 420px; text-align: center;">
+            Spent Date
+          </td>
+          <td style="width: 200px; text-align: center; " >
+            Amount
+          </td>
+        </tr>
     
           <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i" class="desk">
             <table style="cellspacing:2px ">
@@ -67,7 +83,7 @@
             </td>  
             <td style="width: 14%;  overflow: auto;">
               <div class="position-relative has-icon-right">
-                <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_Expense.Spent_Amount"
+                <input class="form-control form-control-sm" style="width: 100%; background-color: white;" [(ngModel)]="_Expense.Spent_Amount"
                   name="_Expense.Spent_Amount" disabled>
               </div>
             </td>            
@@ -107,20 +123,27 @@
 
         <div class="sticky-container">
           <div class="table-responsive mobile">
-            <table class="table table-lg">
+           
 
             
-     <!-- <thead>                            
-            <tr style="height: 25px;">
-              <th  scope="col" >Spent by</th>
-              <th scope="col">Spent For</th>
-              <th scope="col">Spent Date</th>
-              <th scope="col" style=" text-align: center;" class="sticky-right">Amount</th>
-              <th scope="col" >Action</th>
-            </tr>
-          </thead>-->
+              <tr class="mobile">
+                <td style="width: 80px; text-indent: 8px;">
+                  <div class="position-relative has-icon-right">
+                  Spent by
+                </div>
+                </td>
+                <td style="width: 300px; text-indent: 12px;">                 
+                  Spent For              
+                </td>
+                <td style="width: 200px; text-align: right; text-indent: 110px;">
+                  Spent Date
+                </td>
+                <td style="width: 200px; text-align: right; background-color: rgba(213, 39, 39, 0.755); color: white;"  class="sticky-right">
+                  Amount
+                </td>
+              </tr>  
           
-            
+          <table class="table table-lg">
           <tbody >
           <div *ngFor="let _Expense of this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense|filter:searchText let i = index" [attr.data-index]="i">
             
@@ -147,7 +170,7 @@
             </td>  
             <td style="width: 57px;  overflow: auto;" class="sticky-right" >
               <div class="position-relative has-icon-right">
-                <input class="form-control form-control-sm" style="width: 57px;" [(ngModel)]="_Expense.Spent_Amount"
+                <input class="form-control form-control-sm" style="width: 57px; background-color: white;" [(ngModel)]="_Expense.Spent_Amount"
                   name="_Expense.Spent_Amount" disabled>
               </div>
             </td>            
@@ -199,7 +222,7 @@
                 </td>                                            
                            
                 <td> <!-- Temp_Finance_Items.split_equaly-->
-                  <input type="submit"  class="btn  btn-block btn-light form-control"
+                  <input type="submit"  class="btn btn-primary form-control"
                     style=" border-radius: 2px; color: white;  height: 38px;"
                     (click)="create_Expenses(Temp_Expense)"  value="Save" (click)="reset()" (window:keypress.enter)="onSomeAction($event)">
                 </td>
@@ -231,7 +254,7 @@
                 <td style=" background: transparent; width: 10%;">
                   <div class="position-relative has-icon-right">
                     <mat-form-field appearance="outline radius-15" class="form-control" style="font-size: 16px; width: 25px; min-height: 38px; margin-left: -7px;">                
-                      <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Expense.Spent_date" name="Temp_Expense.Spent_date" placeholder="Spent_date"  >
+                      <input matInput  [(ngModel)]="Temp_Expense.Spent_date" name="Temp_Expense.Spent_date" placeholder="Spent_date"  >
                       <mat-datepicker-toggle matSuffix [for]="picker" style="margin-left: -20px; margin-top: 5px;"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field></div>
@@ -260,17 +283,17 @@
 				  </ul>-->
           <ng-template #Expenses_Add let-modal>
           <div class="modal-header">
-            <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Create Expenses Group</h1>
+            <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: black;">Create Expenses Group</h1>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form #myForm="ngForm">
-              <label>Expenses Group Name</label>
+              <label style="color: black;">Expenses Group Name</label>
               <div class="form-group">
                 <mat-form-field appearance="outline radius-15" class="" style="width: 100%; height: 100%;">
-                  <input matInput [(ngModel)]="Temp_Expense_Group.Expense_Group_Name" name='Temp_Expense_Group.Expense_Group_Name'  required class="form-control" style="border: 1px solid chartreuse;">
+                  <input matInput [(ngModel)]="Temp_Expense_Group.Expense_Group_Name" name='Temp_Expense_Group.Expense_Group_Name'  required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
                 </mat-form-field>
                 <br><br>                
                 <!-- Place to render the image -->
@@ -278,9 +301,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="create_Expenses_Group(Temp_Expense_Group)" (click)="reset_group()"
-              [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Create Group Name</button>
+            <button type="button" class="btn btn-primary" (click)="modal.close('Close click')" >Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="create_Expenses_Group(Temp_Expense_Group)" (click)="reset_group()" [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Create Group Name</button>
 
           <!--    <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
               [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" (click)="reset()">Create

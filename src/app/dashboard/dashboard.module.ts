@@ -27,6 +27,10 @@ import { MatInputModule} from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { DailytrackerComponent } from './dailytracker/dailytracker.component';
+import { ExpensesComponent } from './expenses/expenses.component';
+import { SettingsComponent } from './settings/settings.component';
+import { NotepadeComponent } from './notepade/notepade.component';
+import { NotepadComponent } from './notepad/notepad.component';
 
 
 
@@ -59,7 +63,11 @@ import { DailytrackerComponent } from './dailytracker/dailytracker.component';
     ProductionComponent,
     FinanceComponent,
     TaskComponent,
-    DailytrackerComponent,               
+    DailytrackerComponent,
+    ExpensesComponent,
+    SettingsComponent,
+    NotepadeComponent,
+    NotepadComponent,               
    ],
     providers: [SumPipeModule],
 })

@@ -7,8 +7,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
-    background-color: #084e83;
-    border-radius: 2px;
+    background-color: rgba(212, 44, 44, 0.612);
+    border-radius: 3px;
     color: #fff;
     /* padding: 2px 5px; */
     margin: -8.5px 0em 1.5em 0;
@@ -99,3 +99,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   //color: #fff;
   //text-transform: uppercase;
 //}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #000000;
+}

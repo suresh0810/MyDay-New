@@ -44,9 +44,8 @@
 }
 
 .bg-signup2 {
-  background-color: #5e72e4;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.63), rgba(0, 0, 0, 0.68)),
-    url(./../../../images/bg-sighn-2.png);
+  background-color: rgba(213, 39, 39, 0.755);
+ 
   height: 100%;
   border-radius: 0;
   border-top-left-radius: 0.25rem;
@@ -54,17 +53,15 @@
 }
 
 .bg-signin2 {
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.63), rgba(0, 0, 0, 0.68)),
-    url(./../../../images/bg-sighn-2.png);
+ background-color: rgba(213, 39, 39, 0.755);
   height: 100%;
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
 
 .bg-reset-password2 {
-  background-color: #5e72e4;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.63), rgba(0, 0, 0, 0.68)),
-    url(./../../../images/bg-sighn-2.png);
+  background-color: rgba(213, 39, 39, 0.755);
+
   height: 100%;
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;

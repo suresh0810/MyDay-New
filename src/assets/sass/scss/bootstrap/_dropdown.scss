@@ -5,8 +5,8 @@
   -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
   font-size: 15px;
-  background-color: #000;
-  color: #ffffff;
+  background-color: rgb(255, 255, 255);
+  color: #000000;
 }
 
 .topbar-nav .navbar .dropdown-menu::after {
@@ -34,13 +34,13 @@
 
 .dropdown-item {
   padding: 0.7rem 1.5rem;
-  color: #ffffff;
+  color: #000000;
   display: flex;
   align-items: center;
 
   &:hover {
     padding: 0.7rem 1.5rem;
-    background-color: #222;
+    background-color: rgba(213, 39, 39, 0.755);
     color: #ffffff;
     transition: all 0.2s ease;
   }
@@ -99,13 +99,13 @@
       .media-body {
         .msg-title {
           font-size: 14px;
-          color: #fff;
+          color: rgb(0, 0, 0);
           margin-bottom: 0px;
         }
 
         .msg-info {
           font-size: 13px;
-          color: #ffffff;
+          color: #bb6262;
           margin-bottom: 0;
           white-space: nowrap;
         }

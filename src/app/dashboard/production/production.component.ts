@@ -105,20 +105,14 @@ export class ProductionComponent implements OnInit {
   }
 
 
-
-
   ngOnInit(): void {
 
     this.Loaded_Wrokspaces.push(new Workspace("Default", this.FirebaseUser_));
 
 
     //Loading User data from DB
-
-
     //Loading Workspaces
-
     //Loading Boards
-
     //Loading Groups
 
 
@@ -128,9 +122,6 @@ export class ProductionComponent implements OnInit {
     this.Selected_Group_Index = 0
 
     this.Selected_Item = new Item("Default", 0);
-
-
-
 
 
     this.Board_Title = "";
@@ -758,6 +749,17 @@ export class ProductionComponent implements OnInit {
   del(url: any) {
     const index = this.images.indexOf(url);
     this.images.splice(index[0]);
+  }
+
+  w3_open() {
+    
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("openNav").style.display = 'none';
+    
+  }
+  w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("openNav").style.display = "inline-block";
   }
 }
 

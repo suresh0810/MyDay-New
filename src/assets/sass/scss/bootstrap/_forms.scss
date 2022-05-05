@@ -43,13 +43,13 @@
 }
 
 .form-control {
-  border: 0px solid #e5eaef;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff !important;
+  border: 1px solid rgba(213, 39, 39, 0.755);
+  background-color: rgb(255, 255, 255);
+  color: #626161e0 !important;
 
   &:focus {
-    background-color: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.45);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 0 0.2rem rgba(251, 188, 188, 0.452);
   }
 }
 

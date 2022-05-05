@@ -2,7 +2,7 @@
     position:fixed;
     bottom:0px; 
     //background:  linear-gradient(#015b7f , #048293);
-    background: #323c46;
+    background: rgba(213, 39, 39, 0.755);
     height: 50px;
     padding: 5px;
   }
@@ -11,7 +11,7 @@
     position:fixed;
     bottom:0px; 
     //background:  linear-gradient(#015b7f , #048293);
-    background: #323c46;
+    background: rgba(213, 39, 39, 0.755);
     height: 50px;
     margin-left: -35.5px;
   }
@@ -26,12 +26,12 @@
 .has-icon-right .form-control {
   padding-right: 0px;
 }
-
-.form-control {
-  border: 0px solid ;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff !important;
-}
+// .form-control {
+//   border: 1px solid rgba(213, 39, 39, 0.755);
+//   background-color: rgba(236, 144, 144, 0.551);
+//   color: rgb(255, 255, 255) !important;
+  
+//   }
 
 .inputContainer i {
   position: absolute;
@@ -94,7 +94,7 @@ td.sticky-right, th.sticky-right {
   position: sticky; 
   right:0;
   z-index:auto;  
-  background-color: #323c46;  
+  background-color: rgba(213, 39, 39, 0.755);  
   
 }
 
@@ -131,8 +131,9 @@ td.sticky-right, th.sticky-right {
 }
 
 .total{
-  background-color: rgba(255, 255, 255, 0.2);
-    color: #fff !important;
+  background-color: transparent;
+    color: #626161e0 !important;
+    border: none;
 }
 
 
@@ -168,7 +169,7 @@ td.sticky-right, th.sticky-right {
         font-weight: 600;
         font-size: 12px;
         letter-spacing: 1px;
-        color: white;
+        color: rgba(213, 39, 39, 0.755);
                  
       }   
       .mat-tab-label {
@@ -194,11 +195,11 @@ td.sticky-right, th.sticky-right {
         font-weight: 600;
         font-size: 12px;
         letter-spacing: 1px;
-        color: white;
+        color: rgba(213, 39, 39, 0.755);
       }
       .mat-tab-label.mat-tab-label-active {        
       //  background-color:#006599;
-      background-color:#fafafa5b;
+      background-color:rgba(213, 39, 39, 0.755);
         color: white;
         text-transform: uppercase;
        // box-shadow:3px 3px 3px #888888;
@@ -207,14 +208,14 @@ td.sticky-right, th.sticky-right {
         letter-spacing: 1px;
       }
       .mat-tab-label.mat-tab-label-active:hover {
-        background-color:#fafafa5b;
+        background-color:rgba(213, 39, 39, 0.755);
       }
       .mat-tab-label:hover {
-          background-color: rgba(216, 216, 216, 0.226);
+          background-color: rgba(216, 216, 216, 0.743);
       }
      
       .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-        background-color: green;
+        background-color: rgba(213, 39, 39, 0.755);
     }
       .mat-tab-body-wrapper {
           flex: 1 1 auto;

@@ -2,7 +2,7 @@
   padding: 0px 25px;
   z-index: 999;
   height: 60px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgb(255, 255, 255);
   -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -17,7 +17,8 @@
   height: 30px;
   line-height: 32px;
   border-radius: 0;
-  background: rgba(255, 255, 255, 0.12);
+  //navbar tongul color
+  background: rgba(213, 39, 39, 0.755);
   text-align: center;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
@@ -29,5 +30,6 @@
   padding-right: 0.7rem !important;
   padding-left: 0.7rem !important;
   font-size: 22px;
-  color: #ffffff;
+  //navbar icon color
+  color: rgba(213, 39, 39, 0.755);
 }

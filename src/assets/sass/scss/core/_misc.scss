@@ -12,7 +12,7 @@
 
 .search-bar {
   .btn-search-back {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(221, 160, 160, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     padding: 0 20px;
     border-radius: 0px;
@@ -24,7 +24,7 @@
   }
 
   .btn-search {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(213, 39, 39, 0.755);
     border: 1px solid rgba(255, 255, 255, 0.12);
     padding: 0 30px !important;
     border-radius: 0px;
@@ -33,14 +33,14 @@
 
     i {
       font-size: 20px;
-      color: #fff;
+      color: rgb(255, 255, 255);
     }
   }
 
   input {
     height: calc(1.3em + 0.75rem + 2px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(60, 57, 57, 0.25);
+    background-color: rgba(250, 158, 158, 0.693);
     width: 100%;
     border-radius: 0px;
 
@@ -57,6 +57,7 @@
 .page-title {
   font-size: $font-size-lg;
   line-height: 20px;
+  color: black;
 }
 
 .breadcrumb {
@@ -164,12 +165,13 @@ code {
 
 .icon a {
   &:hover {
-    background: rgba(255, 255, 255, 0.26);
+    background: rgba(213, 39, 39, 0.755);
     color: $white;
     text-decoration: none;
   }
   display: block;
-  color: #e8e8e8;
+  color: #ffffff;
+  background: rgba(225, 84, 84, 0.509);
   padding: 8px;
   line-height: 32px;
   -webkit-transition: all 0.3s ease;

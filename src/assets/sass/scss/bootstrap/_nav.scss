@@ -1,7 +1,7 @@
 /*Nav Tabs & Pills */
 
 .nav-tabs .nav-link {
-  color: #ffffff;
+  color: rgba(213, 39, 39, 0.755);
   font-size: 12px;
   text-align: center;
   letter-spacing: 1px;
@@ -52,29 +52,29 @@
 
 .nav-tabs-primary {
   &.nav-tabs {
-    border-bottom: 1px solid #14abef;
+    border-bottom: 1px solid #ffffff;
   }
 
   .nav-link.active,
   .nav-item.show > .nav-link {
-    color: #14abef;
+    color: rgba(213, 39, 39, 0.755);
     background-color: transparent;
-    border-color: #14abef #14abef #fff;
-    border-bottom: 4px solid #14abef;
+    border-color: rgba(213, 39, 39, 0.755) rgba(213, 39, 39, 0.755) rgba(213, 39, 39, 0.755);
+    border-bottom: 4px solid rgba(213, 39, 39, 0.755);
   }
 }
 
 .nav-tabs-success {
   &.nav-tabs {
-    border-bottom: 1px solid #02ba5a;
+    border-bottom: 1px solid rgba(213, 39, 39, 0.755);
   }
 
   .nav-link.active,
   .nav-item.show > .nav-link {
-    color: #02ba5a;
-    background-color: transparent;
-    border-color: #02ba5a #02ba5a #fff;
-    border-bottom: 4px solid #02ba5a;
+    color: rgba(213, 39, 39, 0.755);
+    background-color: white;
+    border-color: rgba(213, 39, 39, 0.755) rgba(213, 39, 39, 0.755) rgba(213, 39, 39, 0.755);
+    border-bottom: 4px solid rgba(213, 39, 39, 0.755);
   }
 }
 

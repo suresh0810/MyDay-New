@@ -13,7 +13,7 @@ td{
 }
 
 .WsCreat{
-min-width: 220px;
+min-width: 100%;
 }
 
 
@@ -80,7 +80,7 @@ select{
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: #343a40;
+  background-color: #f48f8f;
   //background-color: rgb(156, 156, 156);
   overflow-x: hidden;
   transition: 0.5s;
@@ -99,7 +99,7 @@ select{
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: #343a40;
+  background-color: #f48f8f;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -132,7 +132,7 @@ select{
 
   margin-top: 0;
   color: white;
-  background: #343a40;;
+  background: #f48f8f;
   text-align: center;
   border: white;
   border-radius: 5px;  
@@ -296,6 +296,7 @@ td:nth-child(2){width: 200px;}
 
 .wsb{
   text-align: left;
+ 
 }
 
 .crtworkspace{
@@ -360,19 +361,20 @@ td:nth-child(2){width: 200px;}
         box-shadow:5px 5px 5px #888888;
       }
       .mat-tab-label.mat-tab-label-active {        
-        background-color:#006599;
+        background-color:rgba(213, 39, 39, 0.755);
         color: white;
         box-shadow:3px 3px 3px #888888;
       }
       .mat-tab-label.mat-tab-label-active:hover {
-        background-color:#006599;
+        background-color:rgba(213, 39, 39, 0.755);
       }
       .mat-tab-label:hover {
-          background-color: rgb(216, 216, 216);
+          background-color: rgba(213, 39, 39, 0.755);
       }
       .mat-ink-bar {
           height: 100%;         
           left: 98% !important;
+          color: #343a40;
       }
       .mat-tab-body-wrapper {
           flex: 1 1 auto;
@@ -404,7 +406,9 @@ td:nth-child(2){width: 200px;}
 thead th{
   position: sticky;
   top: 0;
-  background: #5d646b;
+  background: rgba(213, 96, 96, 0.838);
+  border: 1px solid white;
+  color: white;
   z-index: 1;
   height: 35px;
   width: 200px;
@@ -413,21 +417,21 @@ thead th{
 }
 
 thead th:hover {
-  background-color: rgba(246, 245, 245, 0.301);
+  background-color: rgba(239, 165, 165, 0.539);
 }
 
 
 thead th:nth-child(1){
   position: sticky;
   left: 0;
-  background: #5d646b;
+  background: rgba(213, 96, 96, 0.838);
   z-index: 100;
   text-align: left;
   text-indent: 5px; 
  
 }
 thead th:nth-child(1):hover {
-  background-color: #343a40; 
+  background-color: rgba(223, 128, 128, 0.838); 
 }
 
 tbody{
@@ -437,7 +441,7 @@ tbody{
 
 tbody td{
   height: 35px;
-  background: rgba(246, 245, 245, 0.199);
+  background: rgba(244, 202, 202, 0.648);
   border: 1px solid white;
 }
 
@@ -448,16 +452,17 @@ tbody td:hover {
 tbody td:nth-child(1){
   position: sticky;
   left: 0;
-  background: #6b859e;
+  background: rgba(213, 96, 96, 0.838);
   z-index: 1; 
   height: 35px;
   width: 500px;  
   border: 1px solid white; 
   border-left: none;
   text-indent: 1px;
+    
 }
 tbody td:nth-child(1):hover {
-  background-color: #343a40; 
+  background-color: rgba(223, 128, 128, 0.838);
   border-left: 5px solid white; 
 }
 .ads{
@@ -465,6 +470,35 @@ tbody td:nth-child(1):hover {
   width: 31px;
   text-align: center;
   
+}
+
+
+@media screen and (max-width: 768px) {
+  .desk {
+    display: none;
+  }
+  .footer{
+    display: none;
+  }
+  .tabletitle1{
+    display: none;
+  }
+  
+}
+@media screen and (min-width: 768px) {
+  .mobile {
+    display: none;       
+  } 
+  .foot{
+    display: none;
+  } 
+  .sticky-container{
+    display: none;
+  }  
+  .tabletitle{
+    display: none;
+  }
+   
 }
 
 

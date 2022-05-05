@@ -163,7 +163,7 @@ Idsend=[]
   ngOnInit(): void {
   //  this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     this.Temp_Expense_Group= new Expense_Group(  this.FirebaseUser_, new Date(Date.now()), "");
-    this.Temp_Expense =new Expense( "", this.FirebaseUser_,0,this.Temp_Expense_Group.Database_id, this.Global_UserList,"" );
+    this.Temp_Expense =new Expense( "","", this.FirebaseUser_,0, "",new Date(Date.now()),"","" );
 
     this.getFirebaseUsers();
 
@@ -338,8 +338,7 @@ Idsend=[]
   create_Expenses(_newExpense: Expense){
     
     _newExpense.Spent_by = this.FirebaseUser_.userName; 
-    _newExpense.Database_id = this.Temp_Expense_Group.Database_id; 
-
+   
     this.List_of_Expenses_Group[this.Selected_group_Index].List_Of_Expense.push(_newExpense);
     this.DBService_.UpdateFinance(this.List_of_Expenses_Group[this.Selected_group_Index]).subscribe((list_: ObjectId) => {
         
@@ -380,7 +379,8 @@ Idsend=[]
             id: e.payload.doc.id,
             isEdit: false,
             userName: e.payload.doc.data()['userName'],
-          //  filepath: e.payload.doc.data()['filepath'],
+            filepath: e.payload.doc.data()['filepath'],
+            Selected_People: e.payload.doc.data()['Selected_People'],
           
           };
         })

@@ -29,7 +29,7 @@ sendClickEvent_CreateNewToDo(data:any){
   this.subject.next(data);
 }
 
-  
+
 //Task Service
 createTask(Data_){  
   console.log("calling url : "+this.apiurl + "/createTask");
@@ -115,6 +115,15 @@ LoadUserData(Data_){
     console.log("calling url : "+this.apiurl + "/LoadToDolistOnlyOwned");
     return this.http.post (this.apiurl + "/LoadToDolistOnlyOwned",FilterData_);
   }
+  LoadToDolist_Done_OnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/LoadToDolist_Done_OnlyOwned");
+    return this.http.post (this.apiurl + "/LoadToDolist_Done_OnlyOwned",FilterData_);
+  }
+
+  LoadToDolist_filter_OnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/LoadToDolist_filter_OnlyOwned");
+    return this.http.post (this.apiurl + "/LoadToDolist_filter_OnlyOwned",FilterData_);
+  }
 
   DeleteToDolist(Data_){
     console.log("url : "+this.apiurl + "/deleteToDolist_item");
@@ -131,7 +140,51 @@ LoadUserData(Data_){
     return this.http.get(this.apiurl + "/Todolistfind",Data_);
   }
 
-  //Expenses Service
+  ToDolist_Task_Update(Data_){  
+    console.log("calling url : "+this.apiurl + "/ToDolist_Task_Update");
+    return this.http.post(this.apiurl + "/ToDolist_Task_Update", Data_);
+  }
+  uplode_Item(Data_){
+    console.log("calling url : "+this.apiurl + "/file");
+    return this.http.post(this.apiurl + "/file", Data_);
+  }
+  uplode_multi_image(Data_){
+    console.log("calling url : "+this.apiurl + "/ToDolist_Task_Update_multiple");
+    return this.http.post(this.apiurl + "/ToDolist_Task_Update_multiple", Data_);
+  }
+
+  Task_Update_Change(Data_){  
+    console.log("calling url : "+this.apiurl + "/Task_Update_Change");
+    return this.http.post(this.apiurl + "/Task_Update_Change", Data_);
+  }
+
+  Task_update_delete(Data_){
+    console.log("url : "+this.apiurl + "/Task_update_delete");
+    return this.http.post(this.apiurl + "/Task_update_delete", Data_);
+  }
+
+  //
+
+  Create_Note(Data_){  
+    console.log("calling url : "+this.apiurl + "/Create_Note");
+    return this.http.post(this.apiurl + "/Create_Note", Data_);
+  }
+  Load_Notes_OnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/Load_Notes_OnlyOwned");
+    return this.http.post (this.apiurl + "/Load_Notes_OnlyOwned",FilterData_);
+  }
+
+  Update_Notes(Data_){  
+    console.log("calling url : "+this.apiurl + "/Update_Notes");
+    return this.http.post(this.apiurl + "/Update_Notes", Data_);
+  }
+
+  Delete_Notes(Data_){
+    console.log("url : "+this.apiurl + "/Delete_Notes");
+    return this.http.post(this.apiurl + "/Delete_Notes", Data_);
+  }
+
+  //Expenses
 
   createFinanceitem(Data_){  
     console.log("calling url : "+this.apiurl + "/createFinance_item");
@@ -171,10 +224,96 @@ LoadUserData(Data_){
     console.log("calling url : "+this.apiurl + "/loadFinancelistUserData");
     return this.http.get(this.apiurl + "/loadTodolistUserData",Data_);
   }
+  //new
+
+  Create_Expenses(Data_){  
+    console.log("calling url : "+this.apiurl + "/Create_Expenses");
+    return this.http.post(this.apiurl + "/Create_Expenses", Data_);
+  }
+
+  Load_Expenses_Due_OnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/Load_Expenses_due_OnlyOwned");
+    return this.http.post(this.apiurl + "/Load_Expenses_due_OnlyOwned",FilterData_);
+  }
+  
+  Load_Expenses_paid_OnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/Load_Expenses_paid_OnlyOwned");
+    return this.http.post(this.apiurl + "/Load_Expenses_paid_OnlyOwned",FilterData_);
+  }
+  Load_Expenses_Selected_People_Due(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/Load_Expenses_Selected_People_Due");
+    return this.http.post(this.apiurl + "/Load_Expenses_Selected_People_Due",FilterData_);
+  }
+  Load_Expenses_Selected_People_Paid(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/Load_Expenses_Selected_People_Paid");
+    return this.http.post(this.apiurl + "/Load_Expenses_Selected_People_Paid",FilterData_);
+  }
+  Load_Expenses_All(){  
+    console.log("calling url : "+this.apiurl + "/Load_Expenses_All");
+    return this.http.get(this.apiurl + "/Load_Expenses_All");
+  }
 
 
+  Load_Expenses_OnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/Load_Expenses_OnlyOwned");
+    return this.http.post(this.apiurl + "/Load_Expenses_OnlyOwned",FilterData_);
+  }
 
-  //Expenses Service
+  Update_Expenses(Data_){  
+    console.log("calling url : "+this.apiurl + "/Update_Expenses");
+    return this.http.post(this.apiurl + "/Update_Expenses", Data_);
+  }
+
+  Delete_Expenses(Data_){
+    console.log("url : "+this.apiurl + "/Delete_Expenses");
+    return this.http.post(this.apiurl + "/Delete_Expenses", Data_);
+  }
+
+
+  //SpentFor
+  Create_SpentFor(Data_){  
+    console.log("calling url : "+this.apiurl + "/Create_SpentFor");
+    return this.http.post(this.apiurl + "/Create_SpentFor", Data_);
+  }
+
+  Load_SpentFor(){  
+    console.log("calling url : "+this.apiurl + "/Load_SpentFor");
+    return this.http.get(this.apiurl + "/Load_SpentFor");
+  }
+  Update_SpentFor(Data_){  
+    console.log("calling url : "+this.apiurl + "/Update_SpentFor");
+    return this.http.post(this.apiurl + "/Update_SpentFor", Data_);
+  }
+  Delete_SpentFor(Data_){
+    console.log("url : "+this.apiurl + "/Delete_SpentFor");
+    return this.http.post(this.apiurl + "/Delete_SpentFor", Data_);
+  }
+
+ 
+  // Sector
+
+  Create_Sector(Data_){  
+    console.log("calling url : "+this.apiurl + "/Create_Sector");
+    return this.http.post(this.apiurl + "/Create_Sector", Data_);
+  }
+
+  Load_Sector(){  
+    console.log("calling url : "+this.apiurl + "/Load_Sector");
+    return this.http.get(this.apiurl + "/Load_Sector");
+  }
+
+  Update_Sector(Data_){  
+    console.log("calling url : "+this.apiurl + "/Update_Sector");
+    return this.http.post(this.apiurl + "/Update_Sector", Data_);
+  }
+
+  Delete_Sector(Data_){
+    console.log("url : "+this.apiurl + "/Delete_Sector");
+    return this.http.post(this.apiurl + "/Delete_Sector", Data_);
+  }
+
+
+  //Daily_Tracker
 
  
 
@@ -198,11 +337,21 @@ LoadUserData(Data_){
     return this.http.post(this.apiurl + "/Daily_Tracker_Update_Task", Data_);
   }
 
-  Daily_Tracker_Update_Delete(Data_){
-    console.log("url : "+this.apiurl + "/Daily_Tracker_Update_Delete");
-    return this.http.post(this.apiurl + "/Daily_Tracker_Update_Delete", Data_);
+  Daily_Tracker_Month_Delete(Data_){
+    console.log("url : "+this.apiurl + "/Daily_Tracker_Month_Delete");
+    return this.http.post(this.apiurl + "/Daily_Tracker_Month_Delete", Data_);
   }
 
+  Load_Daily_Tracker_All(){  
+    console.log("calling url : "+this.apiurl + "/Daily_Tracker_Update_list");
+    return this.http.get(this.apiurl + "/Daily_Tracker_Update_list");
+  }
+  //
+
+  Daily_Tracker_Update_Deletes(Data_){  
+    console.log("calling url : "+this.apiurl + "/Daily_Tracker_Update_Deletes");
+    return this.http.post(this.apiurl + "/Daily_Tracker_Update_Deletes", Data_);
+  }
 
   
 

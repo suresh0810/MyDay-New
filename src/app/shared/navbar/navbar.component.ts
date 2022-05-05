@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit{
     userName:string;
     FB_User:any;
     searchText;
+    user_remove;
     constructor(public sidebarservice: SidebarService, private auth:AuthService, private router:Router,private route: ActivatedRoute,  private DBService_: DBService,  private firebaseService:FirebaseService,  ) { }
         
     toggleSidebar() {
@@ -89,6 +90,10 @@ pro(){
 
 
     logout(){
-        this.auth.logout()
+        this.auth.logout();
+        //local storage remove item       
+        localStorage.removeItem("user");
+        //local storage Remove All 
+        //localStorage.clear();
       }
 }

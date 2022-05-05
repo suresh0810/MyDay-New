@@ -1,13 +1,13 @@
 <!-- Breadcrumb-->
 
-<div class="row pt-2 pb-2">
+  <!-- <div class="row pt-2 pb-2">
     <div class="col-sm-9">
-      <h4 class="page-title">Production Track</h4>
+   <h4 class="page-title">Task Track</h4>
     </div>
     <div class="col-sm-3 desk" >
       <div ngbDropdown class="btn-group float-sm-right">
-        <button type="button" class="btn btn-light"><i class="fa fa-cog mr-1"></i> Setting</button>
-        <button type="button" class="btn btn-light" id="dropdownBasic5" ngbDropdownToggle> <span class="caret"></span>
+        <button type="button" class="btn btn-primary"><i class="fa fa-cog mr-1"></i> Setting</button>
+        <button type="button" class="btn btn-primary" id="dropdownBasic5" ngbDropdownToggle> <span class="caret"></span>
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic5">
           <a href="javaScript:;" ngbDropdownItem>Action</a>
@@ -18,417 +18,1162 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
   <!-- End Breadcrumb-->               
-      <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;">     
-      <br>    
-  <div class="row">
-    <div class="col-lg-12">    
-      <div class="card">
-        <div class="card-body">               
-              <h5 class="card-title tabletitle" >To Do Task</h5>
-              <h5 class="card-title tabletitle1" >To Do Task</h5>             
-               
-          <th class="desk" style="width: 49%; ">Task</th>
-          <th class="desk" style="width: 25%; ">Assign</th>
-         <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
-          <th class="desk" style="width: 13%; ">Deadline Date</th>
-          <th class="desk" style="width: 12%; text-align: center;" >Status</th>
-          <th class="desk" style="width: 1%;">Action</th> 
-          <div *ngFor="let _task of   List_of_Tasks |filter:searchText"  class="card">
-            <table style="cellspacing:2px " class="desk">
-            <tr *ngIf="_task.Task_Status.Status_Selected_Option.Option_Title !='Done'">
-              <td style="width: 49%;  overflow: auto;">
-                <div class="position-relative has-icon-right">
-                  <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
-                    name="_task.Task_Name" on-focusout="updateTodo(_task)">
-                </div>
-              </td>
-              <td style="width: 25%;">
-                <div class="position-relative has-icon-right">
-                  <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
-                    [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
-                    [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
-                    style="font-size: 16px;">
-                    <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
-                      <span class="ng-value-label">{{item.userName}}</span>
-                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                    </ng-template>
-                    <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
-                      {{item.userName}}
-                    </ng-template>
-                  </ng-select>
-                </div>
-              </td>
-             <!-- <td style="width: 9%;">
-                <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
-                <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
-                  disabled>
-              </td>-->
-              <td style="width: 13%; ">
-                <div class="position-relative has-icon-right">
-                  <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
-                    <mat-date-range-input [rangePicker]="picker">
-                      <input  matStartDate placeholder="Start Date"    [(ngModel)]="_task.start_date"
-                        on-focus="updateTodo(_task)">
-                      <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
-                        on-focusout="updateTodo(_task)">
-                    </mat-date-range-input>
-                    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
-                    <mat-date-range-picker #picker ></mat-date-range-picker>
-                  </mat-form-field>
-                </div>
-              </td>
-              <td style="width: 12%;">
-                <div class="position-relative has-icon-right">
-                  <select class="form-control form-control-sm" style="width: 100%;  "
-                    [(ngModel)]="_task.Task_Status.Status_Selected_Option.Option_Title"
-                    (ngModelChange)="updateTodo(_task)">
-                    <option *ngFor="let KstatusOption_ of _task.Task_Status.List_Of_Status_Options"
-                      [selected]="KstatusOption_" style="text-align: center;">
-                      {{KstatusOption_.Option_Title}}
-                    </option>
-                  </select>
-                </div>
-              </td>
-              <!-- <td style="width: 1%; ">
-            <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
-            </td>-->
-              <td style="width: 1%; ">
-                <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
-                </button>
-              </td>
-            </tr>
-  </table>
-          </div>
-  
-          <div class="sticky-container">
-            <div class="table-responsive mobile">
-              <table class="table table-lg">
-                <thead>
-                  <tr style="height: 25px;" >          						
-                    <th scope="col" >Task</th>
-                    <th scope="col">Assign</th>
-                  <!--  <th scope="col">Created Date</th>-->
-                    <th scope="col">Deadline Date</th>
-                    <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
-                    <th scope="col">Action</th>							
-                  </tr>
-                </thead>
-                <tbody *ngFor="let _task of   List_of_Tasks|filter:searchText">
-                  <tr  *ngIf="_task.Task_Status.Status_Selected_Option.Option_Title !='Done'">								
-                    <td >
-                      <div class="position-relative has-icon-right">
-                      <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+      <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;  background-color: rgba(236, 144, 144, 0.551);">     
+      <br> 
+      
+      <ul class="nav nav-tabs nav-tabs-success">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#MyTask"> <i class="icon-user"></i>
+            <span>MyTask</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#Completed"> <i class="fa fa-check-square-o"></i>
+            <span>Completed</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#AssignTask"> <i class="icon-people"></i>
+            <span>Assigned Task</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- <select type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchTextsowner" autocomplete="off" placeholder="search" (change)="onChange($event.target.value)">
+        <option #clear [hidden]="clear.selected" style="background-color: white; color: black;">Clear</option>
+        <option *ngFor="let user of Global_UserList" value="{{user.userName}}" style="background-color: white; color: black;">{{user.userName}}</option>
+      </select >
+      -->
+
+
+      <div class="tab-content">
+        <!--Tab 1-->
+        <div id="MyTask" class="tab-pane active">         
+
+          <div class="card" style="width: 60%;" class="desk">
+            <div class="card-body">               
+                  <h5 class="card-title tabletitle" >To Do Task</h5>
+                  <h5 class="card-title tabletitle1" >To Do Task</h5>             
+                
+              <th class="desk" style="width: 49%; ">Task</th>
+              <!-- <th class="desk" style="width: 25%; ">Assigned</th>
+            <th class="desk" style="width: 9%; ">Created Date</th>
+              <th class="desk" style="width: 13%; ">Deadline Date</th> -->
+              <th class="desk" style="width: 23%; text-align: center;" >Status</th>
+              <th class="desk" style="width: 2%;">Action</th> 
+              <div *ngFor="let _task of List_of_Tasks|filter:searchText|filter:searchTextsowner;let i index"  class="card">
+                <table style="cellspacing:2px " class="desk" >
+                <tr>
+                  <td style="width: 49%;  overflow: auto; border: none;" >
+                    <div class="position-relative has-icon-right">
+                      <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
                         name="_task.Task_Name" on-focusout="updateTodo(_task)">
                     </div>
                   </td>
-                    <td>
-                      <div class="position-relative has-icon-right">
-                      <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
-                        [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                  <!-- <td style="width: 25%;">
+                    <div class="position-relative has-icon-right">
+                      <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
+                        [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
                         [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
                         style="font-size: 16px;">
-                        <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                        <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.userName}}</span>
                           <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
                         </ng-template>
-                        <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                        <ng-template class="form-control form-control-sm"   ng-option-tmp let-item="item">
                           {{item.userName}}
                         </ng-template>
                       </ng-select>
                     </div>
-                  </td>
-                   <!-- <td>
-                      <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
-                      disabled>
-                    </td>-->
-                    <td>
-                      <div class="position-relative has-icon-right">
-                        <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
-                          <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
-                              on-focus="updateTodo(_task)">
-                            <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
-                              on-focusout="updateTodo(_task)">
-                          </mat-date-range-input>
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-date-range-picker #picker></mat-date-range-picker>
-                        </mat-form-field>
-                      </div>
-                    </td>
-                    <td class="sticky-right">
-                      <div class="position-relative has-icon-right">
-                        <select class="form-control form-control-sm" style="width: 70px;   "
-                          [(ngModel)]="_task.Task_Status.Status_Selected_Option.Option_Title"
-                          (ngModelChange)="updateTodo(_task)">
-                          <option *ngFor="let KstatusOption_ of _task.Task_Status.List_Of_Status_Options;let r = index"
-                            [selected]="KstatusOption_" style="text-align: center;">
-                            {{KstatusOption_.Option_Title}}
-                          </option>
-                        </select>
-                      </div>
-                    </td>
-                    <td>
-                      <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
-                    </button>
-                  </td>
-                    
-                  </tr>											
-                </tbody>
-              </table>
-            </div></div>
-          <!--	<form>
-                      <tr>
-                          <td style="width: 100%;"><br>
-                              <div class="position-relative has-icon-right">
-                              <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
-        name="Temp_Task.Task_Name">
-      </div>
-        <input type="submit"
-      class="btn  btn-block"
-      (click)="create_Task(Temp_Task)" value="Create Task">
-                          </td>
-                          
-                      </tr>
-                  </form>	-->        
-        </div>
-      </div>
-      
-  
-      <!----------------------------------------->
-      
-      <div class="card">
-        <div class="card-body">            
-              <h5 class="card-title tabletitle">Completed Task</h5>
-              <h5 class="card-title tabletitle1">Completed Task</h5>           
-          <th class="desk" style="width: 49%; ">Task</th>
-          <th class="desk" style="width: 25%; ">Assign</th>
-         <!-- <th class="desk" style="width: 9%; ">Created Date</th> -->
-          <th class="desk" style="width: 13%; ">Deadline Date</th>
-          <th class="desk" style="width: 12%; text-align: center;" >Status</th>
-          <th class="desk" style="width: 1%;">Action</th>
-  
-          <div *ngFor="let _task of   List_of_Tasks|filter:searchText;let i = index" [attr.data-index]="i" class="card">
-            <div  *ngIf="_task.Task_Status.Status_Selected_Option.Option_Title =='Done'">
-              <table style="cellspacing:1px" class="desk">
-              <tr>
-                <td style="width: 49%;  overflow: auto; ">
-                  <div class="position-relative has-icon-right">
-                    <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
-                      name="_task.Task_Name" on-focusout="updateTodo(_task)">
-                  </div>
-                </td>
-                <td style="width: 25%; ">
-                  <div class="position-relative has-icon-right">
-                    <ng-select class="form-control form-control-sm" style="width: 20%;" [items]="Global_UserList"
-                      [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
-                      [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
-                      style="font-size: 16px;">
-                      <ng-template class="form-control form-control-sm" ng-label-tmp let-item="item" let-clear="clear">
-                        <span class="ng-value-label">{{item.userName}}</span>
-                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                      </ng-template>
-                      <ng-template class="form-control form-control-sm" ng-option-tmp let-item="item">
-                        {{item.userName}}
-                      </ng-template>
-                    </ng-select>
-                  </div>
-                </td>
-                <!-- <td style="width: 9%;">
-  
-                 <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>  
-                  <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
-                    disabled>
-  
-                </td> -->
-                <td style="width: 13%;">
-                  <div class="position-relative has-icon-right">
-                    <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
-                      <mat-date-range-input [rangePicker]="picker">
-                        <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
-                          on-focus="updateTodo(_task)">
-                        <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
-                          on-focusout="updateTodo(_task)">
-                      </mat-date-range-input>
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-date-range-picker #picker></mat-date-range-picker>
-                    </mat-form-field>
-                  </div>
-                </td>
-  
-                <td style="width: 12%;">
-                  <div class="position-relative has-icon-right">
-                    <select class="form-control form-control-sm" style="width: 100%;  "
-                      [(ngModel)]="_task.Task_Status.Status_Selected_Option.Option_Title"
-                      (ngModelChange)="updateTodo(_task)">
-                      <option *ngFor="let KstatusOption_ of _task.Task_Status.List_Of_Status_Options;let r = index"
-                        [selected]="KstatusOption_" style="text-align: center;">
-                        {{KstatusOption_.Option_Title}}
-                      </option>
-                    </select>
-                  </div>
-                </td>
-                  
-                <!-- <td style="width: 1%; ">
-            <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
-            </td>-->
-  
-                <td style="width: 1%; ">
-                  <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
-                  </button>
-  
-                </td>
-              </tr>
-             </table>
-            </div>
-          </div>   
-                 
-          <div class="sticky-container">
-          <div class="table-responsive mobile">
-                      <table class="table table-lg">
-                          <thead>
-                              <tr style="height: 25px;" >          						
-                                  <th scope="col" >Task</th>
-                                  <th scope="col">Assign</th>
-                              <!--	<th scope="col">Created Date</th>-->
-                                  <th scope="col">Deadline Date</th>
-                                  <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
-                                  <th scope="col">Action</th>							
-                              </tr>
-                          </thead>
-                          <tbody *ngFor="let _task of   List_of_Tasks|filter:searchText">
-                              <tr *ngIf="_task.Task_Status.Status_Selected_Option.Option_Title =='Done'">								
-                                  <td>
-                    <div class="position-relative has-icon-right">
-                    <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
-                      name="_task.Task_Name" on-focusout="updateTodo(_task)">
-                  </div>
-                </td>
-                      <td>
-                    <div class="position-relative has-icon-right">
-                    <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
-                      [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
-                      [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
-                      style="font-size: 16px;">
-                      <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
-                        <span class="ng-value-label">{{item.userName}}</span>
-                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                      </ng-template>
-                      <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
-                        {{item.userName}}
-                      </ng-template>
-                    </ng-select>
-                  </div>
-                </td>
-                      <!--		<td>
+                  </td> -->
+                 <!-- <td style="width: 9%;">
+                    <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
                     <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
-                    disabled>
+                      disabled>
                   </td>-->
-                      <td>
+                  <!-- <td style="width: 13%; ">
                     <div class="position-relative has-icon-right">
-                      <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
+                      <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
                         <mat-date-range-input [rangePicker]="picker">
-                          <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
+                          <input  matStartDate placeholder="Start Date"    [(ngModel)]="_task.start_date"
                             on-focus="updateTodo(_task)">
                           <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
                             on-focusout="updateTodo(_task)">
                         </mat-date-range-input>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
+                        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker ></mat-date-range-picker>
                       </mat-form-field>
                     </div>
-                  </td>
-                      <td class="sticky-right">
+                  </td> -->
+                  <td style="width: 10%;">
                     <div class="position-relative has-icon-right">
-                      <select class="form-control form-control-sm" style="width: 70px;   "
-                        [(ngModel)]="_task.Task_Status.Status_Selected_Option.Option_Title"
-                        (ngModelChange)="updateTodo(_task)">
-                        <option *ngFor="let KstatusOption_ of _task.Task_Status.List_Of_Status_Options;let r = index"
-                          [selected]="KstatusOption_" style="text-align: center;">
-                          {{KstatusOption_.Option_Title}}
-                        </option>
-                      </select>
+                      <select class="form-control form-control-sm" style="width: 100%;  "
+                      [(ngModel)]="_task.Status"
+                      (ngModelChange)="updateTodo(_task)">
+                      <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                        {{Status_.Status_Name}}
+                      </option>
+                    </select>
                     </div>
                   </td>
-                   <td>
+                  <!-- <td style="width: 1%; ">
+                <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+                </td>-->
+                <td style="width: 1%; ">
+                  <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)"  (click)="openNav(_task)" ></button>                
+                </td>
+                  <td style="width: 1%; ">                   
                     <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
-                  </button>
-                </td>								
-                              </tr>											
-                          </tbody>
-                      </table>
-                  </div></div>        
-          <!----------------------------------------->
-          <mat-toolbar color="accent" class="footer">
-            <form>
-              <table style="cellspacing:5px">
-              <tr >
-                <td style="width: 700px; ">
-                  <div class="position-relative has-icon-right">
-                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Task.Task_Name" name="Temp_Task.Task_Name"
-                      class="form-control">
-                  </div>
-                </td>
-                <td style=" background: transparent;">
-                  <div class="position-relative has-icon-right">
-                    <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
-                      bindLabel="userName" [(ngModel)]="Temp_Task.Selected_People" name="Temp_Task.Selected_People"
-                      style="font-size: 16px; min-height: 38px;" class="form-control">
-                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
-                        <span class="ng-value-label">{{item.userName}}</span>
-                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                      </ng-template>
-                      <ng-template ng-option-tmp let-item="item">
-                        {{item.userName}}
-                      </ng-template>
-                    </ng-select>
-                  </div>
-                </td>
-                <td>
-                  <input type="submit" (window:keypress.enter)="onSomeAction($event)" class="btn  btn-block btn-light form-control"
-                    style=" border-radius: 2px; color: white;  height: 38px;"
-                    (click)="create_Task(Temp_Task)" (click)="reset()" value="Create Task">
-                </td>
-              </tr>
-            </table>
-            </form>          
-          </mat-toolbar>
-          <mat-toolbar color="accent" class="foot">
-            <form>
-              <table style="cellspacing:5px">
-              <tr >
-                <td style="width: 65%;">
-                  <div class="position-relative has-icon-right">
-                    <input autofocus style="width: 100%; margin-left: -7px; " [(ngModel)]="Temp_Task.Task_Name" name="Temp_Task.Task_Name"
-                      class="form-control">
-                  </div>
-                </td>
-                <td style=" background: transparent; ">
-                  <div class="position-relative has-icon-right">
-                    <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
-                      bindLabel="userName" [(ngModel)]="Temp_Task.Selected_People" name="Temp_Task.Selected_People"
-                      style="font-size: 16px; min-height: 38px; margin-left: -7px; " class="form-control">
-                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
-                        <span class="ng-value-label">{{item.userName}}</span>
-                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                      </ng-template>
-                      <ng-template ng-option-tmp let-item="item">
-                        {{item.userName}}
-                      </ng-template>
-                    </ng-select>
-                  </div>
-                </td>
-                <td>                
-                    <mat-icon (window:keypress.enter)="onSomeAction($event)" (click)="create_Task(Temp_Task)" (click)="reset()" style="margin-top: 10px; ">send</mat-icon>
-                </td>
-              </tr>
-            </table>
-            </form>          
-          </mat-toolbar>
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              
+              </div>
+
+              <mat-toolbar class="footer" >
+                <form  >
+                  <table style="cellspacing:2px; margin-top: -2px; margin-left: -15px; margin-right: -15px;">
+                  <tr >
+                    <td style="width: 720px; ">
+                      <div class="position-relative has-icon-right">
+                        <input autofocus style="width: 100%; " [(ngModel)]="Temp_Task.Task_Name" name="Temp_Task.Task_Name"
+                          class="form-control">
+                      </div>
+                    </td>
+                    
+                    <td  style="text-align: right;">
+                      <div class="position-relative has-icon-right">
+                      <button type="submit" (window:keypress.enter)="onSomeAction($event)" class="btn btn-primary "
+                      style=" border-radius: 2px;    height: 38px;"  
+                      (click)="create_Task(Temp_Task)" (click)="reset()" >Create Task </button>
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+                </form>          
+              </mat-toolbar>
+              </div></div>
+
+              <div class="card mobile">
+                <div class="card-body">  
+             
+             
+              <div class="sticky-container">
+                <div class="table-responsive mobile">
+                  <table class="table table-lg">
+                    <thead>
+                      <tr style="height: 25px;" >          						
+                        <th scope="col" style="color: #626161e0;">Task</th>
+                        <!-- <th scope="col" style="color: #626161e0;">Assigned</th> -->
+                      <!--  <th scope="col">Created Date</th>-->
+                        <!-- <th scope="col" style="color: #626161e0;">Deadline Date</th> -->
+                        <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
+                        <th scope="col" style="color: #626161e0; " colspan="2">Action</th>							
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let _task of List_of_Tasks|filter:searchText;let i index">
+                      <tr  >								
+                        <td >
+                          <div class="position-relative has-icon-right">
+                          <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                            name="_task.Task_Name" on-focusout="updateTodo(_task)">
+                        </div>
+                      </td>
+                        <!-- <td>
+                          <div class="position-relative has-icon-right">
+                          <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
+                            [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                            [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
+                            style="font-size: 16px;">
+                            <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                              <span class="ng-value-label">{{item.userName}}</span>
+                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </ng-template>
+                            <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                              {{item.userName}}
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </td> -->
+                       <!-- <td>
+                          <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                          disabled>
+                        </td>-->
+                        <!-- <td>
+                          <div class="position-relative has-icon-right">
+                            <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
+                              <mat-date-range-input [rangePicker]="picker">
+                                <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
+                                  on-focus="updateTodo(_task)">
+                                <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
+                                  on-focusout="updateTodo(_task)">
+                              </mat-date-range-input>
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                          </div>
+                        </td> -->
+                        <td class="sticky-right">
+                          <div class="position-relative has-icon-right">
+                            <select class="form-control form-control-sm" style="width: 80px;"
+                            [(ngModel)]="_task.Status"
+                            (ngModelChange)="updateTodo(_task)">
+                            <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                              {{Status_.Status_Name}}
+                            </option>
+                          </select>
+                          </div>
+                        </td>
+                        <td>
+                          <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)" (click)="openNavm(_task)"></button>   
+                     
+                      </td>
+                        <td>
+                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                        </button>
+                      </td>
+                        
+                      </tr>											
+                    </tbody>
+                  </table>
+                </div></div>
+               
+              <!--	<form>
+                          <tr>
+                              <td style="width: 100%;"><br>
+                                  <div class="position-relative has-icon-right">
+                                  <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
+            name="Temp_Task.Task_Name">
+          </div>
+            <input type="submit"
+          class="btn  btn-block"
+          (click)="create_Task(Temp_Task)" value="Create Task">
+                              </td>
+                              
+                          </tr>
+                      </form>	-->  
+                       <!----------------------------------------->
+                       
+    
+    <mat-toolbar color="accent" class="foot">
+      <form>
+        <table style="cellspacing:5px">
+        <tr >
+          <td  class="si">
+           
+              <input autofocus style="width: 100%; margin-left: -7px; " [(ngModel)]="Temp_Task.Task_Name" name="Temp_Task.Task_Name"
+                class="form-control">
+         
+          </td>
+         <!-- <td style=" background: transparent; ">
+            <div class="position-relative has-icon-right">
+              <ng-select [items]="Global_UserList" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                bindLabel="userName" [(ngModel)]="Temp_Task.Selected_People" name="Temp_Task.Selected_People"
+                style="font-size: 16px; min-height: 38px; margin-left: -7px; " class="form-control">
+                <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                  <span class="ng-value-label">{{item.userName}}</span>
+                  <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.userName}}
+                </ng-template>
+              </ng-select>
+            </div>
+          </td>-->
+          <td>                
+              <mat-icon (window:keypress.enter)="onSomeAction($event)" (click)="create_Task(Temp_Task)" (click)="reset()" style="margin-top: 10px; ">send</mat-icon>
+          </td>
+        </tr>
+      </table>
+      </form>          
+    </mat-toolbar>      
+           
+
+          <!--Task complete--><br>
+
           
-        </div>     
+</div>
+        </div>
+
+          <!--Tab End-->
+        </div>
+<!--  Complete Tab -->
+
+
+          <div id="Completed" class="tab-pane fade">
+          
+<!-- complete start -->
+
+<div class="card" style="width: 60%;" class="desk">
+  <div class="card-body">            
+        <h5 class="card-title tabletitle">Completed Task</h5>
+        <h5 class="card-title tabletitle1">Completed Task</h5>           
+    <th class="desk" style="width: 49%; ">Task</th>
+    <!-- <th class="desk" style="width: 25%; ">Assigned</th> -->
+   <!-- <th class="desk" style="width: 9%; ">Created Date</th> -->
+    <!-- <th class="desk" style="width: 13%; ">Deadline Date</th> -->
+    <th class="desk" style="width: 23%; text-align: center;" >Status</th>
+    <th class="desk" style="width: 2%;">Action</th>  
+    <div *ngFor="let _task of List_of_Complete_task|filter:searchText;let i = index" [attr.data-index]="i" class="card">
+      <div >
+        <table style="cellspacing:2px " class="desk" >
+          <tr>
+            <td style="width: 49%;  overflow: auto; border: none;" >
+              <div class="position-relative has-icon-right">
+                <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
+                  name="_task.Task_Name" on-focusout="updateTodo(_task)">
+              </div>
+            </td>
+            <!-- <td style="width: 25%;">
+              <div class="position-relative has-icon-right">
+                <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
+                  [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
+                  [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
+                  style="font-size: 16px;">
+                  <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
+                    <span class="ng-value-label">{{item.userName}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </ng-template>
+                  <ng-template class="form-control form-control-sm"   ng-option-tmp let-item="item">
+                    {{item.userName}}
+                  </ng-template>
+                </ng-select>
+              </div>
+            </td> -->
+           <!-- <td style="width: 9%;">
+              <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+              <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                disabled>
+            </td>-->
+            <!-- <td style="width: 13%; ">
+              <div class="position-relative has-icon-right">
+                <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input  matStartDate placeholder="Start Date"    [(ngModel)]="_task.start_date"
+                      on-focus="updateTodo(_task)">
+                    <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
+                      on-focusout="updateTodo(_task)">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker ></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+            </td> -->
+            <td style="width: 10%;">
+              <div class="position-relative has-icon-right">
+                <select class="form-control form-control-sm" style="width: 100%;  "
+                [(ngModel)]="_task.Status"
+                (ngModelChange)="updateTodo(_task)">
+                <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                  {{Status_.Status_Name}}
+                </option>
+              </select>
+              </div>
+            </td>
+            <!-- <td style="width: 1%; ">
+          <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+          </td>-->
+          <td style="width: 1%; ">
+            <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)"  (click)="openNav(_task)" ></button>                
+          </td>
+            <td style="width: 1%; ">                   
+              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+              </button>
+            </td>
+          </tr>
+        </table>
       </div>
+    </div>   
+    </div>
+    </div>
+
+    <div class="card mobile" >
+      <div class="card-body">  
+           
+    <div class="sticky-container">
+    <div class="table-responsive mobile">
+                <table class="table table-lg">
+                    <thead>
+                        <tr style="height: 25px;" >          						
+                            <th scope="col" style="color: #626161e0;">Task</th>
+                            <!-- <th scope="col" style="color: #626161e0;">Assigned</th> -->
+                        <!--	<th scope="col">Created Date</th>-->
+                            <!-- <th scope="col" style="color: #626161e0;">Deadline Date</th> -->
+                            <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
+                            <th scope="col" style="color: #626161e0;" colspan="2">Action</th>							
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let _task of List_of_Complete_task|filter:searchText">                    
+                        <tr  >								
+                          <td >
+                            <div class="position-relative has-icon-right">
+                            <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                              name="_task.Task_Name" on-focusout="updateTodo(_task)">
+                          </div>
+                        </td>
+                          <!-- <td>
+                            <div class="position-relative has-icon-right">
+                            <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
+                              [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                              [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
+                              style="font-size: 16px;">
+                              <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label">{{item.userName}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </ng-template>
+                              <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                                {{item.userName}}
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                        </td> -->
+                         <!-- <td>
+                            <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                            disabled>
+                          </td>-->
+                          <!-- <td>
+                            <div class="position-relative has-icon-right">
+                              <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
+                                <mat-date-range-input [rangePicker]="picker">
+                                  <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
+                                    on-focus="updateTodo(_task)">
+                                  <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
+                                    on-focusout="updateTodo(_task)">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                              </mat-form-field>
+                            </div>
+                          </td> -->
+                          <td class="sticky-right">
+                            <div class="position-relative has-icon-right">
+                              <select class="form-control form-control-sm" style="width: 80px;"
+                              [(ngModel)]="_task.Status"
+                              (ngModelChange)="updateTodo(_task)">
+                              <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                                {{Status_.Status_Name}}
+                              </option>
+                            </select>
+                            </div>
+                          </td>
+                          <td>
+                            <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)"></button>   
+                       
+                        </td>
+                          <td>
+                            <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                          </button>
+                        </td>
+                          
+                        </tr>											
+                      </tbody>
+                </table>
+            </div></div>        
+   
+    
+  </div>     
+</div>
+
+
+<!-- complete End -->
+
+
+            
+          </div>
+        
+<!--  AssignTask Start  -->
+          <!--Tab 2-->
+          <div id="AssignTask" class="tab-pane fade">
+            <select type="text" style="width: 58%; margin-left: 20px;" class="form-control form-control-sm desk" name="search" [(ngModel)]="searchTexts" autocomplete="off" placeholder="search" (change)="onChange($event.target.value)">
+              <option #clear [hidden]="clear.selected" style="background-color: white; color: black;">Clear</option>
+              <option *ngFor="let user of Global_UserList" value="{{user.userName}}" style="background-color: white; color: black;">{{user.userName}}</option>
+            </select >
+            <select type="text" style="width: 100%; " class="form-control form-control-sm mobile" name="search" [(ngModel)]="searchTexts" autocomplete="off" placeholder="search" (change)="onChange($event.target.value)">
+              <option #clear [hidden]="clear.selected" style="background-color: white; color: black;">Clear</option>
+              <option *ngFor="let user of Global_UserList" value="{{user.userName}}" style="background-color: white; color: black;">{{user.userName}}</option>
+            </select ><br>
+  
+           
+            <div class="card" style="width: 60%;" class="desk">
+              <div class="card-body">               
+                    
+                    <h5 class="card-title tabletitle1" >To Do Task</h5>             
+                  
+                <th class="desk" style="width: 49%; ">Task</th>
+                <!-- <th class="desk" style="width: 25%; ">Assigned</th> -->
+               <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
+                <!-- <th class="desk" style="width: 13%; ">Deadline Date</th> -->
+                <th class="desk" style="width: 23%; text-align: center;" >Status</th>
+                <th class="desk" style="width: 1%;" colspan="2">Action</th> 
+                <div *ngFor="let _task of   List_of_Tasks_filter |filter:searchText|filter:searchTexts"  class="card">
+                  <table style="cellspacing:2px " class="desk" >
+                    <tr *ngIf="_task.Status !='Done'">
+                      <td style="width: 49%;  overflow: auto; border: none;" >
+                        <div class="position-relative has-icon-right">
+                          <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
+                            name="_task.Task_Name" on-focusout="updateTodo(_task)">
+                        </div>
+                      </td>
+                      <!-- <td style="width: 25%;">
+                        <div class="position-relative has-icon-right">
+                          <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
+                            [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
+                            [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
+                            style="font-size: 16px;">
+                            <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
+                              <span class="ng-value-label">{{item.userName}}</span>
+                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </ng-template>
+                            <ng-template class="form-control form-control-sm"   ng-option-tmp let-item="item">
+                              {{item.userName}}
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </td> -->
+                     <!-- <td style="width: 9%;">
+                        <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+                        <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                          disabled>
+                      </td>-->
+                      <!-- <td style="width: 13%; ">
+                        <div class="position-relative has-icon-right">
+                          <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+                            <mat-date-range-input [rangePicker]="picker">
+                              <input  matStartDate placeholder="Start Date"    [(ngModel)]="_task.start_date"
+                                on-focus="updateTodo(_task)">
+                              <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
+                                on-focusout="updateTodo(_task)">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker ></mat-date-range-picker>
+                          </mat-form-field>
+                        </div>
+                      </td> -->
+                      <td style="width: 10%;">
+                        <div class="position-relative has-icon-right">
+                          <select class="form-control form-control-sm" style="width: 100%;  "
+                          [(ngModel)]="_task.Status"
+                          (ngModelChange)="updateTodo(_task)">
+                          <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                            {{Status_.Status_Name}}
+                          </option>
+                        </select>
+                        </div>
+                      </td>
+                      <!-- <td style="width: 1%; ">
+                    <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+                    </td>-->
+                    <td style="width: 1%; ">
+                      <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"  (click)="openNav(_task)" ></button>                
+                    </td>
+                      <td style="width: 1%; ">                   
+                        <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                </div>
+                </div>
+
+
+                <div class="card mobile" >
+                  <div class="card-body">  
+                    <h5 class="card-title tabletitle" >To Do Task</h5>
+                <div class="sticky-container">
+                  <div class="table-responsive mobile">
+                    <table class="table table-lg">
+                      <thead>
+                        <tr style="height: 25px;" >          						
+                          <th scope="col" style="color: #626161e0;">Task</th>
+                          <!-- <th scope="col" style="color: #626161e0;">Assigned</th> -->
+                        <!--  <th scope="col">Created Date</th>-->
+                          <!-- <th scope="col" style="color: #626161e0;">Deadline Date</th> -->
+                          <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
+                          <th scope="col" style="color: #626161e0;">Action</th>							
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let _task of   List_of_Tasks_filter|filter:searchText|filter:searchTexts">
+                        <tr *ngIf="_task.Status !='Done'">	                          							
+                            <td >
+                              <div class="position-relative has-icon-right">
+                              <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                                name="_task.Task_Name" on-focusout="updateTodo(_task)">
+                            </div>
+                          </td>
+                            <!-- <td>
+                              <div class="position-relative has-icon-right">
+                              <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
+                                [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                                [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
+                                style="font-size: 16px;">
+                                <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                                  <span class="ng-value-label">{{item.userName}}</span>
+                                  <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                </ng-template>
+                                <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                                  {{item.userName}}
+                                </ng-template>
+                              </ng-select>
+                            </div>
+                          </td> -->
+                           <!-- <td>
+                              <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                              disabled>
+                            </td>-->
+                            <!-- <td>
+                              <div class="position-relative has-icon-right">
+                                <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
+                                  <mat-date-range-input [rangePicker]="picker">
+                                    <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
+                                      on-focus="updateTodo(_task)">
+                                    <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
+                                      on-focusout="updateTodo(_task)">
+                                  </mat-date-range-input>
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+                              </div>
+                            </td> -->
+                            <td class="sticky-right">
+                              <div class="position-relative has-icon-right">
+                                <select class="form-control form-control-sm" style="width: 80px;"
+                                [(ngModel)]="_task.Status"
+                                (ngModelChange)="updateTodo(_task)">
+                                <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                                  {{Status_.Status_Name}}
+                                </option>
+                              </select>
+                              </div>
+                            </td>
+                            <td>
+                              <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)"></button>   
+                         
+                          </td>
+                            <td>
+                              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                            </button>
+                          </td>
+                            
+                          </tr>											
+                      </tbody>
+                    </table>
+                  </div></div>
+                <!--	<form>
+                            <tr>
+                                <td style="width: 100%;"><br>
+                                    <div class="position-relative has-icon-right">
+                                    <input class="form-control form-control-sm" style="width: 100%; min-width: 290px;" [(ngModel)]="Temp_Task.Task_Name"
+              name="Temp_Task.Task_Name">
+            </div>
+              <input type="submit"
+            class="btn  btn-block"
+            (click)="create_Task(Temp_Task)" value="Create Task">
+                                </td>
+                                
+                            </tr>
+                        </form>	-->        
+              </div>
+            </div>
+
+            <!--Task Complete--><br>
+            <div class="card" style="width: 60%;" class="desk">
+              <div class="card-body">            
+                   
+                    <h5 class="card-title tabletitle1">Completed Task</h5>           
+                <th class="desk" style="width: 49%; ">Task</th>
+                <!-- <th class="desk" style="width: 25%; ">Assigned</th> -->
+               <!-- <th class="desk" style="width: 9%; ">Created Date</th> -->
+                <!-- <th class="desk" style="width: 13%; ">Deadline Date</th> -->
+                <th class="desk" style="width: 12%; text-align: center;" >Status</th>
+                <th class="desk" style="width: 1%;">Action</th>  
+                <div *ngFor="let _task of List_of_Tasks_filter|filter:searchText|filter:searchTexts;let i = index" [attr.data-index]="i" class="card">
+                  <div  *ngIf="_task.Status =='Done'">
+                    <table style="cellspacing:2px " class="desk" >
+                      <tr>
+                        <td style="width: 49%;  overflow: auto; border: none;" >
+                          <div class="position-relative has-icon-right">
+                            <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
+                              name="_task.Task_Name" on-focusout="updateTodo(_task)">
+                          </div>
+                        </td>
+                        <!-- <td style="width: 25%;">
+                          <div class="position-relative has-icon-right">
+                            <ng-select class="form-control form-control-sm" style="width: 20%; ;" [items]="Global_UserList"
+                              [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
+                              [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
+                              style="font-size: 16px;">
+                              <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
+                                <span class="ng-value-label">{{item.userName}}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                              </ng-template>
+                              <ng-template class="form-control form-control-sm"   ng-option-tmp let-item="item">
+                                {{item.userName}}
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                        </td> -->
+                       <!-- <td style="width: 9%;">
+                          <div class="form-control form-control-sm">{{_task.Task_Createddate|date}} </div>   
+                          <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                            disabled>
+                        </td>-->
+                        <!-- <td style="width: 13%; ">
+                          <div class="position-relative has-icon-right">
+                            <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+                              <mat-date-range-input [rangePicker]="picker">
+                                <input  matStartDate placeholder="Start Date"    [(ngModel)]="_task.start_date"
+                                  on-focus="updateTodo(_task)">
+                                <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
+                                  on-focusout="updateTodo(_task)">
+                              </mat-date-range-input>
+                              <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                              <mat-date-range-picker #picker ></mat-date-range-picker>
+                            </mat-form-field>
+                          </div>
+                        </td> -->
+                        <td style="width: 10%;">
+                          <div class="position-relative has-icon-right">
+                            <select class="form-control form-control-sm" style="width: 100%;  "
+                            [(ngModel)]="_task.Status"
+                            (ngModelChange)="updateTodo(_task)">
+                            <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                              {{Status_.Status_Name}}
+                            </option>
+                          </select>
+                          </div>
+                        </td>
+                        <!-- <td style="width: 1%; ">
+                      <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
+                      </td>-->
+                      <td style="width: 1%; ">
+                        <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNav(_task)" ></button>                
+                      </td>
+                        <td style="width: 1%; ">                   
+                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                          </button>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>   
+                </div>
+                </div>
+
+
+                <div class="card mobile"   >
+              <div class="card-body">     
+                <h5 class="card-title tabletitle">Completed Task</h5>    
+                <div class="sticky-container">
+                <div class="table-responsive mobile">
+                            <table class="table table-lg">
+                                <thead>
+                                    <tr style="height: 25px;" >          						
+                                        <th scope="col" style="color: #626161e0;">Task</th>
+                                        <!-- <th scope="col">Assigned</th> -->
+                                    <!--	<th scope="col">Created Date</th>-->
+                                        <!-- <th scope="col">Deadline Date</th> -->
+                                        <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
+                                        <th scope="col" style="color: #626161e0;" colspan="2">Action</th>							
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let _task of   List_of_Tasks_filter|filter:searchText|filter:searchTexts">
+                                    <tr *ngIf="_task.Status =='Done'">				                                     							
+                                        <td >
+                                          <div class="position-relative has-icon-right">
+                                          <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                                            name="_task.Task_Name" on-focusout="updateTodo(_task)">
+                                        </div>
+                                      </td>
+                                        <!-- <td>
+                                          <div class="position-relative has-icon-right">
+                                          <ng-select class="form-control form-control-sm peopl"  [items]="Global_UserList"
+                                            [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="userName"
+                                            [(ngModel)]="_task.Selected_People" (ngModelChange)="updateTodo(_task)" name="_task.Selected_People"
+                                            style="font-size: 16px;">
+                                            <ng-template class="form-control form-control-sm"  ng-label-tmp let-item="item" let-clear="clear">
+                                              <span class="ng-value-label">{{item.userName}}</span>
+                                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                            </ng-template>
+                                            <ng-template class="form-control form-control-sm"  ng-option-tmp let-item="item">
+                                              {{item.userName}}
+                                            </ng-template>
+                                          </ng-select>
+                                        </div>
+                                      </td> -->
+                                       <!-- <td>
+                                          <input class="form-control form-control-sm" [value]="_task.Task_Createddate | date:'MMM dd yyyy'"
+                                          disabled>
+                                        </td>-->
+                                        <!-- <td>
+                                          <div class="position-relative has-icon-right">
+                                            <mat-form-field appearance="outline radius-15" class="form-control form-control-sm timeline">
+                                              <mat-date-range-input [rangePicker]="picker">
+                                                <input matStartDate placeholder="Start Date" [(ngModel)]="_task.start_date"
+                                                  on-focus="updateTodo(_task)">
+                                                <input matEndDate placeholder="End Date" [(ngModel)]="_task.end_date" on-focus="updateTodo(_task)"
+                                                  on-focusout="updateTodo(_task)">
+                                              </mat-date-range-input>
+                                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                              <mat-date-range-picker #picker></mat-date-range-picker>
+                                            </mat-form-field>
+                                          </div>
+                                        </td> -->
+                                        <td class="sticky-right">
+                                          <div class="position-relative has-icon-right">
+                                            <select class="form-control form-control-sm" style="width: 80px;"
+                                            [(ngModel)]="_task.Status"
+                                            (ngModelChange)="updateTodo(_task)">
+                                            <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
+                                              {{Status_.Status_Name}}
+                                            </option>
+                                          </select>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)"></button>   
+                                     
+                                      </td>
+                                        <td>
+                                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                                        </button>
+                                      </td>
+                                        
+                                      </tr>										
+                                </tbody>
+                            </table>
+                        </div></div>        
+                <!----------------------------------------->
+               
+                
+              </div>     
+            </div>
+
+<!--  AssignTask end-->
+            <!--Tab end-->
+            </div>
+
+        </div>
+
+   
+         
+  
+     
+  
+      
+      
+  
+      <!----------------------------------------->
+
+
+      <div id="mySidenav" class="sidenav_Close">
+        <!--{{Selected_Item.Item_Title}}-->
+        <!-- Side Menu  Tab-->
+        
+        <div class="col">
+          <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">
+            <h1 class="sidemenu_close">&times;</h1>
+          </a>
+          <!--Side bar assigned task deadline start-->
+          <div class="card">
+            <div class="card-body">
+
+              <h4 class="border_bt" >{{Selected_Task.Task_Name}}</h4>
+              <th class="desk">Assigned</th>
+              <th class="desk">Deadline</th>
+              <tr class="desk">              
+              
+                <td style="width: 80%;">
+                  <div class="position-relative has-icon-right">
+                    <ng-select class="form-control form-control-sm" [items]="Global_UserList"
+                      [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
+                      [(ngModel)]="Selected_Task.Selected_People" (ngModelChange)="updateTodo(Selected_Task)" name="Selected_Task.Selected_People"
+                      style="font-size: 16px;">
+                      <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.userName}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                      </ng-template>
+                      <ng-template class="form-control form-control-sm"   ng-option-tmp let-item="item">
+                        {{item.userName}}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </td>
+                <td style="width: 20%;">
+                  <div class="position-relative has-icon-right">
+                    <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+                      <mat-date-range-input [rangePicker]="picker">
+                        <input  matStartDate placeholder="Start Date"    [(ngModel)]="Selected_Task.start_date"
+                            (ngModelChange)="updateTodo(Selected_Task)">
+                        <input matEndDate placeholder="End Date" [(ngModel)]="Selected_Task.end_date" 
+                        (ngModelChange)="updateTodo(Selected_Task)">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker ></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+                </td>
+              </tr>
+
+              <div class="row mobile">
+                <div class="col-12">
+                  <th>Assigned</th>
+                  <div class="card">                 
+                    <div class="position-relative has-icon-right">                     
+                      <ng-select class="form-control form-control-sm" [items]="Global_UserList"
+                        [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
+                        [(ngModel)]="Selected_Task.Selected_People" (ngModelChange)="updateTodo(Selected_Task)" name="Selected_Task.Selected_People"
+                        style="font-size: 16px;  ">
+                        <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.userName}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+                        <ng-template class="form-control form-control-sm"   ng-option-tmp let-item="item">
+                          {{item.userName}}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <th>Deadline</th>
+                  <div class="card">
+                    <div class="position-relative has-icon-right">
+                      <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+                        <mat-date-range-input [rangePicker]="picker">
+                          <input  matStartDate placeholder="Start Date"    [(ngModel)]="Selected_Task.start_date"
+                              (ngModelChange)="updateTodo(Selected_Task)">
+                          <input matEndDate placeholder="End Date" [(ngModel)]="Selected_Task.end_date" 
+                          (ngModelChange)="updateTodo(Selected_Task)">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker ></mat-date-range-picker>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                </div>                     
+          </div>
+          </div><br/>
+         <!--Side bar assigned task deadline end-->
+        <!--Side bar update task and image start-->
+          <div class="card">
+            <div class="card-body">
+      
+              <ul class="nav nav-tabs nav-tabs-primary">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#tabe-1">	<i class="icon-cloud-upload icons"></i>
+                    <span class="hidden-xs">Update</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#tabe-2">	<i class="icon-folder-alt icons"></i>
+                    <span class="hidden-xs">File</span>
+                  </a>
+                </li>
+                <li ngbDropdown class="nav-item">
+                  <a class="nav-link" href="javascript:;" id="dropdownBasic6" ngbDropdownToggle>	<i class="icon-settings"></i>
+                    <span class="hidden-xs">Setting</span>
+                  </a>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic6">	
+                    <a ngbDropdownItem data-toggle="tab" href="#tabe-3">Link 1</a>
+                    <a ngbDropdownItem href="javascript:;">Link 2</a>
+                    <a ngbDropdownItem href="javascript:;">Link 3</a>
+                  </div>
+                </li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div id="tabe-1" class="container tab-pane active">
+                  <form class="desk"> 
+                    <mat-form-field style="border: 2px solid white;" class="text_item_update">
+                      <textarea matInput (paste)="onPaste($event)" [(ngModel)]="Temp_Task_Update.Task_Update_Content"
+                        name="item_update" class="text_item_update" >              
+                      </textarea>              
+                    <!-- <div *ngFor='let url of imagess; let i = index' style="height: 100%; width: 400px; display: inline-block;">
+                      <a href="javascript:void(0)" (click)="deleteImage(url)" (click)="del(url)" class="lni lni lni-trash" style="display: none;"></a>          
+                      <a href="javascript:void(0)" (click)="deleteImage(url)"  class="lni lni lni-trash" style="margin-left: 390px;"></a>
+                      <img [src]="url" [(ngModel)]="Temp_Task_Update.Task_Update_files"   style="margin: 3px;" class="text_item_update">                              
+                    </div>   -->
+                     <!-- <img #imgRenderer [(ngModel)]="Temp_Item_Update.Item_Update_files" class="text_item_update"  />-->
+                    
+                   </mat-form-field>
+                    
+                   
+                     <input  type="file" name="Temp_Task_Update.Task_Update_files" multiple  class="form-control" (change)="onFileChange($event)">
+                                   
+                    <!-- <br/> --> 
+                    <!-- Place to render the image -->                  
+                    <!-- Arul Update <button class="btn btn-primary item-update_bt" (click)="create_Update()" (click)="reset()" >Update</button> -->
+                   <button class="btn btn-primary item-update_bt desk" style="align-items: center;" (click)="Task_Update(Temp_Task_Update)" (click)="task_update_form_reset()">Update</button>
+                   <button class="btn btn-primary mobile" style="margin-left: 190px; margin-top: 10px; margin-bottom: 10px;" (click)="Task_Update(Temp_Task_Update)" (click)="task_update_form_reset()">Update</button>
+                     <div  style="margin-bottom: 5px;" *ngFor="let update_ of Selected_Task.Task_Updates;let i = index">
+                      <ng-template #content let-modal>
+                        <div class="modal-header">
+                          <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;">Update Change</h1> 
+                          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form #myForm="ngForm">
+                            <label style="color: #626161e0;">Task Change Update</label>
+                            <div class="form-group">
+                              <mat-form-field appearance="outline radius-15" class="" style="width: 100%; height: 100%;">
+                                <input matInput  [(ngModel)]="update_.Task_Update_Content" name='update_.Task_Update_Content' required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
+                              </mat-form-field>
+                            
+                              <!-- Place to render the image -->
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cancel</button>
+                          <button type="button" class="btn btn-primary"  (click)="Task_Update_Change(update_)"
+                            [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Update Change</button>
+              
+                        <!--    <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
+                            [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" (click)="reset()">Create
+                            Workspace</button>  -->
+              
+                        </div>
+                      </ng-template>
+                     
+                      <div class="col-12" style="border: 1px solid #626161e0; border-radius: 3px;">
+                        <tr>
+                          <td style="width: 90%;"> 
+                            <h6 style="color: #626161e0; margin-left: -2px; margin-top: 10px;">{{update_.Task_Update_Content}}</h6>
+                          </td>
+                          <td style="width: 10%; text-align: right;"><i class="fa fa-edit" style="margin-right: 5px; cursor: pointer;" (click)="openVerticallyCentered(content)" (click)="update_index(i)" (click)="slecect(update_)"></i><i class="zmdi zmdi-delete" style="cursor: pointer;" (click)="Task_update_delete(update_)"></i> <p style="font-size: 8px; text-align: right; ">{{update_.Date | date: 'dd-MM-yyyy h:mm a'}}</p> </td>
+                        </tr>                        
+                                              
+                        <div class="card" *ngFor="let file_ of update_.Task_Update_files;">
+                          
+                          <img src="https://mydayapi.kuvira.in/{{file_.path}}" class="card-img-top" alt="Card image cap">                          
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <!-- {{update_.Task_Update_Content}} -->
+                      <div *ngFor="let file_ of update_.Task_Update_files;">
+                           <!-- <img src="file_.name" alt="Paris" width="300" height="300"> -->
+                           <!-- <img src="http://localhost:3001/{{file_.path}}" width="auto"  height="300"> -->
+                          <!-- {{file_.name}}
+                          {{file_.webkitRelativePath}}  -->
+                        </div> 
+                      </div>
+                    </div> 
+                  </form>
+                  <!-- mobile -->
+
+                  <form class="mobile"> 
+                    <mat-form-field style="border: 2px solid white;" class="text_item_update_mob">
+                      <textarea matInput (paste)="onPaste($event)" [(ngModel)]="Temp_Task_Update.Task_Update_Content"
+                        name="item_update" class="text_item_update" >              
+                      </textarea>              
+                    <!-- <div *ngFor='let url of imagess; let i = index' style="height: 100%; width: 400px; display: inline-block;">
+                      <a href="javascript:void(0)" (click)="deleteImage(url)" (click)="del(url)" class="lni lni lni-trash" style="display: none;"></a>          
+                      <a href="javascript:void(0)" (click)="deleteImage(url)"  class="lni lni lni-trash" style="margin-left: 390px;"></a>
+                      <img [src]="url" [(ngModel)]="Temp_Task_Update.Task_Update_files"   style="margin: 3px;" class="text_item_update">                              
+                    </div>   -->
+                     <!-- <img #imgRenderer [(ngModel)]="Temp_Item_Update.Item_Update_files" class="text_item_update"  />-->
+                    
+                   </mat-form-field>
+                    
+                   
+                     <input  type="file" name="Temp_Task_Update.Task_Update_files" multiple  class="form-control" (change)="onFileChange($event)">
+                                   
+                    <!-- <br/> --> 
+                    <!-- Place to render the image -->                  
+                    <!-- Arul Update <button class="btn btn-primary item-update_bt" (click)="create_Update()" (click)="reset()" >Update</button> -->
+                   <button class="btn btn-primary item-update_bt desk" style="align-items: center;" (click)="Task_Update(Temp_Task_Update)" (click)="task_update_form_reset()">Update</button>
+                   <button class="btn btn-primary mobile" style="margin-left: 190px; margin-top: 10px; margin-bottom: 10px;" (click)="Task_Update(Temp_Task_Update)" (click)="task_update_form_reset()">Update</button>
+                     <div  style="margin-bottom: 5px;" *ngFor="let update_ of Selected_Task.Task_Updates;let i = index">
+                      <ng-template #content let-modal>
+                        <div class="modal-header">
+                          <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;">Update Change</h1> 
+                          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form #myForm="ngForm">
+                            <label style="color: #626161e0;">Task Change Update</label>
+                            <div class="form-group">
+                              <mat-form-field appearance="outline radius-15" class="" style="width: 100%; height: 100%;">
+                                <input matInput  [(ngModel)]="update_.Task_Update_Content" name='update_.Task_Update_Content' required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
+                              </mat-form-field>
+                            
+                              <!-- Place to render the image -->
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cancel</button>
+                          <button type="button" class="btn btn-primary"  (click)="Task_Update_Change(update_)"
+                            [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Update Change</button>
+              
+                        <!--    <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
+                            [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" (click)="reset()">Create
+                            Workspace</button>  -->
+              
+                        </div>
+                      </ng-template>
+                     
+                      <div class="col-12" style="border: 1px solid #626161e0; border-radius: 3px; margin-bottom: 10px;">
+                        <tr>
+                          <td style="width: 75%;"> 
+                            <h6 style="color: #626161e0; margin-left: -2px; margin-top: 10px;">{{update_.Task_Update_Content}}</h6>
+                          </td>
+                          <td style="width: 25%; text-align: right;"><i class="fa fa-edit" style="margin-right: 5px; cursor: pointer;" (click)="openVerticallyCentered(content)" (click)="update_index(i)" (click)="slecect(update_)"></i><i class="zmdi zmdi-delete" style="cursor: pointer;" (click)="Task_update_delete(update_)"></i> <p style="font-size: 8px; text-align: right; ">{{update_.Date | date: 'dd-MM-yyyy h:mm a'}}</p> </td>
+                        </tr>                        
+                                              
+                        <div class="card" *ngFor="let file_ of update_.Task_Update_files;">
+                          
+                          <img src="http://localhost:3001/{{file_.path}}" class="card-img-top" alt="Card image cap">                          
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <!-- {{update_.Task_Update_Content}} -->
+                      <div *ngFor="let file_ of update_.Task_Update_files;">
+                           <!-- <img src="file_.name" alt="Paris" width="300" height="300"> -->
+                           <!-- <img src="http://localhost:3001/{{file_.path}}" width="auto"  height="300"> -->
+                          <!-- {{file_.name}}
+                          {{file_.webkitRelativePath}}  -->
+                        </div> 
+                      </div>
+                    </div> 
+                  </form>
+
+                  <!-- end -->
+                </div>
+                <div id="tabe-2" class="container tab-pane fade">
+                  <div class="card radius-15">
+                    <div class="card-body" >
+                      <div class="card-title">
+                        <h4 class="mb-0">Fancy File Upload</h4>
+                      </div>
+                      <hr/>
+                      <input id="fancy-file-upload" type="file" name="files" accept=".pdf,.doc,.xls" multiple />               
+                    </div>              
+                  </div> 
+                </div>
+                <div id="tabe-3" class="container tab-pane fade">
+                  <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                </div>
+              </div>                 
+               
+      
+              </div>
+            </div>
+            <!--Side bar update task and image end-->
+          </div>
+        </div>
+      
+     
   
       
       <!--End Row-->

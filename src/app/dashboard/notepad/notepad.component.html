@@ -1,0 +1,12 @@
+<div class="app">
+	<app-notepade *ngFor="let note of notes;let i index" (dismiss)="deleteNote($event)" (dismiss)="Delete_Notes(note)" (focusout)="getid(note)" (focusout)="saveNote($event)"  id="{{note.id}}">{{i+1}}{{note.content}}</app-notepade>
+</div>
+<div  class="toolbar" id="toolbar" tabindex="0">
+	<button class="add material-icons " (click)="addNote(Temp_Notes)" >
+  note_add
+	</button>
+  <!-- <button (click) = "updateAllNotes()">Click</button> -->
+  <!-- <button class="record material-icons" (click)="record($event)">
+    settings_voice
+  </button> -->
+</div>

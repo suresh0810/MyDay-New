@@ -42,7 +42,7 @@
 
 <!--end breadcrumb-->
 <div class="row">
-  <div class="pt-2 pb-2">
+  <div class="pt-2 pb-2 desk">
     <div class="card">
       <div class="card-body" >
         <!--Workspace Dropdown-->
@@ -62,27 +62,27 @@
         <!--Create Workspace -->
         <ng-template #content let-modal>
           <div class="modal-header">
-            <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Create Workspace</h1>
+            <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;">Create Workspace</h1>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form #myForm="ngForm">
-              <label>Workspace name</label>
+              <label style="color: #626161e0;">Workspace name</label>
               <div class="form-group">
                 <mat-form-field appearance="outline radius-15" class="" style="width: 100%; height: 100%;">
-                  <input matInput  [(ngModel)]="Workspace_Name" name='newworkspacename' required class="form-control" style="border: 1px solid chartreuse;">
+                  <input matInput  [(ngModel)]="Workspace_Name" name='newworkspacename' required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
                 </mat-form-field>
                 <br><br>
-                <p>Privacy</p>
-                <p>Workspaces are a way to organize your boards by team or project in one place.</p>
+                <p style="color: #626161e0;">Privacy</p>
+                <p style="color: #626161e0;">Workspaces are a way to organize your boards by team or project in one place.</p>
                 <!-- Place to render the image -->
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cancel</button>
             <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
               [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Create
               Workspace</button>
@@ -104,7 +104,7 @@
 
         <select appearance="outline" [(ngModel)]="Selected_Workspace_Index" (ngModelChange)="onChange($event)"
           class="form-control WsCreat">
-          <option *ngFor="let Workspace_ of Loaded_Wrokspaces; let i = index" [ngValue]="i">
+          <option *ngFor="let Workspace_ of Loaded_Wrokspaces; let i = index" [ngValue]="i" style="color: white;">
             {{Workspace_.Workspace_Name}}
           </option>
         </select><br>
@@ -124,28 +124,28 @@
 
         <ng-template #newboard let-modal>
           <div class="modal-header">
-            <h4 class="modal-title" style="margin-left: 0px;font-weight: 500;">Create board</h4>
+            <h4 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;">Create board</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form #myForm="ngForm">
-              <label>Board name</label>
+              <label style="color: #626161e0;">Board name</label>
               <div class="form-group">
                 <mat-form-field appearance="outline radius-15" style="width: 100%;">
                   <input matInput [(ngModel)]="Board_Title" name='newboardname' placeholder="Board Name" maxlength="35"
-                    required class="form-control" style="border: 1px solid chartreuse;">
+                    required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
                 </mat-form-field>
                 <br><br>
-                <p>Privacy</p>
-                <p>Visible to everyone in your account</p>
+                <p style="color: #626161e0;">Privacy</p>
+                <p style="color: #626161e0;">Visible to everyone in your account</p>
                 <!-- Place to render the image -->
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cancel</button>
             <button type="button" class="btn btn-primary" (click)="create_boards(Board_Title)"
               [disabled]="myForm.invalid" (click)="modal.close('Close click')">Create Board</button>
           </div>
@@ -164,10 +164,154 @@
     </div>
   </div>
 
+  
+
+  <!--Mobile-->
+  <div class="w3-teal mobile">
+    <button  id="openNav" class="card" (click)="w3_open()" style=" margin-left: 15px; background: white; color: red;">☰ Workspace</button> 
+  </div>
+
+  <div class="w3-sidebar w3-bar-block w3-card w3-animate-left mobile" style="display:none" id="mySidebar">
+    
+
+    <div class="col-12 col-lg-10 mobile" >
+      <div class="card">
+        <div class="card-body" >
+          <tr>
+            <td style="text-align: end; width: auto;">
+          <button id="openNav" (click)="w3_close()" class="card" style="color: white;">&times;</button>
+        </td>
+        </tr>
+          <!--Workspace Dropdown-->
+          <div  class="ms-auto" style="margin-bottom: 10px;">
+            <div ngbDropdown class="btn-group">
+              <button class="btn btn-light " (click)="openVerticallyCentered(content)" style="width: 240px;">+ Workspace</button>
+              <button class="btn btn-light   " id="dropdownBasic5" ngbDropdownToggle style="width: auto;">
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand" >
+                <a class="dropdown-item " (click)="openVerticallyCentered(content)">+ Add New Workspace</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"> Delete workspace</a>
+              </div>
+            </div>
+          </div>
+  
+          <!--Create Workspace -->
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;">Create Workspace</h1>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form #myForm="ngForm">
+                <label style="color: #626161e0;">Workspace name</label>
+                <div class="form-group">
+                  <mat-form-field appearance="outline radius-15" class="" style="width: 100%; height: 100%;">
+                    <input matInput  [(ngModel)]="Workspace_Name" name='newworkspacename' required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
+                  </mat-form-field>
+                  <br><br>
+                  <p style="color: #626161e0;">Privacy</p>
+                  <p style="color: #626161e0;">Workspaces are a way to organize your boards by team or project in one place.</p>
+                  <!-- Place to render the image -->
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
+                [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Create
+                Workspace</button>
+  
+            <!--    <button type="button" class="btn btn-primary" (click)="create_workspace(Workspace_Name)"
+                [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')" (click)="reset()">Create
+                Workspace</button>  -->
+  
+            </div>
+          </ng-template>
+          <!--Select Workspace -->
+  
+          <!--    <select appearance="outline" [(ngModel)]="User_.Selected_Workspace.Workspace_Name" (ngModelChange)="onChange($event)" class="form-control kstatus">
+            <option *ngFor="let Workspace_ of Loaded_Wrokspaces;let i = index" [ngValue]="i" >
+              {{Workspace_.Workspace_Name}}
+            </option>
+          </select>-->
+          <!--[selected]="Workspace_"-->
+  
+          <select appearance="outline" [(ngModel)]="Selected_Workspace_Index" (ngModelChange)="onChange($event)"
+            class="form-control WsCreat" style="margin-bottom: 10px;">
+            <option *ngFor="let Workspace_ of Loaded_Wrokspaces; let i = index" [ngValue]="i" style="color: white;">
+              {{Workspace_.Workspace_Name}}
+            </option>
+          </select>
+          <!--Create Board-->
+          <div class="ms-auto" style="margin-bottom: 10px;">
+            <div ngbDropdown  class="btn-group">
+              <button class="btn btn-light " (click)="openVerticallyCentered(newboard)" style="width: 240px;">+ Add Board</button>
+              <button class="btn btn-light  lni lni-chevron-down" id="dropdownBasic5" ngbDropdownToggle> 
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">
+                <a class="dropdown-item " (click)="openVerticallyCentered(newboard)">+ New Board</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"> Delete Board</a>
+              </div>
+            </div>
+          </div>
+  
+          <ng-template #newboard let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;">Create board</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form #myForm="ngForm">
+                <label style="color: #626161e0;">Board name</label>
+                <div class="form-group">
+                  <mat-form-field appearance="outline radius-15" style="width: 100%;">
+                    <input matInput [(ngModel)]="Board_Title" name='newboardname' placeholder="Board Name" maxlength="35"
+                      required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
+                  </mat-form-field>
+                  <br><br>
+                  <p style="color: #626161e0;">Privacy</p>
+                  <p style="color: #626161e0;">Visible to everyone in your account</p>
+                  <!-- Place to render the image -->
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="create_boards(Board_Title)"
+                [disabled]="myForm.invalid" (click)="modal.close('Close click')">Create Board</button>
+            </div>
+          </ng-template>
+  
+          <!--Select Boards-->
+          <!-- <div *ngFor="let Item_ of Loaded_Wrokspaces[Workspace_Index].List_Of_Boards; let i = index" [ngValue]="i" class="borde_list">
+            <button (click)="selected_boards()" > {{Item_.Board_Title}}</button>
+          </div>-->
+  
+          <mat-tab-group matMultilineTab (selectedTabChange)="tabClick($event)" style="width: 100%;">
+            <mat-tab *ngFor="let Item_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards; let i = index" ngValue="i"
+           label="{{Item_.Board_Title}}" ></mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+<!-------------------------------------------------------->
 
 
 
-  <div class="col-12 col-lg-10">
+  
+
+
+
+
+  <div class="col-12 col-lg-10 desk">
     <div class="card">
       <div class="card-body">
         <!--Selected Board Name-->
@@ -190,17 +334,17 @@
 
         <ng-template #newgroup let-modal>
           <div class="modal-header">
-            <h4 class="modal-title" style="margin-left: 0px;font-weight: 500;">Create Group</h4>
+            <h4 class="modal-title" style="margin-left: 0px;font-weight: 500; color: #626161e0;">Create Group</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form #myForm="ngForm">
-              <label>Group Name</label>
+              <label style="color: #626161e0;">Group Name</label>
               <div class="form-group">
                 <mat-form-field appearance="outline radius-15" style="width: 100%;">
-                  <input matInput [(ngModel)]="Group_Title" name='newgroupname' placeholder="Group Name" required class="form-control" style="border: 1px solid chartreuse;">
+                  <input matInput [(ngModel)]="Group_Title" name='newgroupname' placeholder="Group Name" required class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
                 </mat-form-field>
                 <br />
                 <!-- Place to render the image -->
@@ -209,7 +353,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Cancel</button>
             <button type="button" class="btn btn-primary" (click)="create_Group(Group_Title)"
               [disabled]="myForm.invalid" (click)="modal.close('Close click')">Create Group</button>
           </div>
@@ -217,7 +361,7 @@
 
         <div class="d-lg-flex align-items-center mb-4 gap-3">
           <div class="position-relative">
-            <input type="text" class="form-control ps-5 radius-30 " name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" > <span
+            <input type="text" class="form-control ps-5 radius-30 " name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="background: rgba(236, 144, 144, 0.551)"> <span
               class="position-absolute top-50 product-show translate-middle-y"></span>
           </div>
 
@@ -485,6 +629,334 @@
     </div>
 
   </div>
+
+  <!--mobile-->
+
+  <div class="col-12 col-lg-10 mobile" >
+    <div class="card">
+      <div class="card-body">
+        <!--Selected Board Name-->
+        <h5 class="border_bt" style="margin-left: 0px;"><input matInput
+            [(ngModel)]="Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards[Selected_Board_Index].Board_Title">
+        </h5>
+        <hr/>
+        <!--Create Group-->
+        <div class="ms-auto" style="margin-bottom: 10px;">
+          <div ngbDropdown class="btn-group">
+            <button type="button" class="btn btn-light" style="font-size: 14px; " data-bs-toggle="dropdown" (click)="openVerticallyCentered(newgroup)">New Group</button>
+            <button type="button" class="btn btn-light  lni lni-chevron-down" id="dropdownBasic5" ngbDropdownToggle
+              style="font-size: 12px;">
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class="dropdown_hand">
+              <a class="dropdown-item" (click)="openVerticallyCentered(newgroup)">New group of Items</a>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #newgroup let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin-left: 0px;font-weight: 500;">Create Group</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #myForm="ngForm">
+              <label>Group Name</label>
+              <div class="form-group">
+                <mat-form-field appearance="outline radius-15" style="width: 100%;">
+                  <input matInput [(ngModel)]="Group_Title" name='newgroupname' placeholder="Group Name" required class="form-control" style="border: 1px solid chartreuse;">
+                </mat-form-field>
+                <br />
+                <!-- Place to render the image -->
+
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="create_Group(Group_Title)"
+              [disabled]="myForm.invalid" (click)="modal.close('Close click')">Create Group</button>
+          </div>
+        </ng-template>
+
+        <div class="position-relative" style="margin-bottom: 10px;">
+          <input type="text" class="form-control ps-5 radius-30 " name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" > <span
+            class="position-absolute top-50 product-show translate-middle-y"></span>
+        </div>
+
+        <div class="d-lg-flex align-items-center mb-4 gap-3" style="margin-left: -12px; margin-bottom: -10px;">       
+          <div class="col-sm-3" style="margin-bottom: 10px;">
+            <div ngbDropdown class="btn-group">
+              <button type="button" class="btn btn-light" style="font-size: 14px;" data-bs-toggle="dropdown"><i class="fa fa-cog mr-1"></i>Add Column</button>
+              <button type="button" class="btn btn-light  bx bxs-plus-square" id="dropdownBasic5" ngbDropdownToggle style="font-size: 12px;">
+                
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class=" dropdown_hand">
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Timeline)">Timeline</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Status)">Status</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Dropdown)">Dropdown</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_People)">People</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Text)">Text</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Number)">Number</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Date_)">Date</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Check)">Check Box</a>
+                <a class="dropdown-item" (click)="create_Column(Column_Types_Formula)">Formula</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="sticky-container">
+          <div class="table-responsive mobile">
+        <div 
+          *ngFor="let Group_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards[Selected_Board_Index].List_Of_Groups|filter:searchText;  let j = index"
+          [attr.data-index]="j">  
+            <div ngbDropdown class="btn-group" >
+              <button class="btn btn-light" data-bs-toggle="dropdown"> {{Group_.Group_Title}}</button>
+              <button type="button" class="btn btn-light  lni lni-chevron-down" id="dropdownBasic5" ngbDropdownToggle
+                style="font-size: 12px;">
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class="dropdown_hand">
+                <a class="dropdown-item" (click)=create_Task(j)>Add Item</a>
+                <a class="dropdown-item" (click)="DeleteTaskGroup(Group_)">Delete Group</a>
+              </div>
+            </div>
+            
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th 
+                    *ngFor="let column_ of Loaded_Wrokspaces[Selected_Workspace_Index].List_Of_Boards[Selected_Board_Index].Board_Template?.List_Of_Columns;">
+                    {{column_.Column_Title}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr *ngFor="let Item_ of Group_.List_Of_Items|filter:searchText; let i = index" [attr.data-index]="i">
+
+                  <!-- item text -->
+                  <td>
+                  
+                    <div class="btn-group">                      
+                    <mat-form-field appearance="outline radius-15"
+                      style=" text-align: left; width: 100%;">                      
+                      <input matInput class="form-control form-control-sm"  [(ngModel)]="Item_.Item_Title" (ngModelChange)="UpdateTask(Item_)" style="margin-top: -10px;">                       
+                      <mat-icon matSuffix (click)="openNav(Item_)" class="dropdown_hand" style="margin-top: 10px;">maps_ugc</mat-icon>    
+                                                                    
+                    </mat-form-field>
+                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" style="height: 32px;" (click)="DeleteTask(Item_)"></button>
+                  </div>
+                    <!--<button class="btn    item_icon" (click)="openNav(Item_)">
+                      <span class="material-icons" style="margin-left: -7px ;">maps_ugc</span>
+                    </button>   -->
+                    <!-- {{Item_.Item_Title}} -->
+                  </td>     
+
+
+                  <!-- Date -->
+                  <td *ngFor="let kdate of Item_.List_Of_Date_columns;">
+                    <mat-form-field appearance="outline radius-15" class="kdate_tab">
+                      <input matInput class="form-control form-control-sm" [matDatepicker]="myDatePicker" [(ngModel)]="kdate.Date"
+                        (ngModelChange)="UpdateTask(Item_)" class="kdate" >
+                      <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
+                      <mat-datepicker #myDatePicker></mat-datepicker>
+                    </mat-form-field>
+                    <!-- {{kdate.Date | date}} -->
+                  </td>
+                  <!--
+
+
+        <td *ngFor="let kstatus of Item_.List_Of_Status_columns;" class="Item_Row">                                                                             
+          <select [(ngModel)]="kstatus.Status_Selected_Option" class="form-select  "
+            [style.background]="kstatus.Status_Selected_Option.Option_Color.get(rgba)" style="height: 51px;" >
+            <option *ngFor="let KstatusOption_ of kstatus?.List_Of_Status_Opionts"  
+              [ngValue]="KstatusOption_"
+              [selected]="KstatusOption_"
+              [style.background]="KstatusOption_.Option_Color.get(rgba)" style="text-align: center;">
+              {{KstatusOption_.Option_Title}}
+            </option>
+          </select>                        
+        <ul>
+        {{kstatus.Status_Selected_Option.Option_Title}} 
+        </ul>-->
+
+                  <!-- Status -->
+                  <td *ngFor="let kstatus of Item_.List_Of_Status_columns;">
+                    <div ngbDropdown class="btn-group">            
+                    <select [(ngModel)]="kstatus.Status_Selected_Option" class="form-control kstatus"
+                      [style.background]="kstatus.Status_Selected_Option.Option_Color.get(rgba)"
+                      (ngModelChange)="UpdateTask(Item_)" class="form-control form-control-sm">                      
+                      <option *ngFor="let KstatusOption_ of kstatus.List_Of_Status_Opionts" [ngValue]="KstatusOption_"
+                        [selected]="KstatusOption_" [style.background]="KstatusOption_.Option_Color.get(rgba)"
+                        style="text-align: center;">
+                        {{KstatusOption_.Option_Title}}
+                      </option>                                                            
+                    </select>
+                    <button type="button" class="btn btn-light  ads" id="dropdownBasic5" ngbDropdownToggle
+                        style="font-size: 12px">
+                      </button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic5" class="">
+                        <li>                                            
+                          <input [style.background]="color" [ngModel]="kstatus.List_Of_Status_Opionts.Option_Title" class="form-control">       
+                                                                                      
+                        </li>
+                        <li>                                             
+                          <input placeholder="Select Color" [(colorPicker)]="color" name="color" class="form-control" style="background-image: linear-gradient(to right, red , yellow)">                          
+                        </li>
+                          <li>
+                          <button type="button" class="btn btn-primary" style="width: 100%;" (click)="kstatus_option()">Add Label</button>
+                        </li>                       
+                      </div>
+                    </div>
+               
+                 
+                    <!--   <select [(ngModel)]="kstatus.Status_Selected_Option.Option_Title" class="form-control"
+                [style.background]="kstatus.Status_Selected_Option.Option_Color.get(rgba)" (ngModelChange)="UpdateTask(Item_)" style="height: 60; ">
+                <option *ngFor="let KstatusOption_ of kstatus.List_Of_Status_Opionts" [ngValue]="KstatusOption_"
+                  [selected]="KstatusOption_" [style.background]="KstatusOption_.Option_Color.get(rgba)"
+                  style="text-align: center;">
+                  {{KstatusOption_.Option_Title}}
+                </option>
+              </select>-->
+                    <!-- <ul>
+           {{kstatus.Status_Selected_Option.Option_Title}} 
+            </ul>-->
+                  </td>
+                  <!-- Dropdown  -->
+                  <td *ngFor="let kdropdown of Item_.List_Of_Dropdown_columns; let i = index" [attr.data-index]="i">
+                    <div ngbDropdown class="btn-group">
+                    <ng-select [items]="kdropdown.List_Of_Dropdown_Options" appearance="outline radius-15"
+                      [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="Dropdown_Name"
+                      style="margin-top: -3px; font-size: 12px;" [(ngModel)]="kdropdown.Dropdown_Selected_Option"
+                      (ngModelChange)="UpdateTask(Item_)" class="kdropdown_tab" class="form-control form-control-sm">
+                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.Dropdown_Name}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item">
+                        {{item.Dropdown_Name}}                                             
+                      </ng-template>                      
+                 
+                    </ng-select>               
+                      
+                      <button type="button" class="btn btn-light ads" id="dropdownBasic5" ngbDropdownToggle >
+                      </button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic5">
+                        <li>
+                          <mat-form-field appearance="outline">
+                          <input matInput class="form-control form-control-sm" [(ngModel)]="Dropdown_Name" name="Dropdown_Name">
+                        </mat-form-field>
+                        </li>
+                          <li>
+                          <button type="button" class="btn btn-primary" style="width: 100%;" (click)="Create_Dropdown_Option(Dropdown_Name,i)">Add Label</button>
+                        </li>
+                      </div>
+                    </div>
+
+
+
+
+                    <!-- <ul>
+                <li *ngFor="let item of kdropdown.Dropdown_Selected_Option">{{item.Dropdown_Name}}</li>
+              </ul> -->
+                  </td>
+                  <!-- Timeline  -->
+                  <td *ngFor="let ktimeline of Item_.List_Of_Timeline_columns;" class="Item_Row">
+                    <div class="wrapper">
+                      <mat-form-field appearance="outline radius-15" class="ktimeline_tab">
+                        <mat-date-range-input [rangePicker]="picker" class="form-control form-control-sm">
+                          <input matStartDate placeholder="Start Date" [(ngModel)]="ktimeline.start_date"
+                            (ngModelChange)="UpdateTask(Item_)">
+                          <input matEndDate placeholder="End Date" [(ngModel)]="ktimeline.end_date"
+                            (ngModelChange)="UpdateTask(Item_)">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                       <!-- <div class="overlay">
+                          <div class="content">{{calculateDiff(ktimeline_start_date)}} days </div>
+                        </div>-->
+                      </mat-form-field>
+                    </div>
+                    <!--  {{ktimeline_start_date | date}}
+                              {{ktimeline_end_date | date}} -->
+                  </td>
+                  <!-- People  -->
+                  <td *ngFor="let kpeople of Item_.List_Of_People_columns;">
+                    <ng-select appearance="outline radius-15" [items]="Global_UserList" [multiple]="true"
+                      [closeOnSelect]="true" [searchable]="true" bindLabel="FirstName"
+                      [(ngModel)]="kpeople.Selected_People"
+                      style="margin-top: -3px; font-size: 12px; text-align: center;" (ngModelChange)="UpdateTask(Item_)"
+                      class="kpeople form-control form-control-sm" >
+                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label"><img [src]="item.filepath" width="20px" height="20px">
+                          {{item.FirstName}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item">
+                        <img [src]="item.filepath" width="20px" height="20px"> {{item.FirstName}}
+                      </ng-template>
+                    </ng-select>
+                    <!-- <ul>
+              <li *ngFor="let item of kpeople.Selected_People">{{item.FirstName}}</li>
+            </ul>-->
+                  </td>
+                  <!-- Text  -->
+                  <td *ngFor="let ktext of Item_.List_Of_Text_columns;" class="Item_Row">
+                    <mat-form-field appearance="outline radius-15"
+                      style="margin-top: -4px; margin-bottom: -4px; text-align: center;">
+                      <input matInput [(ngModel)]="ktext.Text" (ngModelChange)="UpdateTask(Item_)">
+                    </mat-form-field>
+                    <!--   {{ktext.Text}}-->
+                  </td>
+                  <!-- Number  -->
+                  <td *ngFor="let knumber of Item_.List_Of_Number_columns;" class="Item_Row">
+                    <mat-form-field appearance="outline radius-15"
+                      style="margin-top: -4px; margin-bottom: -4px; text-align: center;">
+                      <input matInput type="number" [(ngModel)]="knumber.Number" (ngModelChange)="UpdateTask(Item_)">
+                    </mat-form-field>
+                    <!--   {{knumber.Number}}  -->
+                  </td>
+                  <!-- Check Box -->
+                  <td *ngFor="let kcheck of Item_.List_Of_Check_Box_columns;" class="Item_Row">
+                    <input type="checkbox" [(ngModel)]="kcheck.Check_Box"
+                      (ngModelChange)="UpdateTask(Item_)"
+                      style="margin-top: -4px; margin-bottom: -4px; align-items: center; margin-left: 20px;">
+                    <!--  {{kcheck.Check_Box}}-->
+                  </td>
+                  <!-- Formulas  -->
+                  <td *ngFor="let kformula of Item_.List_Of_Formula;" class="Item_Row">
+                    <mat-form-field appearance="outline radius-15" style="margin-top: -4px; margin-bottom: -4px;">
+                      <input matInput [(ngModel)]="kformula.Formula_Result" data-bs-toggle="dropdown"
+                        (ngModelChange)="UpdateTask(Item_)">
+                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+                        <textarea matInput [(ngModel)]="kformula.Full_Formula"
+                          style="width: 500px; border: 1px solid black; height: 90px;"
+                          (ngModelChange)="UpdateTask(Item_)"></textarea>
+                        <div *ngFor="let column_ of tempboard?.Board_Template?.List_Of_Columns;">
+                          {{column_.Column_Title}}
+                        </div>
+                      </div>
+                    </mat-form-field>
+                    <!--  {{kpeople.People_Selected_Option.People_Name}} -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-primary task" (click)=create_Task(j)>Create Task</button>
+        </div></div></div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
 

@@ -3,11 +3,11 @@
 	<div class="height-100v d-flex align-items-center justify-content-center">
 		<div class="card-authentication2 mx-auto my-5">
 			<div class="card-group">
-				<div class="card mb-0">
+				<div class="card mb-0 desk" >
 					<div class="bg-signin2"></div>
-					<div class="card-img-overlay rounded-left my-5">
-						<h2 class="text-white">Lorem</h2>
-						<h1 class="text-white">Ipsum Dolor</h1>
+					<div class="card-img-overlay rounded-left my-5" >
+						<img src="assets/images/bg-sighn-2.png" alt="logo icon" style="width: 170px; height: 60px; ">
+						
 						<p class="card-text text-white pt-3">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
 					</div>
 				</div>
@@ -21,8 +21,8 @@
 							<form (ngSubmit)="onSubmit()" #f="ngForm">
 								<div class="form-group">
 									<div class="position-relative has-icon-left">
-										<label for="exampleInputUsername" class="sr-only">Email</label>
-										<input type="text" [(ngModel)]="Email" name="Email" class="form-control" placeholder="Email" ngModel required>
+										<label for="exampleInputUsername" class="sr-only" style="color: #626161e0;">Email</label>
+										<input type="text" style="background-color: rgba(205, 130, 130, 0.262);" [(ngModel)]="Email" name="Email" class="form-control" placeholder="Email" ng-change="Email = Email.split(' ').join('')" ngModel required>
 										<div class="form-control-position"> <i class="icon-user"></i>
 										</div>
 									</div>
@@ -30,7 +30,7 @@
 								<div class="form-group">
 									<div class="position-relative has-icon-left">
 										<label for="exampleInputPassword" class="sr-only">Password</label>
-										<input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" ngModel required>
+										<input type="password" style="background-color: rgba(205, 130, 130, 0.262);" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" ngModel required>
 										<div class="form-control-position"> <i class="icon-lock"></i>
 										</div>
 									</div>
@@ -39,17 +39,17 @@
 									<div class="form-group col-6">
 										<div class="icheck-material-white">
 											<input type="checkbox" id="user-checkbox" checked="" />
-											<label for="user-checkbox">Remember me</label>
+											<label for="user-checkbox" style="color: #626161e0;">Remember me</label>
 										</div>
 									</div>
-									<div class="form-group col-6 text-right"> <a href="JavaScript:;" (click)="onResetpassword2()">Reset Password</a>
+									<div class="form-group col-6 text-right"> <a href="JavaScript:;" (click)="onResetpassword2()" style="color: #626161e0;">Reset Password</a>
 									</div>
 								</div>
 								<button type="button" class="btn btn-light btn-block waves-effect waves-light" (click)="login()">Sign In</button>
 								<div class="text-center pt-3">									
 									
 									<hr>
-									<p class="text-warning">Do not have an account? <a href="JavaScript:;" (click)="onSignup2()"> Sign Up here</a>
+									<p class="text-warning">Do not have an account? <a href="JavaScript:;" (click)="onSignup2()" style="color: #626161e0;"> Sign Up here</a>
 									</p>
 								</div>
 							</form>

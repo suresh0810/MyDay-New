@@ -1,231 +1,489 @@
 <!-- Breadcrumb-->
 
 <div class="row pt-2 pb-2">
-    <div class="col-sm-9">
-      <h4 class="page-title">Daily Tracker</h4>
-    </div>
-    <div class="col-sm-3 desk" >
-     
-    </div>
+  <div class="col-sm-9">
+    <h4 class="page-title">Daily Tracker</h4>
   </div>
-  <!-- End Breadcrumb-->               
-  <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;">     
-      <br>
+  <div class="col-sm-3 desk">
+
+  </div>
+</div>
+
+
+<!-- End Breadcrumb-->
+<input type="text" class="form-control form-control-sm search" name="search" [(ngModel)]="searchText" autocomplete="off"
+  placeholder="Search" style="border-radius: 10px; height: 40px;">
+<br>
 <!-- Tab Group -->
+<!--<input [(ngModel)]="get">
+<button (click)="postget(get)">xcvx</button>-->
+
 
 <div class="row">
-	<div class="col-lg-12">
-		<div class="card">
-			<div class="card-body">
-        <mat-tab-group matMultilineTab (selectedTabChange)="tabClick($event)" class="nav-tabs nav-tabs-success mobile">
-          <mat-tab *ngFor="let _Tracker_Month of List_Of_Daily_Tracker; let i = index" ngValue="i"
-          label="{{_Tracker_Month.Month|date:'MMM'}}">
-          <i class="fa fa-plus-square dropdown_hand adicon" (click)="openVerticallyCentered(Tracker_Month_Add)"></i>	
-          <i class="fa fa-edit dropdown_hand adicon" (click)="openVerticallyCentered(Tracker_Month_update)"></i>
-          <i class="zmdi zmdi-delete dropdown_hand adicon" (click)="Daily_Tracker_Delete(_Tracker_Month)"></i>
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <ul class="nav nav-tabs nav-tabs-success">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#MyTracker"> <i class="icon-user"></i>
+              <span>My Tracker</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#OtherTrackers"> <i class="icon-people"></i>
+              <span>Other Trackers</span>
+            </a>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <!--Tab List-->
+        <div class="tab-content">
+          <div id="MyTracker" class="tab-pane active">
+            <mat-tab-group matMultilineTab (selectedTabChange)="tabClick($event)" class="nav-tabs nav-tabs-success">
+              <mat-tab *ngFor="let _User of User_Lists; let i = index" ngValue="i" label="{{_User.User_Name}}"><!-- <i
+                  class="fa fa-plus-square dropdown_hand adicon"
+                  (click)="openVerticallyCentered(Tracker_Month_Add)"></i>
+                <i class="zmdi zmdi-delete dropdown_hand adicon" ></i>-->
+                <ng-template mat-tab-label>
+                  <img src="{{_User.User_Profile}}" style="width: 20px; height: 20px; border-radius: 50%;">
+                  <span style="text-indent: 5px;">{{_User.User_Name}}</span>
+              </ng-template>
 
-           <!--update month-->
-         <ng-template #Tracker_Month_update let-modal>        
-          <div class="modal-header">
-            <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Update Daily Tracker Month</h1>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form #myForm="ngForm">
-              <label>Selected Update Month</label>
-              <div class="form-group">
-                <mat-form-field appearance="outline radius-15" class="form-control" style="border: 1px solid chartreuse;">                
-                    <input matInput  type="month" [(ngModel)]="_Tracker_Month.Month" name="_Tracker_Month.Month"  placeholder="Daily Tracker Month" required  >                
-                    
-                  </mat-form-field>              
-                <br><br>                
-                <!-- Place to render the image -->
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="Daily_Tracker_Month_Update(_Tracker_Month)"
-              [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Update Daily Tracker Month</button>        
-          </div>
-        </ng-template> 
+              </mat-tab>
+            </mat-tab-group>
 
-          
-        </mat-tab>         
-        </mat-tab-group>
-                
-        <mat-tab-group  matMultilineTab (selectedTabChange)="tabClick($event)" class="nav-tabs nav-tabs-success desk">         
-          <mat-tab class="mats" *ngFor="let _Tracker_Month of List_Of_Daily_Tracker; let i = index" ngValue="i"
-         label="{{_Tracker_Month.Month|date:'MMM'}}" ><i class="fa fa-plus-square dropdown_hand adicon" (click)="openVerticallyCentered(Tracker_Month_Add)"></i>	
-         <i class="fa fa-edit dropdown_hand adicon" (click)="openVerticallyCentered(Tracker_Month_update)"></i>
-         <i class="zmdi zmdi-delete dropdown_hand adicon" (click)="Daily_Tracker_Delete(_Tracker_Month)"></i>	
-         <!--update month-->
-         <ng-template #Tracker_Month_update let-modal>        
-          <div class="modal-header">
-            <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Update Daily Tracker Month</h1>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form #myForm="ngForm">
-              <label>Selected Update Month</label>
-              <div class="form-group">
-                <mat-form-field appearance="outline radius-15" class="form-control" style="border: 1px solid chartreuse;">                
-                    <input matInput  type="month" [(ngModel)]="_Tracker_Month.Month" name="_Tracker_Month.Month"  placeholder="Daily Tracker Month" required  >                
-                    
-                  </mat-form-field>              
-                <br><br>                
-                <!-- Place to render the image -->
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="Daily_Tracker_Month_Update(_Tracker_Month)"
-              [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Update Daily Tracker Month</button>        
-          </div>
-        </ng-template> 
+            <mat-tab-group matMultilineTab (selectedTabChange)="tabClick1($event)"
+              class="nav-tabs nav-tabs-success desk" >
+              <div *ngFor="let _User of User_Lists;">
+              <mat-tab  class="mats" 
+                *ngFor="let _Months of User_Lists[Selected_Month_Index].List_of_Daily_Tracker_Month; let i = index" [attr.data-index]="i"
+                ngValue="i" label="{{_Months.Month|date:'MMM'}}"><i class="fa fa-plus-square dropdown_hand adicon"
+                  (click)="openVerticallyCentered(Tracker_Month_Add)"></i>
+                <i class="icon-note icons dropdown_hand adicon"
+                  (click)="openVerticallyCentered(Tracker_Month_update)"></i>
+               <!-- <i class="zmdi zmdi-delete dropdown_hand adicon" (click)="Daily_Tracker_Month_Delete(_Months)"></i>-->
 
-         </mat-tab>                         
-        </mat-tab-group> 
-       
+                <!--update month-->
+                <ng-template #Tracker_Month_update let-modal>
+                  <div class="modal-header">
+                    <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Update Daily Tracker Month</h1>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form #myForm="ngForm">
+                      <label>Selected Update Month</label>
+                      <div class="form-group">
+                        <mat-form-field appearance="outline radius-15" class="form-control"
+                          style="border: 1px solid chartreuse;">
+                          <input matInput type="month" [(ngModel)]="_Months.Month" name="_Months.Month"
+                            placeholder="Daily Tracker Month" required>
 
-       
-                                          
-<!--List daily task-->
-          <div class="row desk" *ngFor="let _DailyTask of List_Of_Daily_Tracker[Selected_Month_Index].List_Of_Daily_Tracker_Update|filter:searchText let i = index" [attr.data-index]="i">
-            <div class="col-lg-12">
-                <div id="accordion8">
-                    <div class="card mb-1 border border-success">
+                        </mat-form-field>
+                        <br><br>
+                        <!-- Place to render the image -->
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light" (click)="modal.close('Close click')" >Cancel</button>
+                    <button type="button" class="btn btn-primary" (click)="Daily_Tracker_Month_Update(_Months)"
+                      [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Update Daily Tracker
+                      Month</button>
+                  </div>
+                </ng-template>
+
+                <!--List -->
+                <tr class="desk" style="text-indent: 42px;">
+                  <td style="width: 300px;">
+                    Date
+                  </td>
+                  <td style="width: 40%;">
+                    DailyTask
+                  </td>
+                </tr>
+
+
+
+                <div class="row desk"
+                  *ngFor="let _DailyTask of _Months.List_Of_Daily_Tracker_Update|filter:searchText let i = index">
+                  <div class="col-lg-12">
+                    <div id="accordion8">
+                      <div class="card mb-1 border border-success">
                         <div class="card-header">
-                            <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" aria-controls="collapse-22"><tr><td style="width: 300px; text-align: left; font-size: 12px;">{{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td><td >{{_DailyTask.Daily_Tracker_Update_Task|slice:0:100}}</td></tr>         </button>
+                          <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;"
+                            data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false"
+                            aria-controls="collapse-22">
+                            <tr>
+                              <td style="width: 300px; text-align: left; font-size: 12px;">
+                                {{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td>
+                              <td>{{_DailyTask.Daily_Tracker_Update_Task|slice:0:100}}</td>
+                            </tr>
+                          </button>
                         </div>
                         <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
-                            
-                            <div class="card-body"><textarea matInput  type="textarea" [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task" name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"  placeholder="Daily Tracker Month" required></textarea>
-                              
-                            </div>
-                            <i class="zmdi zmdi-delete dropdown_hand adicon" [attr.id]="i" (click)="Daily_Tracker_Update_Delete(i)" ></i>
-                        </div>
-                    </div>                   
-                </div>
-            </div>
-        </div>
 
-        <!--movile-->
+                          <div class="card-body"><textarea matInput type="textarea"
+                              [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task"
+                              name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"
+                              placeholder="Daily Tracker Month" required></textarea>
 
-        <div class="row mobile" *ngFor="let _DailyTask of List_Of_Daily_Tracker[Selected_Month_Index].List_Of_Daily_Tracker_Update|filter:searchText let i = index" [attr.data-index]="i">
-          <div class="col-lg-12">
-              <div id="accordion8">
-                  <div class="card mb-1 border border-success">
-                      <div class="card-header">
-                          <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" aria-controls="collapse-22"><tr><td style="width: 110px; text-align: left; font-size: 12px;">{{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td><td style="text-align: left;">{{_DailyTask.Daily_Tracker_Update_Task|slice:0:13}}</td></tr>         </button>
-                      </div>
-                      <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
-                          
-                          <div class="card-body"><textarea matInput  type="textarea" [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task" name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"  placeholder="Daily Tracker Month" required></textarea>
-                            
                           </div>
-                          <i class="zmdi zmdi-delete dropdown_hand adicon" [attr.id]="i" (click)="Daily_Tracker_Update_Delete(i)" ></i>
-                      </div>
-                  </div>                   
-              </div>
-          </div>
-      </div>
-         <!--create daily task-->
-          <mat-toolbar color="accent" class="footer">
-            <form>
-          <!--  <input   [(ngModel)]="Temp_Expenses.add" name="Temp_Expenses.add" [value]="Temp_Expenses.Paid_by.length + Temp_Expenses.split_equaly.length" > -->
-              <table style="cellspacing:5px">
-              <tr>                                
-                <td style="width: 14%;  overflow: auto;">
-                    <div class="position-relative has-icon-right">
-                    <mat-form-field appearance="outline radius-15" class="form-control">                
-                      <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Date" name="Temp_Expense.Spent_date" placeholder="Spent_date">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field></div>
-                  </td> 
-                <td style="width: 500px;">
-                  <div class="position-relative has-icon-right">
-                    <input autofocus style="width: 100%; " [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Task" name="Temp_Expense.Spent_For" placeholder="Daily Tracker Update Task"
-                      class="form-control">
-                  </div>
-                </td>                                            
+                          <i class="zmdi zmdi-delete dropdown_hand adicon"
+                            (click)="Daily_Tracker_delete(_DailyTask)"></i>
                            
-                <td> <!-- Temp_Finance_Items.split_equaly-->
-                  <input type="submit"  class="btn  btn-block btn-light form-control"
-                    style=" border-radius: 2px; color: white; width: 70px;  height: 38px;"
-                    (click)="Create_Daily_Tracker_Update(Temp_Daily_Tracker_Update)"  value="Save"  (window:keypress.enter)="onSomeAction($event)" (click)="reset()">
-                </td>
-              </tr>
-            </table>
-            </form>          
-          </mat-toolbar>  
 
-          <mat-toolbar color="accent" class="foot">
-            <form>
-              <table style="cellspacing:5px">
-              <tr >
-                <td style="width: 75%;">
-                  <div class="position-relative has-icon-right">
-                    <input autofocus style="width: 100%; margin-left: -7px;" [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Task" name="Temp_Expense.Spent_For" placeholder="Daily Tracker Update Task" class="form-control">
+                            
+                            
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </td>
-                <td style=" background: transparent; width: 20%;">
-                  <div class="position-relative has-icon-right">
-                    <mat-form-field appearance="outline radius-15" class="form-control" style="font-size: 16px; width: 135px; min-height: 38px; margin-left: -7px;">                
-                      <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Date" name="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Date" >
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field></div>
-                </td>
-                <td style="width: 5%;">                
-                    <mat-icon (window:keypress.enter)="onSomeAction($event)" (click)="Create_Daily_Tracker_Update(Temp_Daily_Tracker_Update)" (click)="reset()" style="margin-top: 10px; ">send</mat-icon>
-                </td>
-              </tr>
-            </table>
-            </form>          
-          </mat-toolbar>
+                </div>
 
-          
-          
-          <!--create daily task-->
-        <ng-template #Tracker_Month_Add let-modal>        
-          <div class="modal-header">
-            <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Create Daily Tracker Month</h1>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form #myForm="ngForm">
-              <label>Selected Month</label>
-              <div class="form-group">
-                <mat-form-field appearance="outline radius-15" class="form-control" style="border: 1px solid chartreuse;">                
-                    <input matInput  type="month" [(ngModel)]="Temp_Daily_Tracker.Month" name="Temp_Daily_Tracker.Month"  placeholder="Daily Tracker Month" required  >                
-                    
-                  </mat-form-field>              
-                <br><br>                
-                <!-- Place to render the image -->
+              
+              </mat-tab></div>
+            </mat-tab-group>
+
+            <mat-tab-group matMultilineTab (selectedTabChange)="tabClick1($event)"
+              class="nav-tabs nav-tabs-success mobile">
+              <div *ngFor="let _User of User_Lists;">
+              <mat-tab class="mats"
+                *ngFor="let _Months of User_Lists[Selected_Month_Index].List_of_Daily_Tracker_Month; let j = index" [attr.data-index]="j"
+                ngValue="j" label="{{_Months.Month|date:'MMM'}}"><i class="fa fa-plus-square dropdown_hand adicon"
+                  (click)="openVerticallyCentered(Tracker_Month_Add)"></i>
+                <i class="icon-note icons dropdown_hand adicon"
+                  (click)="openVerticallyCentered(Tracker_Month_update)"></i>
+               <!-- <i class="zmdi zmdi-delete dropdown_hand adicon" (click)="Daily_Tracker_Month_Delete(_Months)"></i>-->
+
+                <!--update month-->
+                <ng-template #Tracker_Month_update let-modal>
+                  <div class="modal-header">
+                    <h1 class="modal-title" style="margin-left: 0px;font-weight: 500;">Update Daily Tracker Month</h1>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form #myForm="ngForm">
+                      <label>Selected Update Month</label>
+                      <div class="form-group">
+                        <mat-form-field appearance="outline radius-15" class="form-control"
+                          style="border: 1px solid chartreuse;">
+                          <input matInput type="month" [(ngModel)]="_Months.Month" name="_Months.Month"
+                            placeholder="Daily Tracker Month" required>
+
+                        </mat-form-field>
+                        <br><br>
+                        <!-- Place to render the image -->
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
+                    <button type="button" class="btn btn-primary" (click)="Daily_Tracker_Month_Update(_Months)"
+                      [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Update Daily Tracker
+                      Month</button>
+                  </div>
+                </ng-template>
+
+
+                <!--movile-->
+                <tr class="mobile">
+                  <td style="width: 150px; text-indent: 42px;">
+                    Date
+                  </td>
+                  <td style="width: 40%;">
+                    DailyTask
+                  </td>
+                </tr>
+
+                <div class="row mobile"
+                  *ngFor="let _DailyTask of _Months.List_Of_Daily_Tracker_Update|filter:searchText let i = index" [attr.data-index]="i"
+                  [attr.data-index]="i">
+                  <div class="col-lg-12">
+                    <div id="accordion8">
+                      <div class="card mb-1 border border-success">
+                        <div class="card-header">
+                          <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;"
+                            data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false"
+                            aria-controls="collapse-22">
+                            <tr>
+                              <td style="width: 110px; text-align: left; font-size: 12px;">
+                                {{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td>
+                              <td style="text-align: left;">{{_DailyTask.Daily_Tracker_Update_Task|slice:0:13}}</td>
+                            </tr>
+                          </button>
+                        </div>
+                        <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+
+                          <div class="card-body"><textarea matInput type="textarea"
+                              [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task"
+                              name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"
+                              placeholder="Daily Tracker Month" required></textarea>
+
+                          </div>
+                          <i class="zmdi zmdi-delete dropdown_hand adicon" [attr.id]="i"
+                          (click)="Daily_Tracker_delete(_DailyTask)"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </mat-tab></div>
+            </mat-tab-group>
+
+
+            <!--List -->
+
+
+
+
+            <!-- <div class="row desk" *ngFor="let _DailyTask of User_Lists[Selected_Month_Index].List_of_Daily_Tracker_Month[Selected_Month_Update_Index].List_Of_Daily_Tracker_Update|filter:searchText let i = index" >
+              <div class="col-lg-12">
+                  <div id="accordion8">
+                      <div class="card mb-1 border border-success">
+                          <div class="card-header">
+                              <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" aria-controls="collapse-22"><tr><td style="width: 300px; text-align: left; font-size: 12px;">{{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td><td >{{_DailyTask.Daily_Tracker_Update_Task|slice:0:100}}</td></tr>         </button>
+                          </div>
+                          <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+                              
+                              <div class="card-body"><textarea matInput  type="textarea" [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task" name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"  placeholder="Daily Tracker Month" required></textarea>
+                                
+                              </div>
+                              <i class="zmdi zmdi-delete dropdown_hand adicon" [attr.id]="i" (click)="Daily_Tracker_Update_Delete(i)" ></i>
+                          </div>
+                      </div>                   
+                  </div>
               </div>
-            </form>
+              </div>-->
+
+            <!--movile-->
+
+            <!--   <div class="row mobile" *ngFor="let _DailyTask of User_Lists[Selected_Month_Index].List_of_Daily_Tracker_Month[Selected_Month_Update_Index].List_Of_Daily_Tracker_Update|filter:searchText let i = index" [attr.data-index]="i">
+                      <div class="col-lg-12">
+                          <div id="accordion8">
+                              <div class="card mb-1 border border-success">
+                                  <div class="card-header">
+                                      <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" aria-controls="collapse-22"><tr><td style="width: 110px; text-align: left; font-size: 12px;">{{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td><td style="text-align: left;">{{_DailyTask.Daily_Tracker_Update_Task|slice:0:13}}</td></tr>         </button>
+                                  </div>
+                                  <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+                                      
+                                      <div class="card-body"><textarea matInput  type="textarea" [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task" name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"  placeholder="Daily Tracker Month" required></textarea>
+                                        
+                                      </div>
+                                      <i class="zmdi zmdi-delete dropdown_hand adicon" [attr.id]="i" (click)="Daily_Tracker_Update_Delete(i)" ></i>
+                                  </div>
+                              </div>                   
+                          </div>
+                      </div>
+                  </div>-->
+
+
+
+
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="Create_Daily_Tracker(Temp_Daily_Tracker)" (click)="reset1()"
-              [disabled]="myForm.invalid"  (click)="modal.dismiss('Cross click')" >Create Daily Tracker Month</button>        
+          <div id="OtherTrackers" class="tab-pane fade">
+            <!-- <app-dailytrackerall></app-dailytrackerall>-->
+            <mat-tab-group matMultilineTab (selectedTabChange)="tabClick2($event)" class="nav-tabs nav-tabs-success">
+              <mat-tab *ngFor="let _User of User_List; let i = index" ngValue="i"
+                label="{{_User.User_Name}}">
+                <ng-template mat-tab-label>
+                  <img src="{{_User.User_Profile}}" style="width: 20px; height: 20px; border-radius: 50%; ">
+                  <span style="text-indent: 5px;">{{_User.User_Name}}</span>
+              </ng-template>
+              </mat-tab>
+            </mat-tab-group>
+
+            <mat-tab-group matMultilineTab (selectedTabChange)="tabClick3($event)" class="nav-tabs nav-tabs-success" >
+              <div *ngFor="let _User of User_Lists;">
+              <mat-tab class="mats"
+                *ngFor="let _Months of User_List[Selected_Month_All_Index].List_of_Daily_Tracker_Month; let j = index"
+                ngValue="j" label="{{_Months.Month|date:'MMM'}}">
+
+                <div class="row desk"
+                  *ngFor="let _DailyTask of _Months.List_Of_Daily_Tracker_Update|filter:searchText let i = index"
+                  [attr.data-index]="i">
+                  <div class="col-lg-12">
+                    <div id="accordion8">
+                      <div class="card mb-1 border border-success">
+                        <div class="card-header">
+                          <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;"
+                            data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false"
+                            aria-controls="collapse-22">
+                            <tr>
+                              <td style="width: 300px; text-align: left; font-size: 12px;">
+                                {{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td>
+                              <td>{{_DailyTask.Daily_Tracker_Update_Task|slice:0:100}}</td>
+                            </tr>
+                          </button>
+                        </div>
+                        <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+
+                          <div class="card-body"><textarea matInput type="textarea"
+                              [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task"
+                              name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"
+                              placeholder="Daily Tracker Month" required></textarea>
+
+                          </div>
+                          <i class="zmdi zmdi-delete dropdown_hand adicon" [attr.id]="i"
+                            (click)="Daily_Tracker_Update_Delete(i)"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mobile"
+                  *ngFor="let _DailyTask of _Months.List_Of_Daily_Tracker_Update|filter:searchText let i = index"
+                  [attr.data-index]="i">
+                  <div class="col-lg-12">
+                    <div id="accordion8">
+                      <div class="card mb-1 border border-success">
+                        <div class="card-header">
+                          <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;"
+                            data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false"
+                            aria-controls="collapse-22">
+                            <tr>
+                              <td style="width: 110px; text-align: left; font-size: 12px;">
+                                {{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td>
+                              <td>{{_DailyTask.Daily_Tracker_Update_Task|slice:0:13}}</td>
+                            </tr>
+                          </button>
+                        </div>
+                        <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+
+                          <div class="card-body"><textarea matInput type="textarea"
+                              [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task"
+                              name="_DailyTask.Daily_Tracker_Update_Task" placeholder="Daily_Tracker_Update_Task"
+                              required></textarea>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </mat-tab></div>
+            </mat-tab-group>
+
+
+
+            <!--  <div class="row desk" *ngFor="let _DailyTask of User_List[Selected_Month_All_Index].List_of_Daily_Tracker_Month[Selected_Month_Update_All_Index].List_Of_Daily_Tracker_Update|filter:searchText let i = index" [attr.data-index]="i">
+                <div class="col-lg-12">
+                    <div id="accordion8">
+                        <div class="card mb-1 border border-success">
+                            <div class="card-header">
+                                <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" aria-controls="collapse-22"><tr><td style="width: 300px; text-align: left; font-size: 12px;">{{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td><td >{{_DailyTask.Daily_Tracker_Update_Task|slice:0:100}}</td></tr>         </button>
+                            </div>
+                            <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+                                
+                                <div class="card-body"><textarea matInput  type="textarea" [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task" name="_DailyTask.Daily_Tracker_Update_Task" on-focusout="Daily_Tracker_Update(_DailyTask)"  placeholder="Daily Tracker Month" required></textarea>
+                                  
+                                </div>
+                                <i class="zmdi zmdi-delete dropdown_hand adicon" [attr.id]="i" (click)="Daily_Tracker_Update_Delete(i)" ></i>
+                            </div>
+                        </div>                   
+                    </div>
+                </div>
+            </div>-->
+
+            <!-- <div class="row mobile" *ngFor="let _DailyTask of User_List[Selected_Month_All_Index].List_of_Daily_Tracker_Month[Selected_Month_Update_All_Index].List_Of_Daily_Tracker_Update|filter:searchText let i = index" [attr.data-index]="i">
+              <div class="col-lg-12">
+                  <div id="accordion8">
+                      <div class="card mb-1 border border-success">
+                          <div class="card-header">
+                              <button class="btn btn-link shadow-none " style="height: 15px; margin-top: -15px;" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" aria-controls="collapse-22"><tr><td style="width: 110px; text-align: left; font-size: 12px;">{{_DailyTask.Daily_Tracker_Update_Date|date:'MMM dd YYYY'}} </td><td >{{_DailyTask.Daily_Tracker_Update_Task|slice:0:13}}</td></tr>         </button>
+                          </div>
+                          <div [attr.id]="'collapse' + i" class="collapse" data-parent="#accordion8">
+                              
+                              <div class="card-body"><textarea matInput  type="textarea" [(ngModel)]="_DailyTask.Daily_Tracker_Update_Task" name="_DailyTask.Daily_Tracker_Update_Task" placeholder="Daily_Tracker_Update_Task" required></textarea>
+                                
+                              </div>
+                             
+                          </div>
+                      </div>                   
+                  </div>
+              </div>
+          </div>-->
+
+
           </div>
-        </ng-template>        
-        
-        
-		
-			</div>
-		</div>
-	</div>
+        </div>
+      </div>
+    </div>
+
+    <mat-toolbar color="accent" class="footer">
+      <form>
+        <!--  <input   [(ngModel)]="Temp_Expenses.add" name="Temp_Expenses.add" [value]="Temp_Expenses.Paid_by.length + Temp_Expenses.split_equaly.length" > -->
+        <table style="cellspacing:5px">
+          <tr>
+            <td style="width: 14%;  overflow: auto;">
+              <div class="position-relative has-icon-right">
+                <mat-form-field appearance="outline radius-15" class="form-control">
+                  <input matInput [matDatepicker]="picker"
+                    [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Date" name="Temp_Expense.Spent_date"
+                    placeholder="Spent_date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </td>
+            <td style="width: 500px;">
+              <div class="position-relative has-icon-right">
+                <input autofocus style="width: 100%; " [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Task"
+                  name="Temp_Expense.Spent_For" placeholder="Daily Tracker Update Task" class="form-control">
+              </div>
+            </td>
+
+            <td>
+              <!-- Temp_Finance_Items.split_equaly-->
+              <input type="submit" class="btn  btn-block btn-light form-control"
+                style=" border-radius: 2px; color: white; width: 70px;  height: 38px;"
+                (click)="Create_Daily_Tracker_Update(Temp_Daily_Tracker_Update)" value="Save"
+                (window:keypress.enter)="onSomeAction($event)" (click)="reset()">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </mat-toolbar>
+
+    <mat-toolbar color="accent" class="foot">
+      <form>
+        <table style="cellspacing:5px">
+          <tr>
+            <td style="width: 75%;">
+              <div class="position-relative has-icon-right">
+                <input autofocus style="width: 100%; margin-left: -7px;"
+                  [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Task"
+                  name="Temp_Daily_Tracker_Update.Spent_For" placeholder="Daily Tracker Update Task"
+                  class="form-control">
+              </div>
+            </td>
+            <td style=" background: transparent; width: 20%;">
+              <div class="position-relative has-icon-right">
+                <mat-form-field appearance="outline radius-15" class="form-control"
+                  style="font-size: 16px; width: 135px; min-height: 38px; margin-left: -7px;">
+                  <input matInput [(ngModel)]="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Date"
+                    name="Temp_Daily_Tracker_Update.Daily_Tracker_Update_Date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </td>
+            <td style="width: 5%;">
+              <mat-icon (window:keypress.enter)="onSomeAction($event)"
+                (click)="Create_Daily_Tracker_Update(Temp_Daily_Tracker_Update)" (click)="reset()"
+                style="margin-top: 10px; ">send</mat-icon>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </mat-toolbar>
+  </div>
 </div>
 
 
@@ -235,3 +493,40 @@
 
 
 
+
+
+<!--List daily task-->
+
+<!--create daily task-->
+
+
+
+
+<!--create daily task-->
+<ng-template #Tracker_Month_Add let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title" style="margin-left: 0px;font-weight: 500; color: black;">Create Daily Tracker Month</h1>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #myForm="ngForm">
+      <label style="color: black;">Selected Month</label>
+      <div class="form-group">
+        <mat-form-field appearance="outline radius-15" class="form-control" style="border: 1px solid rgba(213, 39, 39, 0.755);">
+          <input matInput type="month" [(ngModel)]="Temp_Daily_Tracker.Month" name="Temp_Daily_Tracker.Month"
+            placeholder="Daily Tracker Month" required>
+
+        </mat-form-field>
+        <br><br>
+        <!-- Place to render the image -->
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('Close click')" >Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="Create_Daily_Tracker(Temp_Daily_Tracker)" (click)="reset1()"
+      [disabled]="myForm.invalid" (click)="modal.dismiss('Cross click')">Create Daily Tracker Month</button>
+  </div>
+</ng-template>
