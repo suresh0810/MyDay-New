@@ -181,6 +181,23 @@ export class Device{
     device_Name:string;
 }
 
+export class Users{
+    constructor(user_name_ ,Owner_FB_User_:FirebaseUser,profile_:string ){        
+
+        this.User_Name = user_name_;
+        this.User_Profile =profile_;
+        this.Owner_Of_The_Task=Owner_FB_User_;
+        this.List_of_Daily_Tracker_Month.push(new Daily_Tracker(new Date(Date.now())));
+    }
+
+    User_Name:string;
+    User_Profile:string;
+    Owner_Of_The_Task:FirebaseUser;
+    Database_id:ObjectId;
+    List_of_Daily_Tracker_Month:Daily_Tracker[]=[];
+    
+}
+
 
 export class Daily_Tracker{
 

@@ -307,7 +307,7 @@ date:string;
    }
 
   ngOnInit(): void {
-
+    this.cal()
       
     $.getScript('./assets/js/ecommerce1.js'); 
 
@@ -359,7 +359,8 @@ date:string;
   }
 
   create_Task(_newTask: Task){
-  this.List_of_Tasks.push(_newTask.Task_Name); 
+    
+  this.List_of_Tasks.push(new Task(this.Temp_Task.Task_Name,this.Temp_Task.Status,this.FirebaseUser_,new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()))); 
  
     
     _newTask.Task_Createddate=new Date(Date.now());
@@ -434,9 +435,7 @@ date:string;
       this.LoadToDolistOnlyOwned();
       this.LoadToDolist_Done_OnlyOwned();
       this. LoadToDolist_filter_OnlyOwned();
-      this.toast.success('Task Update Success!', 'Success!', {
-        timeOut:1500
-      });
+      
     })
   }
 
@@ -746,4 +745,29 @@ date:string;
   openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true });
   }
+
+//   inputJSON = {
+//     "created_date": "2017-04-13 10:12:12",
+//     "current_time": "2017-04-13 11:10:46"
+// };
+
+// getDataDiff(startDate, endDate) {
+//     var diff = endDate.getTime() - startDate.getTime();
+//     var days = Math.floor(diff / (60 * 60 * 24 * 1000));
+//     var hours = Math.floor(diff / (60 * 60 * 1000)) - (days * 24);
+//     var minutes = Math.floor(diff / (60 * 1000)) - ((days * 24 * 60) + (hours * 60));
+//     var seconds = Math.floor(diff / 1000) - ((days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60));
+//     return { day: days, hour: hours, minute: minutes, second: seconds };
+// }
+// this.diff = getDataDiff(new Date(inputJSON.created_date), new Date(inputJSON.current_time));
+// console.log(diff);
+
+cal(){  
+var date1 = new Date( ); 
+	var date2 = new Date( );   
+    var Time = date2.getTime() - date1.getTime(); 
+    var Days = Time / (1000 * 3600 * 24); //Diference in Days
+    console.log(Days, "days")
+  }
+
 }

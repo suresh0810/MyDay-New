@@ -11,6 +11,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { NotepadeComponent } from './notepade/notepade.component';
 import { NotepadComponent } from './notepad/notepad.component';
 
+import { DailytrackerallComponent } from './dailytrackerall/dailytrackerall.component';
 const routes: Routes = [
   {
     path: '',
@@ -78,6 +79,13 @@ const routes: Routes = [
         component: DailytrackerComponent,
         data: {
           title: 'dailytracker'
+        }
+      },
+      {
+        path: 'dailytrackerall',
+        component: DailytrackerallComponent,
+        data: {
+          title: 'dailytrackerall'
         }
       },
     

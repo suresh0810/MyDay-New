@@ -31,6 +31,7 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NotepadeComponent } from './notepade/notepade.component';
 import { NotepadComponent } from './notepad/notepad.component';
+import { DailytrackerallComponent } from './dailytrackerall/dailytrackerall.component';
 
 
 
