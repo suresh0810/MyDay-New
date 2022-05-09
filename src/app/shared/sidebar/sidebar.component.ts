@@ -4,6 +4,7 @@ import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '
 import { SidebarService } from "../sidebar/sidebar.service";
 
 import * as $ from 'jquery';
+import { event } from 'jquery';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class SidebarComponent implements OnInit {
 
   
     constructor( public sidebarservice: SidebarService,private router: Router) {
-
+       
+console.log(sidebarservice.toggled, "sidebar")
         router.events.subscribe( (event: Event) => {
 
             if (event instanceof NavigationStart) {
@@ -26,7 +28,7 @@ export class SidebarComponent implements OnInit {
 
             if (event instanceof NavigationEnd && $(window).width() < 1025 && ( document.readyState == 'complete' || false ) ) {
 
-                this.toggleSidebar();
+               // this.toggleSidebar();
                 // Hide loading indicator
                
             }
@@ -38,6 +40,16 @@ export class SidebarComponent implements OnInit {
                 console.log(event.error);
             }
         });
+
+        if($(window).width() < 480){
+            this.sidebarservice.setSidebarState(false);
+          
+        }
+        else{
+            this.sidebarservice.setSidebarState(true);
+        }
+      
+       
 
     }
 
@@ -59,6 +71,7 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         $.getScript('./assets/js/app-sidebar.js');
+       // this.sidebarservice.setSidebarState(false);
 
     }
 

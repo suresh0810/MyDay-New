@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SidebarService {
-  toggled = true;
+  toggled ;
   
   constructor() { }
 
   toggle() {
-    this.toggled = ! this.toggled;
+    this.toggled = !  this.toggled;
   }
 
   getSidebarState() {
