@@ -32,6 +32,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { NotepadeComponent } from './notepade/notepade.component';
 import { NotepadComponent } from './notepad/notepad.component';
 import { DailytrackerallComponent } from './dailytrackerall/dailytrackerall.component';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 
 
@@ -52,8 +53,9 @@ import { DailytrackerallComponent } from './dailytrackerall/dailytrackerall.comp
         MatFormFieldModule,
         MatInputModule,
         ColorPickerModule, 
-        MatNativeDateModule  ,
-        MatDatepickerModule  
+        MatNativeDateModule,
+        MatDatepickerModule,
+        UiSwitchModule,
 
       
     ],
@@ -68,7 +70,8 @@ import { DailytrackerallComponent } from './dailytrackerall/dailytrackerall.comp
     ExpensesComponent,
     SettingsComponent,
     NotepadeComponent,
-    NotepadComponent,               
+    NotepadComponent,  
+               
    ],
     providers: [SumPipeModule],
 })

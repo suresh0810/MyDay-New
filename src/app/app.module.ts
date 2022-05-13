@@ -41,6 +41,7 @@ import { DBService } from './dashboard/api/DB.service';
 import { FirebaseService } from './auth/firebase.service';
 
 import { SumPipeModule } from '../app/dashboard/pipe/sum.pipe';
+import { SearchdataService } from './dashboard/api/searchdata.service';
 
 
 
@@ -72,7 +73,7 @@ import { SumPipeModule } from '../app/dashboard/pipe/sum.pipe';
     DemoMaterialModule,
     Ng2SearchPipeModule
   ],
-  providers: [AuthService,DBService,FirebaseService,SumPipeModule,
+  providers: [AuthService,DBService,FirebaseService,SumPipeModule,SearchdataService,
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
   ],
  

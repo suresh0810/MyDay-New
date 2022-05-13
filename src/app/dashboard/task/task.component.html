@@ -20,8 +20,10 @@
     </div>
   </div>-->
   <!-- End Breadcrumb-->               
-      <!-- <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;  background-color: rgba(236, 144, 144, 0.551);">     
+      <!-- <input type="text" hidden class="form-control form-control-sm" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search" style="border-radius: 10px; height: 40px;  background-color: rgba(236, 144, 144, 0.551);">     
       <br>  -->
+      
+    
       
       <ul class="nav nav-tabs nav-tabs-success desk" >
         <li class="nav-item">
@@ -75,18 +77,18 @@
                   <h5 class="card-title tabletitle" >To Do Task</h5>
                   <h5 class="card-title tabletitle1" >To Do Task</h5>             
                 
-              <th class="desk" style="width: 49%; ">Task</th>
+              <th class="desk" style="width: 77%; ">Task</th>
               <!-- <th class="desk" style="width: 25%; ">Assigned</th>
             <th class="desk" style="width: 9%; ">Created Date</th>
               <th class="desk" style="width: 13%; ">Deadline Date</th> -->
-              <th class="desk" style="width: 23%; text-align: center;" >Status</th>
-              <th class="desk" style="width: 2%;">Action</th> 
+              <th class="desk" style="width: 6%; text-align: center;" >Status</th>
+              <th class="desk" colspan="2" style="width: 2%;">Action</th> 
               <div *ngFor="let _task of List_of_Tasks|filter:searchText|filter:searchTextsowner;let i index"  class="card">
-                <table style="cellspacing:2px " class="desk" >
+                <table style="cellspacing:1px " class="desk" >
                 <tr>
                   <td style="width: 49%;  overflow: auto; border: none;" >
                     <div class="position-relative has-icon-right">
-                      <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
+                      <input class="form-control form-control-sm " style="border: none; background-color: #ffffff" [(ngModel)]="_task.Task_Name"
                         name="_task.Task_Name" on-focusout="updateTodo(_task)">
                     </div>
                   </td>
@@ -125,25 +127,31 @@
                       </mat-form-field>
                     </div>
                   </td> -->
-                  <td style="width: 10%;">
-                    <div class="position-relative has-icon-right">
-                      <select class="form-control form-control-sm" style="width: 100%;  "
+                  <td style="width: 1.7%; text-align: center;">
+                  <div class="position-relative has-icon-right">
+                      <!-- <select class="form-control form-control-sm" style="width: 100%;  "
                       [(ngModel)]="_task.Status"
                       (ngModelChange)="updateTodo(_task)">
                       <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
                         {{Status_.Status_Name}}
                       </option>
-                    </select>
-                    </div>
+                    </select> -->
+                    
+
+                   
+             
+                    <input type="checkbox" class="form-control form-control-sm" [(ngModel)]="_task.Status" (ngModelChange)="updateTodo(_task)" style="cursor: pointer; border: none;  ">
+                   
+                  </div> 
                   </td>
                   <!-- <td style="width: 1%; ">
                 <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
                 </td>-->
                 <td style="width: 1%; ">
-                  <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)"  (click)="openNav(_task)" ></button>                
+                  <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)"  (click)="openNav(_task)" style="border: none; background-color: #ffffff;"></button>                
                 </td>
                   <td style="width: 1%; ">                   
-                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                    <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ffffff;">
                     </button>
                   </td>
                 </tr>
@@ -188,7 +196,7 @@
                         <!-- <th scope="col" style="color: #626161e0;">Assigned</th> -->
                       <!--  <th scope="col">Created Date</th>-->
                         <!-- <th scope="col" style="color: #626161e0;">Deadline Date</th> -->
-                        <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
+                        <th scope="col" class="sticky-right" style="text-align: center; color: #626161e0;">Status</th>
                         <th scope="col" style="color: #626161e0; " colspan="2">Action</th>							
                       </tr>
                     </thead>
@@ -196,7 +204,7 @@
                       <tr  >								
                         <td >
                           <div class="position-relative has-icon-right">
-                          <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                          <input class="form-control form-control-sm" style="width: 290px; border: none; background-color: #ececece0;" [(ngModel)]="_task.Task_Name"
                             name="_task.Task_Name" on-focusout="updateTodo(_task)">
                         </div>
                       </td>
@@ -234,8 +242,8 @@
                             </mat-form-field>
                           </div>
                         </td> -->
-                        <td class="sticky-right">
-                          <div class="position-relative has-icon-right">
+                        <td class="sticky-right"  >
+                          <!-- <div class="position-relative has-icon-right">
                             <select class="form-control form-control-sm" style="width: 80px;"
                             [(ngModel)]="_task.Status"
                             (ngModelChange)="updateTodo(_task)">
@@ -243,14 +251,20 @@
                               {{Status_.Status_Name}}
                             </option>
                           </select>
-                          </div>
+                          </div> --> 
+                                             
+                            <ui-switch [loading]="_task.isLoading" uncheckedLabel="Start" checkedLabel="Done" [(ngModel)]="_task.Status" name="_task.Status" (ngModelChange)="updateTodo(_task)" size="small" class="form-control form-control-sm" style="border: none;  background-color: #ececece0; "> <i class="fa fa-check" *ngIf="_task.Status == true && !_task.isLoading" style="color: green;"></i>                             
+                              <i class="fa fa-times" *ngIf="_task.Status == false && !_task.isLoading" style="color: red;"></i>
+                              <i class="fa fa-spinner fa-pulse" *ngIf="_task.isLoading" style="color: green;"></i>
+                            </ui-switch>
+                         
                         </td>
                         <td>
-                          <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)" (click)="openNavm(_task)"></button>   
+                          <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)" (click)="openNavm(_task)" style="border: none; background-color: #ececece0;"></button>   
                      
                       </td>
                         <td>
-                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ececece0;">
                         </button>
                       </td>
                         
@@ -282,7 +296,7 @@
         <tr >
           <td  class="si">
            
-              <input autofocus style="width: 100%; margin-left: -7px; " [(ngModel)]="Temp_Task.Task_Name" name="Temp_Task.Task_Name"
+              <input style="width: 100%; margin-left: -7px; " [(ngModel)]="Temp_Task.Task_Name" name="Temp_Task.Task_Name"
                 class="form-control">
          
           </td>
@@ -329,19 +343,19 @@
   <div class="card-body">            
         <h5 class="card-title tabletitle">Completed Task</h5>
         <h5 class="card-title tabletitle1">Completed Task</h5>           
-    <th class="desk" style="width: 49%; ">Task</th>
+    <th class="desk" style="width: 77%; ">Task</th>
     <!-- <th class="desk" style="width: 25%; ">Assigned</th> -->
    <!-- <th class="desk" style="width: 9%; ">Created Date</th> -->
     <!-- <th class="desk" style="width: 13%; ">Deadline Date</th> -->
-    <th class="desk" style="width: 23%; text-align: center;" >Status</th>
+    <th class="desk" style="width: 6%; text-align: center;" >Status</th>
     <th class="desk" style="width: 2%;">Action</th>  
     <div *ngFor="let _task of List_of_Complete_task|filter:searchText;let i = index" [attr.data-index]="i" class="card">
       <div >
-        <table style="cellspacing:2px " class="desk" >
+        <table style="cellspacing:1px " class="desk" >
           <tr>
             <td style="width: 49%;  overflow: auto; border: none;" >
               <div class="position-relative has-icon-right">
-                <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
+                <input class="form-control form-control-sm" style="width: 100%; border: none; background-color: #ffffff;" [(ngModel)]="_task.Task_Name"
                   name="_task.Task_Name" on-focusout="updateTodo(_task)">
               </div>
             </td>
@@ -380,8 +394,8 @@
                 </mat-form-field>
               </div>
             </td> -->
-            <td style="width: 10%;">
-              <div class="position-relative has-icon-right">
+            <td style="width: 1.7%;">
+              <!-- <div class="position-relative has-icon-right">
                 <select class="form-control form-control-sm" style="width: 100%;  "
                 [(ngModel)]="_task.Status"
                 (ngModelChange)="updateTodo(_task)">
@@ -389,16 +403,17 @@
                   {{Status_.Status_Name}}
                 </option>
               </select>
-              </div>
+              </div> -->
+              <input type="checkbox" class="form-control form-control-sm" [(ngModel)]="_task.Status" (ngModelChange)="updateTodo(_task)" style="cursor: pointer; border: none; background-color: #ffffff; ">
             </td>
             <!-- <td style="width: 1%; ">
           <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
           </td>-->
           <td style="width: 1%; ">
-            <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)"  (click)="openNav(_task)" ></button>                
+            <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm" (click)="Task_Select(i)"  (click)="openNav(_task)" style="border: none; background-color: #ffffff;"></button>                
           </td>
             <td style="width: 1%; ">                   
-              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ffffff;">
               </button>
             </td>
           </tr>
@@ -420,7 +435,7 @@
                             <!-- <th scope="col" style="color: #626161e0;">Assigned</th> -->
                         <!--	<th scope="col">Created Date</th>-->
                             <!-- <th scope="col" style="color: #626161e0;">Deadline Date</th> -->
-                            <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
+                            <th scope="col" class="sticky-right" style="text-align: center; color: #626161e0;">Status</th>
                             <th scope="col" style="color: #626161e0;" colspan="2">Action</th>							
                         </tr>
                     </thead>
@@ -428,7 +443,7 @@
                         <tr  >								
                           <td >
                             <div class="position-relative has-icon-right">
-                            <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                            <input class="form-control form-control-sm" style="width: 290px; border: none; background-color: #ececece0;" [(ngModel)]="_task.Task_Name"
                               name="_task.Task_Name" on-focusout="updateTodo(_task)">
                           </div>
                         </td>
@@ -467,7 +482,7 @@
                             </div>
                           </td> -->
                           <td class="sticky-right">
-                            <div class="position-relative has-icon-right">
+                            <!-- <div class="position-relative has-icon-right">
                               <select class="form-control form-control-sm" style="width: 80px;"
                               [(ngModel)]="_task.Status"
                               (ngModelChange)="updateTodo(_task)">
@@ -475,14 +490,20 @@
                                 {{Status_.Status_Name}}
                               </option>
                             </select>
-                            </div>
+                            </div> -->
+
+                            <ui-switch [loading]="_task.isLoading" uncheckedLabel="Start" checkedLabel="Done" [(ngModel)]="_task.Status" name="_task.Status" (ngModelChange)="updateTodo(_task)" size="small" class="form-control form-control-sm" style="border: none;  background-color: #ececece0; "> <i class="fa fa-check" *ngIf="_task.Status == true && !_task.isLoading" style="color: green;"></i>                             
+                              <i class="fa fa-times" *ngIf="_task.Status == false && !_task.isLoading" style="color: red;"></i>
+                              <i class="fa fa-spinner fa-pulse" *ngIf="_task.isLoading" style="color: red;"></i>
+                            </ui-switch>
+                         
                           </td>
                           <td>
-                            <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)"></button>   
+                            <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)" style="border: none; background-color: #ececece0;"></button>   
                        
                         </td>
                           <td>
-                            <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                            <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ececece0;">
                           </button>
                         </td>
                           
@@ -505,11 +526,11 @@
 <!--  AssignTask Start  -->
           <!--Tab 2-->
           <div id="AssignTask" class="tab-pane fade">
-            <select type="text" style="width: 58%; margin-left: 20px;" class="form-control form-control-sm desk" name="search" [(ngModel)]="searchTexts" autocomplete="off" placeholder="search" (change)="onChange($event.target.value)">
+            <select type="text" style="width: 58%; margin-left: 20px; border: 1px solid #626161e0;" class="form-control form-control-sm desk" name="search" [(ngModel)]="searchTexts" autocomplete="off" placeholder="search" (change)="onChange($event.target.value)">
               <option #clear [hidden]="clear.selected" style="background-color: white; color: black;">Clear</option>
               <option *ngFor="let user of Global_UserList" value="{{user.userName}}" style="background-color: white; color: black;">{{user.userName}}</option>
             </select >
-            <select type="text" style="width: 100%; " class="form-control form-control-sm mobile" name="search" [(ngModel)]="searchTexts" autocomplete="off" placeholder="search" (change)="onChange($event.target.value)">
+            <select type="text" style="width: 100%; border: 1px solid #626161e0;" class="form-control form-control-sm mobile" name="search" [(ngModel)]="searchTexts" autocomplete="off" placeholder="search" (change)="onChange($event.target.value)">
               <option #clear [hidden]="clear.selected" style="background-color: white; color: black;">Clear</option>
               <option *ngFor="let user of Global_UserList" value="{{user.userName}}" style="background-color: white; color: black;">{{user.userName}}</option>
             </select ><br>
@@ -520,18 +541,18 @@
                     
                     <h5 class="card-title tabletitle1" >To Do Task</h5>             
                   
-                <th class="desk" style="width: 49%; ">Task</th>
+                <th class="desk" style="width: 77%; ">Task</th>
                 <!-- <th class="desk" style="width: 25%; ">Assigned</th> -->
                <!-- <th class="desk" style="width: 9%; ">Created Date</th>-->
                 <!-- <th class="desk" style="width: 13%; ">Deadline Date</th> -->
-                <th class="desk" style="width: 23%; text-align: center;" >Status</th>
-                <th class="desk" style="width: 1%;" colspan="2">Action</th> 
+                <th class="desk" style="width: 6%; text-align: center;" >Status</th>
+                <th class="desk" style="width: 2%;" colspan="2">Action</th> 
                 <div *ngFor="let _task of   List_of_Tasks_filter |filter:searchText|filter:searchTexts"  class="card">
-                  <table style="cellspacing:2px " class="desk" >
-                    <tr *ngIf="_task.Status !='Done'">
+                  <table style="cellspacing:1px " class="desk" >
+                    <tr>
                       <td style="width: 49%;  overflow: auto; border: none;" >
                         <div class="position-relative has-icon-right">
-                          <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
+                          <input class="form-control form-control-sm" style="width: 100%; border: none; background-color: #ffffff;" [(ngModel)]="_task.Task_Name"
                             name="_task.Task_Name" on-focusout="updateTodo(_task)">
                         </div>
                       </td>
@@ -570,8 +591,8 @@
                           </mat-form-field>
                         </div>
                       </td> -->
-                      <td style="width: 10%;">
-                        <div class="position-relative has-icon-right">
+                      <td style="width: 1.7%;">
+                        <!-- <div class="position-relative has-icon-right">
                           <select class="form-control form-control-sm" style="width: 100%;  "
                           [(ngModel)]="_task.Status"
                           (ngModelChange)="updateTodo(_task)">
@@ -579,16 +600,17 @@
                             {{Status_.Status_Name}}
                           </option>
                         </select>
-                        </div>
+                        </div> -->
+                        <input type="checkbox" class="form-control form-control-sm" [(ngModel)]="_task.Status" (ngModelChange)="updateTodo(_task)" style="cursor: pointer; border: none; background-color: #ffffff; ">
                       </td>
                       <!-- <td style="width: 1%; ">
                     <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
                     </td>-->
                     <td style="width: 1%; ">
-                      <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"  (click)="openNav(_task)" ></button>                
+                      <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"  (click)="openNav(_task)" style="border: none; background-color: #ffffff;"></button>                
                     </td>
                       <td style="width: 1%; ">                   
-                        <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                        <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ffffff;">
                         </button>
                       </td>
                     </tr>
@@ -599,7 +621,7 @@
                 </div>
 
 
-                <div class="card mobile" >
+                <div class="card mobile">
                   <div class="card-body">  
                     <h5 class="card-title tabletitle" >To Do Task</h5>
                 <div class="sticky-container">
@@ -611,15 +633,15 @@
                           <!-- <th scope="col" style="color: #626161e0;">Assigned</th> -->
                         <!--  <th scope="col">Created Date</th>-->
                           <!-- <th scope="col" style="color: #626161e0;">Deadline Date</th> -->
-                          <th scope="col" class="sticky-right" style="text-align: center;">Status</th>
-                          <th scope="col" style="color: #626161e0;">Action</th>							
+                          <th scope="col" class="sticky-right" style="text-align: center; color: #626161e0;">Status</th>
+                          <th scope="col" colspan="2" style="color: #626161e0;">Action</th>							
                         </tr>
                       </thead>
                       <tbody *ngFor="let _task of   List_of_Tasks_filter|filter:searchText|filter:searchTexts">
-                        <tr *ngIf="_task.Status !='Done'">	                          							
-                            <td >
+                        <tr >	                          							
+                            <td>
                               <div class="position-relative has-icon-right">
-                              <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                              <input class="form-control form-control-sm" style="width: 290px; border: none; background-color: #ececece0;" [(ngModel)]="_task.Task_Name"
                                 name="_task.Task_Name" on-focusout="updateTodo(_task)">
                             </div>
                           </td>
@@ -658,7 +680,7 @@
                               </div>
                             </td> -->
                             <td class="sticky-right">
-                              <div class="position-relative has-icon-right">
+                              <!-- <div class="position-relative has-icon-right">
                                 <select class="form-control form-control-sm" style="width: 80px;"
                                 [(ngModel)]="_task.Status"
                                 (ngModelChange)="updateTodo(_task)">
@@ -666,14 +688,19 @@
                                   {{Status_.Status_Name}}
                                 </option>
                               </select>
-                              </div>
+                              </div> -->
+                              <ui-switch [loading]="_task.isLoading" uncheckedLabel="Start" checkedLabel="Done" [(ngModel)]="_task.Status" name="_task.Status" (ngModelChange)="updateTodo(_task)" size="small" class="form-control form-control-sm" style="border: none;  background-color: #ececece0; "> <i class="fa fa-check" *ngIf="_task.Status == true && !_task.isLoading" style="color: green;"></i>                             
+                                <i class="fa fa-times" *ngIf="_task.Status == false && !_task.isLoading" style="color: red;"></i>
+                                <i class="fa fa-spinner fa-pulse" *ngIf="_task.isLoading" style="color: green;"></i>
+                              </ui-switch>
+                           
                             </td>
                             <td>
-                              <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)"></button>   
+                              <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)" style="border: none; background-color: #ececece0;"></button>   
                          
                           </td>
                             <td>
-                              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                              <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ececece0;">
                             </button>
                           </td>
                             
@@ -703,19 +730,19 @@
               <div class="card-body">            
                    
                     <h5 class="card-title tabletitle1">Completed Task</h5>           
-                <th class="desk" style="width: 49%; ">Task</th>
+                <th class="desk" style="width: 77%; ">Task</th>
                 <!-- <th class="desk" style="width: 25%; ">Assigned</th> -->
                <!-- <th class="desk" style="width: 9%; ">Created Date</th> -->
                 <!-- <th class="desk" style="width: 13%; ">Deadline Date</th> -->
-                <th class="desk" style="width: 12%; text-align: center;" >Status</th>
-                <th class="desk" style="width: 1%;">Action</th>  
-                <div *ngFor="let _task of List_of_Tasks_filter|filter:searchText|filter:searchTexts;let i = index" [attr.data-index]="i" class="card">
-                  <div  *ngIf="_task.Status =='Done'">
-                    <table style="cellspacing:2px " class="desk" >
+                <th class="desk" style="width: 6%; text-align: center;" >Status</th>
+                <th class="desk" style="width: 2%;">Action</th>  
+                <div *ngFor="let _task of List_of_Tasks_cmplt_filter|filter:searchText|filter:searchTexts;let i = index" [attr.data-index]="i" class="card">
+                  <div>
+                    <table style="cellspacing:1px " class="desk" >
                       <tr>
                         <td style="width: 49%;  overflow: auto; border: none;" >
                           <div class="position-relative has-icon-right">
-                            <input class="form-control form-control-sm" style="width: 100%; " [(ngModel)]="_task.Task_Name"
+                            <input class="form-control form-control-sm" style="width: 100%; border: none; background-color: #ffffff;" [(ngModel)]="_task.Task_Name"
                               name="_task.Task_Name" on-focusout="updateTodo(_task)">
                           </div>
                         </td>
@@ -754,8 +781,8 @@
                             </mat-form-field>
                           </div>
                         </td> -->
-                        <td style="width: 10%;">
-                          <div class="position-relative has-icon-right">
+                        <td style="width: 1.7%;">
+                          <!-- <div class="position-relative has-icon-right">
                             <select class="form-control form-control-sm" style="width: 100%;  "
                             [(ngModel)]="_task.Status"
                             (ngModelChange)="updateTodo(_task)">
@@ -763,16 +790,17 @@
                               {{Status_.Status_Name}}
                             </option>
                           </select>
-                          </div>
+                          </div> -->
+                          <input type="checkbox" class="form-control form-control-sm" [(ngModel)]="_task.Status" (ngModelChange)="updateTodo(_task)" style="cursor: pointer; border: none; background-color: #ffffff; ">
                         </td>
                         <!-- <td style="width: 1%; ">
                       <button type="submit" style="background-color: yellowgreen; border: 1px solid yellowgreen; border-radius: 2px; color: white; height: 30px;"  (click)="updateTodo(_task)"><mat-icon style="font-size: large;">done</mat-icon></button>
                       </td>-->
                       <td style="width: 1%; ">
-                        <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNav(_task)" ></button>                
+                        <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNav(_task)" style="border: none; background-color: #ffffff;"></button>                
                       </td>
                         <td style="width: 1%; ">                   
-                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ffffff;">
                           </button>
                         </td>
                       </tr>
@@ -783,7 +811,7 @@
                 </div>
 
 
-                <div class="card mobile"   >
+                <div class="card mobile">
               <div class="card-body">     
                 <h5 class="card-title tabletitle">Completed Task</h5>    
                 <div class="sticky-container">
@@ -799,11 +827,11 @@
                                         <th scope="col" style="color: #626161e0;" colspan="2">Action</th>							
                                     </tr>
                                 </thead>
-                                <tbody *ngFor="let _task of   List_of_Tasks_filter|filter:searchText|filter:searchTexts">
-                                    <tr *ngIf="_task.Status =='Done'">				                                     							
+                                <tbody *ngFor="let _task of List_of_Tasks_cmplt_filter|filter:searchText|filter:searchTexts">
+                                    <tr>				                                     							
                                         <td >
                                           <div class="position-relative has-icon-right">
-                                          <input class="form-control form-control-sm" style="width: 290px;" [(ngModel)]="_task.Task_Name"
+                                          <input class="form-control form-control-sm" style="width: 290px; border: none; background-color: #ececece0;" [(ngModel)]="_task.Task_Name"
                                             name="_task.Task_Name" on-focusout="updateTodo(_task)">
                                         </div>
                                       </td>
@@ -842,7 +870,7 @@
                                           </div>
                                         </td> -->
                                         <td class="sticky-right">
-                                          <div class="position-relative has-icon-right">
+                                          <!-- <div class="position-relative has-icon-right">
                                             <select class="form-control form-control-sm" style="width: 80px;"
                                             [(ngModel)]="_task.Status"
                                             (ngModelChange)="updateTodo(_task)">
@@ -850,14 +878,19 @@
                                               {{Status_.Status_Name}}
                                             </option>
                                           </select>
-                                          </div>
+                                          </div> -->
+                                          <ui-switch [loading]="_task.isLoading" uncheckedLabel="Start" checkedLabel="Done" [(ngModel)]="_task.Status" name="_task.Status" (ngModelChange)="updateTodo(_task)" size="small" class="form-control form-control-sm" style="border: none;  background-color: #ececece0; "> <i class="fa fa-check" *ngIf="_task.Status == true && !_task.isLoading" style="color: green;"></i>                             
+                                            <i class="fa fa-times" *ngIf="_task.Status == false && !_task.isLoading" style="color: red;"></i>
+                                            <i class="fa fa-spinner fa-pulse" *ngIf="_task.isLoading" style="color: red;"></i>
+                                          </ui-switch>
+
                                         </td>
                                         <td>
-                                          <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)"></button>   
+                                          <button type="submit" class="zmdi zmdi-plus-circle form-control form-control-sm"   (click)="openNavm(_task)" style="border: none; background-color: #ececece0;"></button>   
                                      
                                       </td>
                                         <td>
-                                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)">
+                                          <button type="submit" class="zmdi zmdi-delete form-control form-control-sm" (click)="DeleteToDo(_task)" style="border: none; background-color: #ececece0;">
                                         </button>
                                       </td>
                                         
@@ -900,7 +933,7 @@
           <div class="card">
             <div class="card-body">
 
-              <h4 class="border_bt" >{{Selected_Task.Task_Name}}</h4>
+              <h4 class="border_bt" style="font-size: 18px;">{{Selected_Task.Task_Name}}</h4>
               <th class="desk">Assigned</th>
               <th class="desk">Deadline</th>
               <tr class="desk">              
@@ -910,7 +943,7 @@
                     <ng-select class="form-control form-control-sm" [items]="Global_UserList"
                       [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
                       [(ngModel)]="Selected_Task.Selected_People" (ngModelChange)="updateTodo(Selected_Task)" name="Selected_Task.Selected_People"
-                      style="font-size: 16px;">
+                      style="font-size: 16px;  border: 1px solid #626161e0;">
                       <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.userName}}</span>
                         <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
@@ -923,7 +956,7 @@
                 </td>
                 <td style="width: 20%;">
                   <div class="position-relative has-icon-right">
-                    <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+                    <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" style=" border: 1px solid #626161e0;">
                       <mat-date-range-input [rangePicker]="picker">
                         <input  matStartDate placeholder="Start Date"    [(ngModel)]="Selected_Task.start_date"
                             (ngModelChange)="updateTodo(Selected_Task)">
@@ -945,7 +978,7 @@
                       <ng-select class="form-control form-control-sm" [items]="Global_UserList"
                         [multiple]="true"  [closeOnSelect]="true" [searchable]="true" bindLabel="userName"    
                         [(ngModel)]="Selected_Task.Selected_People" (ngModelChange)="updateTodo(Selected_Task)" name="Selected_Task.Selected_People"
-                        style="font-size: 16px;  ">
+                        style="font-size: 16px;   border: 1px solid #626161e0;">
                         <ng-template class="form-control form-control-sm"   ng-label-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.userName}}</span>
                           <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
@@ -961,7 +994,7 @@
                   <th>Deadline</th>
                   <div class="card">
                     <div class="position-relative has-icon-right">
-                      <mat-form-field appearance="outline radius-15" class="form-control form-control-sm">
+                      <mat-form-field appearance="outline radius-15" class="form-control form-control-sm" style=" border: 1px solid #626161e0;">
                         <mat-date-range-input [rangePicker]="picker">
                           <input  matStartDate placeholder="Start Date"    [(ngModel)]="Selected_Task.start_date"
                               (ngModelChange)="updateTodo(Selected_Task)">
@@ -1010,7 +1043,7 @@
                   <form class="desk"> 
                     <mat-form-field style="border: 2px solid white;" class="text_item_update">
                       <textarea matInput (paste)="onPaste($event)" [(ngModel)]="Temp_Task_Update.Task_Update_Content"
-                        name="item_update" class="text_item_update" >              
+                        name="item_update" class="text_item_update" style=" border: 1px solid #626161e0;">              
                       </textarea>              
                     <!-- <div *ngFor='let url of imagess; let i = index' style="height: 100%; width: 400px; display: inline-block;">
                       <a href="javascript:void(0)" (click)="deleteImage(url)" (click)="del(url)" class="lni lni lni-trash" style="display: none;"></a>          
@@ -1022,7 +1055,7 @@
                    </mat-form-field>
                     
                    
-                     <input  type="file" name="Temp_Task_Update.Task_Update_files" multiple  class="form-control" (change)="onFileChange($event)">
+                     <input  type="file" name="Temp_Task_Update.Task_Update_files" multiple  class="form-control" (change)="onFileChange($event)" style=" border: 1px solid #626161e0;">
                                    
                     <!-- <br/> --> 
                     <!-- Place to render the image -->                  
@@ -1090,7 +1123,7 @@
                   <form class="mobile"> 
                     <mat-form-field style="border: 2px solid white;" class="text_item_update_mob">
                       <textarea matInput (paste)="onPaste($event)" [(ngModel)]="Temp_Task_Update.Task_Update_Content"
-                        name="item_update" class="text_item_update" >              
+                        name="item_update" class="text_item_update" style=" border: 1px solid #626161e0;">              
                       </textarea>              
                     <!-- <div *ngFor='let url of imagess; let i = index' style="height: 100%; width: 400px; display: inline-block;">
                       <a href="javascript:void(0)" (click)="deleteImage(url)" (click)="del(url)" class="lni lni lni-trash" style="display: none;"></a>          
@@ -1102,7 +1135,7 @@
                    </mat-form-field>
                     
                    
-                     <input  type="file" name="Temp_Task_Update.Task_Update_files" multiple  class="form-control" (change)="onFileChange($event)">
+                     <input  type="file" name="Temp_Task_Update.Task_Update_files" multiple  class="form-control" (change)="onFileChange($event)" style=" border: 1px solid #626161e0;">
                                    
                     <!-- <br/> --> 
                     <!-- Place to render the image -->                  
@@ -1196,3 +1229,58 @@
       
       <!--End Row-->
 
+      <div class="container demo">
+	
+	
+        <div class="text-center">
+          <button type="button" class="btn btn-demo" data-toggle="modal" data-target="#myModal">
+            Left Sidebar Modal
+          </button>
+      
+          <button type="button" class="btn btn-demo" data-toggle="modal" data-target="#myModal2">
+            Right Sidebar Modal
+          </button>
+        </div>
+      
+        <!-- Modal -->
+        <div class="modal left fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+      
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Left Sidebar</h4>
+              </div>
+      
+              <div class="modal-body">
+                <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </p>
+              </div>
+      
+            </div><!-- modal-content -->
+          </div><!-- modal-dialog -->
+        </div><!-- modal -->
+        
+        <!-- Modal -->
+        <div class="modal right fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+      
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">Right Sidebar</h4>
+              </div>
+      
+              <div class="modal-body">
+                <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </p>
+              </div>
+      
+            </div><!-- modal-content -->
+          </div><!-- modal-dialog -->
+        </div><!-- modal -->
+        
+        
+      </div><!-- container -->
+      
+     

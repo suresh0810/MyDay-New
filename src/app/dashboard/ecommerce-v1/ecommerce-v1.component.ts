@@ -286,7 +286,7 @@ date:string;
     
     $.getScript('./assets/js/ecommerce1.js');    
     
-    this.Temp_Task = new Task("","", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+    this.Temp_Task = new Task("",false,false, this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     
    
     this.getFirebaseUsers();

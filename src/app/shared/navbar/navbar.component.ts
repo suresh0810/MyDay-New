@@ -6,6 +6,9 @@ import { DBService } from '../../dashboard/api/DB.service';
 import { User, Task, FirebaseUser, KStatus, KstatusOption,createddate,Deadline } from '../../dashboard/Classes';
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
+import { SearchdataService } from 'src/app/dashboard/api/searchdata.service';
+import { event } from 'jquery';
+
 
 @Component({
     selector: 'app-navbar',
@@ -19,7 +22,10 @@ export class NavbarComponent implements OnInit{
     FB_User:any;
     searchText;
     user_remove;
-    constructor(public sidebarservice: SidebarService, private auth:AuthService, private router:Router,private route: ActivatedRoute,  private DBService_: DBService,  private firebaseService:FirebaseService,  ) { }
+    constructor(private searchdata:SearchdataService,public sidebarservice: SidebarService, private auth:AuthService, private router:Router,private route: ActivatedRoute,  private DBService_: DBService,  private firebaseService:FirebaseService,  ) {
+
+        
+     }
         
     toggleSidebar() {
         this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
@@ -69,6 +75,10 @@ export class NavbarComponent implements OnInit{
             });
         });
 
+    }
+    search(data){
+        this.searchdata.getsearchdata(data);     
+       
     }
 
     Search(event){

@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { isThisMonth, startOfDay } from 'date-fns';
-import { User, Profile, Item, Workspace, Group, Board, Column, KDate, FirebaseUser, KStatus, KDropdown, Column_Types, KTimeline, KPeople, KText, KNumber, KCheck_Box, KFormula, Item_Update, dummy, KDropdownOption, Item_Data } from '../Classes1';
+import { User, Profile, Item, Workspace, Group, Board, Column, KDate, FirebaseUser, KStatus, KDropdown, Column_Types, KTimeline, KPeople, KText, KNumber, KCheck_Box, KFormula, Item_Update, dummy, KDropdownOption, Item_Data } from '../Classes';
 import { FirebaseService } from '../../auth/firebase.service';
 import { DBService } from '../api/DB.service';
 import { Z_DATA_ERROR } from 'zlib';
@@ -72,6 +72,8 @@ export class ProductionComponent implements OnInit {
 
   Loaded_Wrokspaces: Workspace[] = [];
 
+  Selected_Workspace:Workspace;
+
 
   tempgroup: Group = new Group("tempgroup");
   tempboard: Board = new Board("tempboard");
@@ -107,7 +109,9 @@ export class ProductionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.Loaded_Wrokspaces.push(new Workspace("Default", this.FirebaseUser_));
+    this.Selected_Workspace = new Workspace("",this.FirebaseUser_,"");   
+
+    this.Loaded_Wrokspaces.push(new Workspace("Default", this.FirebaseUser_,""));
 
 
     //Loading User data from DB
@@ -172,29 +176,39 @@ export class ProductionComponent implements OnInit {
     this.Column_Types_dummy = Column_Types.dummy;
 
 
+this.LoadWorkspace();
 
+    // this.DBService_.LoadWorkspace(this.FirebaseUser_).subscribe((Data_: any) => {
+    //   this.Loaded_Wrokspaces = Data_;
+    //   console.log("Loaded Workspaces");
+    //   console.log(Data_);
 
-
-    this.DBService_.LoadWorkspace().subscribe((Data_: Workspace[]) => {
-      this.Loaded_Wrokspaces = Data_;
-      console.log("Loaded Workspaces");
-      console.log(Data_);
-
-      if(Data_.length==0){
-        this.create_workspace("Default");       
-       }
+    //   if(Data_.length==0){
+    //     this.create_workspace("Default");       
+    //    }
        
       
-      // this.tempgroup.List_Of_Items=Data_;
-    })
+    //   // this.tempgroup.List_Of_Items=Data_;
+    // })
     this.DBService_.LoadTasks().subscribe((Data_: Item[]) => {
       // this.tempgroup.List_Of_Items=Data_;
     })
   }
 
 
+  LoadWorkspace(){  
+  this.DBService_.LoadWorkspace(this.FirebaseUser_).subscribe((Data_: any) => {
+    this.Loaded_Wrokspaces = Data_;
+    console.log("Loaded Workspaces");
+    console.log(Data_);
 
- 
+    if(Data_.length==0){
+      this.create_workspace("Default");       
+     }     
+    
+    // this.tempgroup.List_Of_Items=Data_;
+  })
+}
 
 
 
@@ -236,19 +250,24 @@ export class ProductionComponent implements OnInit {
         return {
           id: e.payload.doc.id,
           isEdit: false,
-          FirstName: e.payload.doc.data()['FirstName'],
-          filepath: e.payload.doc.data()['filepath'],
+          userName: e.payload.doc.data()['userName'],
+         filepath: e.payload.doc.data()['filepath'],
+         Selected_People: e.payload.doc.data()['Selected_People'],
         };
       })
-      console.log(this.Global_UserList);
+      console.log("this.Global_UserList");  
+      console.log(this.Global_UserList);     
     });
     return this.Global_UserList;
-  }
-
+  }  
 
   create_Task(group_Index: number): void {
 
+    console.log(group_Index)
+
     var tempItem: Item;
+
+    var tempItem = new Item("",0);
 
     tempItem = new Item("New Item", group_Index);
 
@@ -303,10 +322,12 @@ export class ProductionComponent implements OnInit {
 
 
     //create task in DB
-    this.DBService_.createTask(tempItem).subscribe((Data_: ObjectId) => {
-      tempItem._id = Data_;      
-      this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items_id_Index.push(new Item_Data(Data_));
-      this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items.push(tempItem);
+    this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items.push(tempItem);
+   
+    //this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards[this.Selected_Board_Index].List_Of_Groups[tempItem.Group_Index].List_Of_Items_id_Index.push(new Item_Data(tempItem));
+    this.DBService_.Create_Task(this.Loaded_Wrokspaces[this.Selected_Workspace_Index]).subscribe((Data_: ObjectId) => {
+      tempItem._id = Data_;   
+      
       console.log('temp test');
       console.log(tempItem);
       this.toast.success('New Item Create Success!', 'Success!', {
@@ -357,38 +378,47 @@ export class ProductionComponent implements OnInit {
 
   create_workspace(wsname: string) {
 
-    var tempworkspace = new Workspace(wsname, this.FirebaseUser_);
-
+    var tempworkspace = new Workspace(wsname, this.FirebaseUser_,"");
     this.Loaded_Wrokspaces.push(tempworkspace);
     this.Selected_Workspace_Index = this.Loaded_Wrokspaces.length - 1;
 
     this.DBService_.createWorkspace(tempworkspace).subscribe((Data_: ObjectId) => {
       console.log("Created Workspace ID:");
       console.log(Data_);      
-      this.User_.List_Of_Workspace_Access_index.push(new ObjectId(Data_));      
-      this.UpdateUser_Database();
-      this.toast.success('Workspace Create Success!', 'Success!', {
-        timeOut:1500
-      });
+      // this.User_.List_Of_Workspace_Access_index.push(new ObjectId(Data_));      
+      // this.UpdateUser_Database();
+      // this.toast.success('Workspace Create Success!', 'Success!', {
+      //   timeOut:1500
+      // });
      
     })
   }
 
   onChange(event) {
-    this.Selected_Workspace_Index = event;
+    this.Selected_Workspace_Index = event.index;
     this.Selected_Board_Index = 0;
+    this.Selected_Workspace = event._id; 
+
+    console.log(this.Selected_Workspace, "Workspece")
+    console.log(this.Selected_Workspace_Index, "workspace index")
+    
   }
 
   create_boards(bname: string) {
     this.printindexstatus();
 
-    this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.push(new Board(bname));
+    this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.push(new Board(bname));    
     this.Selected_Board_Index = this.Loaded_Wrokspaces[this.Selected_Workspace_Index].List_Of_Boards.length - 1;
     // this.Selected_board.Board_Title = bname; 
+    this.DBService_.Create_bord(this.Loaded_Wrokspaces[this.Selected_Workspace_Index]).subscribe((Data_ : Workspace[]) =>{
+
+      this.toast.success('Board Create Success!', 'Success!', {
+        timeOut:1500
+      });
+
+    })
     
-    this.toast.success('Board Create Success!', 'Success!', {
-      timeOut:1500
-    });    
+        
   }
 
   Create_Dropdown_Option(dopname: string, kdropdown_index: number) {
@@ -761,6 +791,19 @@ export class ProductionComponent implements OnInit {
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("openNav").style.display = "inline-block";
   }
+  ////// New Update Works 
+
+  Delete_Workspace() {     
+    this.DBService_.Delete_Workspace(this.Selected_Workspace ).subscribe((Data_:Workspace[]) => {
+      console.log("Delete WorkSpace : " + JSON.stringify(Data_));  
+      this.LoadWorkspace();
+     this.toast.success('Delete WorkSpace Success!', 'Success!', {
+       timeOut:1500
+     });
+    })
+  }
+
+
 }
 
 

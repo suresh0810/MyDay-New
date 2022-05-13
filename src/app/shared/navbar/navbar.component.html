@@ -5,13 +5,13 @@
 		</div>
 		<div class="search-bar flex-grow-1">
 			<div class="input-group">
-			  <div class="input-group-prepend  search-arrow-back" >
+			  <div class="input-group-prepend  search-arrow-back">
 				<button class="btn btn-search-back" type="button"><i class="zmdi zmdi-long-arrow-left"></i>
 				</button>
 			  </div>
-			  <input type="text" class="form-control" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="search">
+			  <input type="text" class="form-control" name="search" [(ngModel)]="searchText" (ngModelChange)="search(searchText)" autocomplete="off" placeholder="search">
 			  <div class="input-group-append">
-				<button class="btn btn-search" type="button"><i class="zmdi zmdi-search"></i>
+				<button class="btn btn-search" type="button" (click)="search(searchText)"><i class="zmdi zmdi-search"></i>
 				</button>
 			  </div>
 			</div>

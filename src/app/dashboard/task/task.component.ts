@@ -7,6 +7,8 @@ import { ObjectId } from 'bson';
 import { FormGroup, FormControl } from "@angular/forms";
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
+
 import {
   ChartComponent,
   ApexChart,
@@ -66,6 +68,7 @@ MAT_DATE_FORMATS
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DatePipe } from "@angular/common";
 import { AnyRecord } from 'dns';
+import { SearchdataService } from '../api/searchdata.service';
 export const MY_FORMATS = {
   parse: {
     dateInput: "YYYY-MM-DD HH:mm:ss"
@@ -97,6 +100,25 @@ export const MY_FORMATS = {
   ]
 })
 export class TaskComponent implements OnInit {
+
+
+  
+  // enable = true;
+  // count = 0;
+  // change = false;
+  // valueChange = false;
+  // changeEvent: MouseEvent;
+  isLoading = false;
+  fakeAsync: Observable<boolean> = new Observable((observer) => {
+    this.isLoading = true;
+    const timeout = setTimeout(() => {
+      this.isLoading = false;
+      observer.next(true);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  });
+
+  //
   @ViewChild('imgRenderer') imgRenderer: ElementRef;
   @ViewChild('f') myNgForm;
   userName: string;
@@ -118,6 +140,7 @@ image = [];
   Temp_Task_Content: string;
   Temp_Task_Files: File[];
   List_of_Tasks_filter = [];
+  List_of_Tasks_cmplt_filter = [];
  //Global_UserList: [];
   closeResult: string = '';
   FirebaseUser_: FirebaseUser;
@@ -211,10 +234,13 @@ date:string;
     //your code here
   }
   
-  constructor(private modalService: NgbModal,private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
+  constructor(private searchdata:SearchdataService,private modalService: NgbModal,private router: Router, private DBService_: DBService, private afs: AngularFirestore, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) {
    
+   // this.searchText = this.searchdata.Select_Search_Data;
+   // console.log(this.searchText);
 
-
+   
+    
     //this.afs.collection('users').valueChanges().subscribe(List => {
     //  this.UserList = List;
      // console.log(this.UserList);
@@ -307,6 +333,11 @@ date:string;
    }
 
   ngOnInit(): void {
+    this.searchdata.Select_Search_Data.subscribe(data =>{
+      this.searchText = data
+  })
+
+    
     this.cal()
       
     $.getScript('./assets/js/ecommerce1.js'); 
@@ -319,8 +350,8 @@ date:string;
 
     this.Temp_Task_Update = new Task_Update(this.Temp_Task_Content,this.Temp_Task_Files,new Date(Date.now()));  
     
-    this.Temp_Task = new Task("","Pending", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
-    this.Selected_Task = new Task("","Pending", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+    this.Temp_Task = new Task("", false,false, this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
+    this.Selected_Task = new Task("",false,false, this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     this.Selected_Task_update = new Task_Update("",[],new Date(Date.now()))
 
     this.sidenave = document.getElementById('mySidenav');
@@ -343,6 +374,7 @@ date:string;
               this.LoadToDolistOnlyOwned();
               this.LoadToDolist_Done_OnlyOwned();
               this.LoadToDolist_filter_OnlyOwned();
+              this.LoadToDolist_filter_cmplt_OnlyOwned();
              }
          });  
             this.User_ = new User(this.FirebaseUser_); 
@@ -357,23 +389,25 @@ date:string;
       console.log("Loaded User Data");
     })
   }
+  
 
   create_Task(_newTask: Task){
     
-  this.List_of_Tasks.push(new Task(this.Temp_Task.Task_Name,this.Temp_Task.Status,this.FirebaseUser_,new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()))); 
+  this.List_of_Tasks.push(new Task(this.Temp_Task.Task_Name,this.Temp_Task.Status,true,this.FirebaseUser_,new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()))); 
  
     
     _newTask.Task_Createddate=new Date(Date.now());
     _newTask.start_date=new Date(Date.now());
     _newTask.end_date=new Date(Date.now());
     console.log(this.FirebaseUser_);
-
+    
     _newTask.Owner_Of_The_Task={} as FirebaseUser;
     _newTask.Owner_Of_The_Task.id = this.FirebaseUser_.id;
     _newTask.Owner_Of_The_Task.userName = this.FirebaseUser_.userName;
    _newTask.Assing_People = this.FirebaseUser_.Selected_People;
     this.DBService_.createToDolist(_newTask).subscribe((Data_) => {               
-      console.log(Data_);
+      console.log(Data_);     
+      
       // this.DBService_.LoadToDolistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
       //   this.List_of_Tasks = list_;      
       //     console.log("usertask");                
@@ -391,21 +425,33 @@ date:string;
       //  })
          this.LoadToDolistOnlyOwned();
          this.LoadToDolist_filter_OnlyOwned();
-         this.LoadToDolist_Done_OnlyOwned();
+         this.LoadToDolist_Done_OnlyOwned(); 
+         this.LoadToDolist_filter_cmplt_OnlyOwned(); 
+   
          this.toast.success('Create Task Success!','Success!', {
+         
           timeOut:1500
-          }); 
+          });         
+            
     // this.LoadUserDataFromServer(this.User_);
     });
-    
+    _newTask.isLoading = this.Temp_Task.isLoading;
+    const timeout = setTimeout(() => {
+     _newTask.isLoading = false;   
+      
+      
+    }, 1500);
+    return () => clearTimeout(timeout); 
     
     }
 
   LoadToDolistOnlyOwned() {
   this.DBService_.LoadToDolistOnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
-    this.List_of_Tasks = list_;      
+    this.List_of_Tasks = list_;          
       console.log("usertask");      
       console.log(this.List_of_Tasks);
+
+  
      
      
    })
@@ -426,17 +472,36 @@ date:string;
      })
     }
 
+    LoadToDolist_filter_cmplt_OnlyOwned() {
+      this.DBService_.LoadToDolist_filter_cmplt_OnlyOwned(this.FirebaseUser_).subscribe((list_: any) => {
+        this.List_of_Tasks_cmplt_filter = list_;      
+          console.log("usertask filter");      
+          console.log(this.List_of_Tasks_cmplt_filter);
+       })
+      }
+    
 
 
   updateTodo(_Task: Task) {
     //var temp = new Task(Index)
-    this.DBService_.UpdateToDolist(_Task).subscribe((list_) => {
-      console.log("Update ToDolist_item : " + JSON.stringify(list_));
-      this.LoadToDolistOnlyOwned();
-      this.LoadToDolist_Done_OnlyOwned();
-      this. LoadToDolist_filter_OnlyOwned();
-      
-    })
+
+    this.isLoading = true;
+    const timeout = setTimeout(() => {
+      this.isLoading = false;  
+
+      this.DBService_.UpdateToDolist(_Task).subscribe((list_) => {
+        console.log("Update ToDolist_item : " + JSON.stringify(list_));
+        this.LoadToDolistOnlyOwned();
+        this.LoadToDolist_Done_OnlyOwned();
+        this. LoadToDolist_filter_OnlyOwned();   
+        this.LoadToDolist_filter_cmplt_OnlyOwned();          
+      })
+
+    }, 400);
+    return () => clearTimeout(timeout);
+
+
+ 
   }
 
 
@@ -451,6 +516,7 @@ date:string;
       this.LoadToDolistOnlyOwned();
       this.LoadToDolist_Done_OnlyOwned();
       this. LoadToDolist_filter_OnlyOwned();
+      this.LoadToDolist_filter_cmplt_OnlyOwned(); 
       this.toast.success('Task Delete Success!', 'Success!', {
         timeOut:1500
       });
@@ -656,6 +722,7 @@ date:string;
       this.LoadToDolistOnlyOwned();
       this.LoadToDolist_Done_OnlyOwned();
       this. LoadToDolist_filter_OnlyOwned();
+      this.LoadToDolist_filter_cmplt_OnlyOwned(); 
       this.toast.success('Task Update Success!', 'Success!', {
         timeOut:1500
       });
@@ -712,6 +779,7 @@ date:string;
       this.LoadToDolistOnlyOwned();
       this.LoadToDolist_Done_OnlyOwned();
       this. LoadToDolist_filter_OnlyOwned();
+      this.LoadToDolist_filter_cmplt_OnlyOwned(); 
       this.toast.success('Task Update Change Success!', 'Success!', {
         timeOut:1500
       });
@@ -735,6 +803,7 @@ date:string;
       this.LoadToDolistOnlyOwned();
       this.LoadToDolist_Done_OnlyOwned();
       this. LoadToDolist_filter_OnlyOwned();
+      this.LoadToDolist_filter_cmplt_OnlyOwned(); 
       this.toast.success('Task Update Delete Success!', 'Success!', {
         timeOut:1500
       });

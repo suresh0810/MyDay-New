@@ -59,19 +59,39 @@ DeleteTaskWrokspace(Data_){
 }
 
 
+
+
+
 //Wrokspace service
 createWorkspace(Data_){
   console.log("calling url : "+this.apiurl + "/createWorkspace");
   return this.http.post(this.apiurl + "/createWorkspace", Data_);
 }
 
-LoadWorkspace(){  
+LoadWorkspace(Data_){  
   console.log("calling url : "+this.apiurl + "/loadTask");
-  return this.http.get(this.apiurl + "/loadWorkspace");
+  return this.http.get(this.apiurl + "/loadWorkspace",Data_);
 }
 
 UpdateWorkspace(Data_){
   return this.http.post(this.apiurl + "/UpdateWorkspace", Data_);
+}
+
+Delete_Workspace(Data_){
+  console.log("url : "+this.apiurl + "/Delete_Workspace");
+  return this.http.post(this.apiurl + "/Delete_Workspace", Data_);
+}
+
+//board  
+
+Create_bord(Data_){
+  console.log("url : "+this.apiurl + "/Create_bord");
+  return this.http.post(this.apiurl + "/Create_bord", Data_);
+}
+
+Create_Task(Data_){
+  console.log("url : "+this.apiurl + "/Create_Task");
+  return this.http.post(this.apiurl + "/Create_Task", Data_);
 }
 
 //User Service
@@ -123,6 +143,10 @@ LoadUserData(Data_){
   LoadToDolist_filter_OnlyOwned(FilterData_){  
     console.log("calling url : "+this.apiurl + "/LoadToDolist_filter_OnlyOwned");
     return this.http.post (this.apiurl + "/LoadToDolist_filter_OnlyOwned",FilterData_);
+  }
+  LoadToDolist_filter_cmplt_OnlyOwned(FilterData_){  
+    console.log("calling url : "+this.apiurl + "/LoadToDolist_filter_cmplt_OnlyOwned");
+    return this.http.post (this.apiurl + "/LoadToDolist_filter_cmplt_OnlyOwned",FilterData_);
   }
 
   DeleteToDolist(Data_){
