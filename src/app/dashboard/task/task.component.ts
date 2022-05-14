@@ -354,7 +354,7 @@ date:string;
     this.Selected_Task = new Task("",false,false, this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     this.Selected_Task_update = new Task_Update("",[],new Date(Date.now()))
 
-    this.sidenave = document.getElementById('mySidenav');
+    this.sidenave = document.getElementById('mySidenavo');
   
     this.getFirebaseUsers();
     this.auth.user_.subscribe(user =>

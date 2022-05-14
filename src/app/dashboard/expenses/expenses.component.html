@@ -40,6 +40,72 @@
         <!--Tab 1-->
         <div id="MyExpense" class="tab-pane active">
 
+          <button mat-fab style="color: white; background-color: rgba(213, 39, 39, 0.755);" (click)="clickMenu()"
+          class="menu-button"
+          [class.mat-elevation-z2]="!isOver"
+          [class.mat-elevation-z8]="isOver"
+          (mouseover)="isOver = true"
+          (mouseleave)="isOver = false">
+          <i class="fa fa-plus" *ngIf="!openMenu"></i>
+          <i class="material-icons" *ngIf="openMenu">close</i>
+          </button>        
+          
+
+          <div class="card" *ngIf="openMenu" class="action-button one mat-elevation-z8" color="basic" style="border-radius: 5px;">          
+            <div class="card-body">
+              <i class="material-icons"  *ngIf="openMenu" style="color: red;">close</i>
+          <form >
+            <div class="position-relative has-icon-right">
+              <label style="color: red;">Sector</label>
+              <ng-select [items]="List_of_Sector" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                bindLabel="Sector_Name" [(ngModel)]="Temp_Expense.Sector" name="Temp_Expense.Sector"
+                style="font-size: 10px; min-height: 38px;  width: 100%; " class="form-control">
+                <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                  <span class="ng-value-label">{{item.Sector_Name}}</span>
+                  <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.Sector_Name}}
+                </ng-template>
+              </ng-select>
+            </div>
+            <div class="position-relative has-icon-right">
+              <label style="color: red;">Spent For</label>
+              <ng-select [items]="List_of_SpentFor" [multiple]="true" [closeOnSelect]="true" [searchable]="true"
+                bindLabel="Spent_Name" [(ngModel)]="Temp_Expense.Spent_For" name="Temp_Expense.Spent_For"
+                style="font-size: 10px; min-height: 38px; width: 100%; " class="form-control">
+                <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                  <span class="ng-value-label">{{item.Spent_Name}}</span>
+                  <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.Spent_Name}}
+                </ng-template>
+              </ng-select>
+            </div>
+            <div class="position-relative has-icon-right">
+              <label style="color: red;">Note</label>
+              <textarea type="text" style="width: 100%; " [(ngModel)]="Temp_Expense.Note" name="Temp_Expense.Note" placeholder="Spent_Amount" class="form-control"></textarea>
+            </div>
+            <div class="position-relative has-icon-right">
+              <label style="color: red;">Spent Amount</label>
+              <input type="number" style="width: 100%; " [(ngModel)]="Temp_Expense.Spent_Amount" name="Temp_Expense.Spent_Amount" placeholder="Spent_Amount" class="form-control">
+            </div>
+            <div class="position-relative has-icon-right">
+              <label style="color: red;">Date</label>
+              <mat-form-field appearance="outline radius-15" class="form-control" style="width: 100%;">               
+                <input matInput [matDatepicker]="picker" [(ngModel)]="Temp_Expense.Spent_date" name="Temp_Expense.Spent_date">                
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+             </div>
+             <div class="position-relative has-icon-right" style="text-align: right;">           
+            <button class="btn btn-primary" (click)="Create_Expenses(Temp_Expense)" (click)="reset_expense()">Save</button>
+            </div>
+          </form>
+        </div></div>
+      
+
           <!-- Expense -->
           <div class="card">          
             <div class="card-body">                        
@@ -423,10 +489,12 @@
                 </div>
               </div>
 
-              <mat-toolbar color="accent" class="foot">            
-                <form >
+              
+
+              <!-- <mat-toolbar color="accent" class="foot">            
+                <form > -->
               <!--  <input   [(ngModel)]="Temp_Expenses.add" name="Temp_Expenses.add" [value]="Temp_Expenses.Paid_by.length + Temp_Expenses.split_equaly.length" > -->
-                  <table style="cellspacing:2px;">
+                  <!-- <table style="cellspacing:2px;">
                   <tr>  
                     <td style=" background: transparent; ">
                       <div class="position-relative has-icon-right">
@@ -478,14 +546,14 @@
                       </mat-form-field></div>
                     </td>                                            
                                
-                    <td> <!-- Temp_Finance_Items.split_equaly-->
+                    <td> Temp_Finance_Items.split_equaly
                       <mat-icon (window:keypress.enter)="onSomeAction($event)" (click)="Create_Expenses(Temp_Expense)"  value="Save" (click)="reset_expense()" style="margin-top: 10px; ">send</mat-icon>
                      
                     </td>
                   </tr>
                 </table>
                 </form>          
-              </mat-toolbar>
+              </mat-toolbar> -->
               <!--	<form>
                           <tr>
                               <td style="width: 100%;"><br>
@@ -576,6 +644,8 @@
           
 
         </div>
+
+     
 
 
          <!--Tab 2-->

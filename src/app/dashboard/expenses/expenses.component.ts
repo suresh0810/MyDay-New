@@ -55,6 +55,9 @@ import { start } from 'repl';
   ]
 })
 export class ExpensesComponent implements OnInit {
+  public openMenu: boolean = false;
+  isOver = false;
+  //
   Temp_Task: Task;
   userName: string;
   Selected_People: string;
@@ -160,6 +163,14 @@ Idsend=[]
      //this.UpdateUserFristime(this.User_);  
       })
   }
+
+  clickMenu(){
+    this.openMenu = !this.openMenu;
+  }
+  hello(mex: string){
+    alert('Hello '+mex+'!' );
+}
+
 
   onKeypressEvent(event: any){
 

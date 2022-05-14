@@ -35,7 +35,7 @@ export class AppComponent {
     JSON.parse(localStorage.getItem('user'));
     console.log(JSON.stringify(this.CurrentUser));    
     if(this.CurrentUser.Email){
-      this.router.navigate(['./dashboard/task']);
+      this.router.navigate(['./dashboard/expenses']);
     }   
   }
 }

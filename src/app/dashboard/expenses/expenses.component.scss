@@ -145,3 +145,33 @@ td.sticky-right, th.sticky-right {
 }
 
 
+.menu-button{
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1;
+}
+.action-button{
+  position: fixed;
+  right: 0rem;
+  top:3.9rem;
+  z-index: 1000;
+  background-color: white;
+  align-items: center;
+  width: 100%;
+ // transition-property: opacity;
+}
+.label{
+  position: fixed;
+  right: 5rem;
+  left: auto;
+  height: 25px;
+  width: 100px;
+  line-height: 25px;
+  min-height: 25px;
+  vertical-align: top;
+  font-size: 12px;
+  padding: 0 0;
+  margin: 0;
+  z-index: 1;
+}
