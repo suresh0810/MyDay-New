@@ -132,10 +132,11 @@ export class TaskComponent implements OnInit {
   List_of_Complete_task = [];
   Task_Id:string;
 img;
-image = [];
+
  
   Temp_Task_Update:Task_Update;
   images;
+  image = [];
   imagess = [];
   Temp_Task_Content: string;
   Temp_Task_Files: File[];

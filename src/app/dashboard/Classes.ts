@@ -114,7 +114,7 @@ export class Notes{
 
 export class Expense{
 
-    constructor(Spent_For_:string,Sector_:string, Owner_FB_User_:FirebaseUser,Spent_Amount_:number,Spent_by_:string,Spent_date_:Date,Status_:string,note_:string){
+    constructor(Spent_For_:string,Sector_:string, Owner_FB_User_:FirebaseUser,Spent_Amount_:number,Spent_by_:string,Spent_date_:Date,Status_:boolean = false,note_:string,isLoading_: boolean = false){
 
         this.Spent_by=Spent_by_;      
         this.Spent_For =  Spent_For_;   
@@ -124,6 +124,8 @@ export class Expense{
         this.Spent_date = Spent_date_;
         this.Status = Status_;
         this.Note = note_;
+        this.isLoading = isLoading_;
+        this.Expense_update = []=[];
         // this.Spent_For_User_List=  Spent_For_User_List_;
       //  this.Database_Group_id=Database_Group_id_;
     }
@@ -134,11 +136,29 @@ export class Expense{
     Spent_Amount:number;     
     Spent_date: Date;
     Owner_Of_The_Expense:FirebaseUser;
-    Status:string;
+    Status:boolean = false;
     Note:string; 
+    isLoading:boolean = false;
+    Expense_update:Expense_Update[]=[];   
+    
      // Spent_For_User_List:FirebaseUser[];
    // Database_id:ObjectId;
    // Database_Group_id:ObjectId;
+}
+export class Expense_Update{
+    constructor(Expense_Update_Content_: string,Expense_Update_Files_:File[],Date_:Date){
+        this.Expense_Update_Content = Expense_Update_Content_;  
+        this.Expense_Update_files  = Expense_Update_Files_; 
+        this.Date = Date_;      
+    }
+    Expense_id:string;
+    Expense_Update_Content:string;
+    Expense_Update_files:File[];
+    Image:string;
+    Date:Date;
+    id;
+    index:number; 
+    userId:string;
 }
 
 export class Sectors{

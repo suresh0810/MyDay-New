@@ -163,7 +163,7 @@ Idsend=[]
   ngOnInit(): void {
   //  this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     this.Temp_Expense_Group= new Expense_Group(  this.FirebaseUser_, new Date(Date.now()), "");
-    this.Temp_Expense =new Expense( "","", this.FirebaseUser_,0, "",new Date(Date.now()),"","" );
+    this.Temp_Expense =new Expense( "","", this.FirebaseUser_,0, "",new Date(Date.now()),false,"" );
 
     this.getFirebaseUsers();
 

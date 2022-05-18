@@ -127,7 +127,7 @@
                       </mat-form-field>
                     </div>
                   </td> -->
-                  <td style="width: 1.7%; text-align: center;">
+                  <td style="width: 2%; background-color: white;">
                   <div class="position-relative has-icon-right">
                       <!-- <select class="form-control form-control-sm" style="width: 100%;  "
                       [(ngModel)]="_task.Status"
@@ -135,12 +135,9 @@
                       <option *ngFor="let Status_ of Status" [selected]="Status_" style="text-align: center; background-color: white; color: black;">
                         {{Status_.Status_Name}}
                       </option>
-                    </select> -->
-                    
-
-                   
+                    </select> -->                                
              
-                    <input type="checkbox" class="form-control form-control-sm" [(ngModel)]="_task.Status" (ngModelChange)="updateTodo(_task)" style="cursor: pointer; border: none;  ">
+                    <input type="checkbox" class="form-control form-control-sm" [(ngModel)]="_task.Status" (ngModelChange)="updateTodo(_task)" style="cursor: pointer; border: none;">
                    
                   </div> 
                   </td>
@@ -932,7 +929,6 @@
           <!--Side bar assigned task deadline start-->
           <div class="card">
             <div class="card-body">
-
               <h4 class="border_bt" style="font-size: 18px;">{{Selected_Task.Task_Name}}</h4>
               <th class="desk">Assigned</th>
               <th class="desk">Deadline</th>
@@ -1050,10 +1046,8 @@
                       <a href="javascript:void(0)" (click)="deleteImage(url)"  class="lni lni lni-trash" style="margin-left: 390px;"></a>
                       <img [src]="url" [(ngModel)]="Temp_Task_Update.Task_Update_files"   style="margin: 3px;" class="text_item_update">                              
                     </div>   -->
-                     <!-- <img #imgRenderer [(ngModel)]="Temp_Item_Update.Item_Update_files" class="text_item_update"  />-->
-                    
-                   </mat-form-field>
-                    
+                     <!-- <img #imgRenderer [(ngModel)]="Temp_Item_Update.Item_Update_files" class="text_item_update"  />-->                    
+                   </mat-form-field>                    
                    
                      <input  type="file" name="Temp_Task_Update.Task_Update_files" multiple  class="form-control" (change)="onFileChange($event)" style=" border: 1px solid #626161e0;">
                                    

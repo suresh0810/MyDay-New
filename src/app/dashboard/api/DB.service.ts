@@ -292,7 +292,21 @@ LoadUserData(Data_){
     console.log("url : "+this.apiurl + "/Delete_Expenses");
     return this.http.post(this.apiurl + "/Delete_Expenses", Data_);
   }
+  //
 
+  Update_Expense_Add(Data_){
+    console.log("calling url : "+this.apiurl + "/Update_Expense_Add");
+    return this.http.post(this.apiurl + "/Update_Expense_Add", Data_);
+  }  
+  Expense_Update_Delete(Data_){
+    console.log("url : "+this.apiurl + "/Expense_Update_Delete");
+    return this.http.post(this.apiurl + "/Expense_Update_Delete", Data_);
+  }  
+
+  Expense_Update_Change(Data_){  
+    console.log("calling url : "+this.apiurl + "/Expense_Update_Change");
+    return this.http.post(this.apiurl + "/Expense_Update_Change", Data_);
+  }
 
   //SpentFor
   Create_SpentFor(Data_){  

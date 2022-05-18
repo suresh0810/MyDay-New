@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as chartsData from '../../shared/data/ecommerce1';
 import ApexCharts from 'apexcharts/dist/apexcharts.common.js';
 import { DBService } from '../api/DB.service';
-import { User, Task,  FirebaseUser, KStatus, KstatusOption,createddate,Deadline, Expense_Group,Expense,Sectors, SpentFor} from '../Classes';
+import { User, Task,  FirebaseUser, KStatus, KstatusOption,createddate,Deadline, Expense_Group,Expense,Sectors, SpentFor,Expense_Update} from '../Classes';
 import { ObjectId } from 'bson';
 import { FirebaseService } from 'src/app/auth/firebase.service';
 import {NgbDateStruct, NgbDate, NgbCalendar, NgbDateAdapter,NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { SumPipe } from '../pipe/sum.pipe';
 import { Observable } from 'rxjs/Observable';
 import {tap, map, delay} from 'rxjs/operators';
+import { Lightbox } from 'ngx-lightbox';
 import {
   DateAdapter,
   MAT_DATE_LOCALE,
@@ -25,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
 import { time, timeStamp } from 'console';
 import { timeout, timestamp } from 'rxjs/operators';
 import { start } from 'repl';
+import { event } from 'jquery';
   export const MY_FORMATS = {
     parse: {
       dateInput: "YYYY-MM-DD HH:mm:ss"
@@ -55,9 +57,19 @@ import { start } from 'repl';
   ]
 })
 export class ExpensesComponent implements OnInit {
+
+
+  currentIndex: any = -1;
+  showFlag: any = false;
+  
   public openMenu: boolean = false;
   isOver = false;
   //
+  Temp_Expense_Update:Expense_Update;
+  Temp_Expense_Content: string;
+  Temp_Expense_Files: File[];
+  Selected_Expense_update:Expense_Update;
+  Expense_Id:string;
   Temp_Task: Task;
   userName: string;
   Selected_People: string;
@@ -105,6 +117,11 @@ export class ExpensesComponent implements OnInit {
 Idsend=[]
 
   List_of_Expense=[];
+  image = [];
+  imagess = [];
+  Select_update_index:number;
+
+  Selected_Expense:Expense;
   //lists_:Expenses_list[];
 
   totalamount:number;
@@ -119,15 +136,24 @@ Idsend=[]
  val: number;
  Selected_group_Index: number;
  Selected_group_list_Index: number;
-
+ sidenave: HTMLElement;
 
  total;
-  constructor(private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) { }
+  constructor(private _lightbox: Lightbox,private router: Router, private DBService_: DBService, private afs: AngularFirestore,private modalService: NgbModal, private toast:ToastrService, private firebaseService:FirebaseService,  private auth:AuthService,) { }
 
   ngOnInit(): void {
     //  this.Temp_Task = new Task("", this.FirebaseUser_, new Date(Date.now()), new Date(Date.now()),  new Date(Date.now()));
     this.Temp_Expense_Group= new Expense_Group(  this.FirebaseUser_, new Date(Date.now()), "");
-    this.Temp_Expense =new Expense( "","", this.FirebaseUser_,0, "",new Date(Date.now()),"Pending","Note..");
+    this.Temp_Expense =new Expense( "","", this.FirebaseUser_,0, "",new Date(Date.now()),false,"");
+    this.Selected_Expense = new Expense( "","", this.FirebaseUser_,0, "",new Date(Date.now()),false,"");
+
+    this.Temp_Expense_Content = "";
+    this.Temp_Expense_Files = [];
+    this.Temp_Expense_Update = new Expense_Update(this.Temp_Expense_Content,this.Temp_Expense_Files,new Date(Date.now()))
+    this.Selected_Expense_update = new Expense_Update("",[],new Date(Date.now()))
+    this.Select_update_index = 0;
+
+    this.sidenave = document.getElementById('mySidenave');
 
     this.getFirebaseUsers();
 
@@ -184,6 +210,32 @@ Idsend=[]
   div(){
     this.num3 = this.add3 / this.num1  ;
   }
+  //
+
+
+
+
+  openNav(Expense_) {
+    console.log(Expense_._id);
+    this.Selected_Expense = Expense_;
+    this.Expense_Id = Expense_._id;
+    this.sidenave.classList.add('sidenav_Open');
+     this.sidenave.classList.remove('sidenav_Close');    
+  }
+  openNavm(Expense_) {
+    console.log(Expense_._id);
+    this.Selected_Expense = Expense_;  
+    console.log(Expense_._id);
+    this.Expense_Id = Expense_._id;
+    
+    this.sidenave.classList.add('sidenav_Opens');
+     this.sidenave.classList.remove('sidenav_Close');
+    
+  }
+  closeNav() {
+     this.sidenave.classList.add('sidenav_Close');
+     this.sidenave.classList.remove('sidenav_Open');
+  }
 
 //Expenses Total Amount
 
@@ -230,8 +282,7 @@ Idsend=[]
     }
     Load_Expenses_Due_OnlyOwned(){
       this.DBService_.Load_Expenses_Due_OnlyOwned(this.FirebaseUser_).subscribe((Data_: Expense[]) => {       
-         this.Expense_Due = Data_  ;  
-    
+         this.Expense_Due = Data_  ;      
            console.log("Expense Due");
            console.log(this.Expense_Due);
                       
@@ -551,6 +602,10 @@ Idsend=[]
    openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true });
   }
+  openVerticallyCenteredtop(content) {
+    this.modalService.open(content, { centered: false });
+  }
+
 
   Status = [
     {id:1, Status_Name:'Due'},
@@ -573,6 +628,117 @@ Idsend=[]
       this.Selected_due_user = '';
       this.searchTexts = '';
     }
+  }
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      this.imagess = event.target.files; 
+                 
+    }      
+  }
+
+
+  Expense_Update(expenseupdate_:Expense_Update) {
+    const formData = new FormData();
+    console.log(this.image)    
+    for(let img of this.imagess){
+      formData.append('files', img)       
+    }
+    expenseupdate_.index = this.Selected_Expense.Expense_update.length + 1
+    expenseupdate_.Expense_id = this.Expense_Id;
+    expenseupdate_.Date = new Date(Date.now()) 
+    formData.append('files', JSON.stringify(expenseupdate_))         
+   // console.log(formData)   
+   // let fulldata = {data:Taskupdate_,file:formData} 
+   // Taskupdate_.Task_Update_files = this.images;
+     
+    this.Selected_Expense.Expense_update.push(new Expense_Update(this.Temp_Expense_Update.Expense_Update_Content, this.Temp_Expense_Update.Expense_Update_files,new Date(Date.now())));
+    expenseupdate_.Expense_id = this.Expense_Id; 
+    expenseupdate_.Expense_Update_Content = this.Temp_Expense_Update.Expense_Update_Content;
+    expenseupdate_.Expense_Update_files = this.Temp_Expense_Update.Expense_Update_files;
+    this.DBService_.Update_Expense_Add(formData).subscribe((list_) => {
+      console.log("Update ToDolist_item : " + JSON.stringify(list_));
+
+      this.Load_Expenses_Due_OnlyOwned();
+      this.Load_Expenses_paid_OnlyOwned();
+      this.Load_Expenses_Selected_People_Due();
+      this.Load_Expenses_Selected_People_Paid();
+     
+      this.toast.success('Expense Update Success!', 'Success!', {
+        timeOut:1500
+      });
+  
+    })   
+  }
+
+  Expense_update_form_reset(){
+    this.Temp_Expense_Update.Expense_Update_Content = "";
+    this.Temp_Expense_Update.Expense_Update_files = [];
+    this.imagess = [];    
+  }
+  update_index(event){    
+    this.Select_update_index = event;
+    console.log(this.Select_update_index)
+
+  }
+
+  Expense_Update_Delete(expenseupdate_:Expense_Update) {
+    const index: number = this.Selected_Expense.Expense_update.indexOf(expenseupdate_);
+    if (index !== -1) {
+      this.Selected_Expense.Expense_update.splice(index, 1);
+    }  
+    expenseupdate_.Expense_id = this.Expense_Id;
+    //expenseupdate_.index = this.Select_update_index;        
+    this.DBService_.Expense_Update_Delete(expenseupdate_).subscribe((list_) => {
+      console.log("Delete ToDolist_item : " + JSON.stringify(list_));
+
+      this.Load_Expenses_Due_OnlyOwned();
+      this.Load_Expenses_paid_OnlyOwned();
+      this.Load_Expenses_Selected_People_Due();
+      this.Load_Expenses_Selected_People_Paid();
+     
+      this.toast.success('Expense Update Delete Success!', 'Success!', {
+        timeOut:1500
+      });
+    })
+  }
+
+  Expense_Update_Change(expenseupdate_:Expense_Update) {
+    expenseupdate_.index = this.Select_update_index;   
+    expenseupdate_.Expense_id = this.Expense_Id;
+    expenseupdate_.Date = new Date(Date.now()) 
+    this.DBService_.Expense_Update_Change(expenseupdate_).subscribe((list_) => {
+      console.log("Update ToDolist_item : " + JSON.stringify(list_));
+
+      this.Load_Expenses_Due_OnlyOwned();
+      this.Load_Expenses_paid_OnlyOwned();
+      this.Load_Expenses_Selected_People_Due();
+      this.Load_Expenses_Selected_People_Paid();
+     
+    
+      this.toast.success('Expense Update Change Success!', 'Success!', {
+        timeOut:1500
+      });
+    })
+  }
+
+  open(index: number): void {
+    // open lightbox
+    this._lightbox.open(this.List_Of_Expense,index);
+  }
+
+  close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
+  }
+
+  showLightbox(index) {
+    this.currentIndex = index;
+    this.showFlag = true;
+  }
+
+  closeEventHandler() {
+    this.showFlag = false;
+    this.currentIndex = -1;
   }
 
 }

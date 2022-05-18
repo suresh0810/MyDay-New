@@ -33,6 +33,8 @@ import { NotepadeComponent } from './notepade/notepade.component';
 import { NotepadComponent } from './notepad/notepad.component';
 import { DailytrackerallComponent } from './dailytrackerall/dailytrackerall.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { LightboxModule } from 'ngx-lightbox';
+import { NgImageFullscreenViewModule } from 'ng-image-fullscreen-view';
 
 
 
@@ -56,6 +58,9 @@ import { UiSwitchModule } from 'ngx-ui-switch';
         MatNativeDateModule,
         MatDatepickerModule,
         UiSwitchModule,
+        LightboxModule,
+        NgImageFullscreenViewModule
+        
 
       
     ],
